@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+}
+/* h1, h2, h3, h4, h5, h6 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 500;
+}  */
+h1 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+button,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+    font-family: "Karla", sans-serif;
+    font-weight: 300;
+}
+
+.disable-text-selection {
+    -moz-user-select: none; /* firefox */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE*/
+    user-select: none; /* Standard syntax */
+}
