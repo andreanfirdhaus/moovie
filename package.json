@@ -1,52 +1,54 @@
 {
-  "name": "moovie",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-brands-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.1.18",
-    "@headlessui/react": "^1.6.4",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.27.2",
-    "dotenv": "^16.0.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-lazy-load-image-component": "^1.5.6",
-    "react-router-dom": "^6.3.0",
-    "react-toggle-dark-mode": "^1.0.4",
-    "swiper": "^8.2.2"
-  },
-  "scripts": {
-    "start": "vite --open",
-    "build": "vite build"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react-refresh": "^1.3.6",
-    "autoprefixer": "^10.4.7",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.0.24",
-    "vite": "^4.2.2"
-  }
+    "name": "moovie",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-brands-svg-icons": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
+        "@fortawesome/react-fontawesome": "^0.1.18",
+        "@headlessui/react": "^1.6.4",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^13.3.0",
+        "@testing-library/user-event": "^13.5.0",
+        "axios": "^0.27.2",
+        "dotenv": "^16.0.1",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-lazy-load-image-component": "^1.5.6",
+        "react-router-dom": "^6.3.0",
+        "react-toggle-dark-mode": "^1.0.4",
+        "swiper": "^10.2.0"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react-refresh": "^1.3.6",
+        "autoprefixer": "^10.4.15",
+        "postcss": "^8.4.28",
+        "tailwindcss": "^3.3.3",
+        "vite": "^4.2.2"
+    }
 }

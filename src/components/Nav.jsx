@@ -172,7 +172,7 @@ export default function Nav() {
                                 ref={ref}
                                 className="px-2 pt-2 pb-3 space-y-1 sm:px-3"
                             >
-                                {/* <a
+                                <a
                                     href="#"
                                     className="text-whiteLight dark:text-white block px-3 py-2 rounded-md text-base font-semibold"
                                 >
@@ -191,7 +191,7 @@ export default function Nav() {
                                         </svg>
                                     </span>{" "}
                                     Now Playing
-                                </a> */}
+                                </a>
 
                                 <a
                                     href="/tv_series"
