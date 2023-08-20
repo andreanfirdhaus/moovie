@@ -17,9 +17,9 @@ function App() {
                     <Routes>
                         <Route exact path="/" element={<Home />} />
                         <Route path="/movie" element={<MainMovie />} />
-                        <Route path="/tv_series" element={<TvSeries />} />
+                        {/* <Route path="/tv_series" element={<TvSeries />} />
                         <Route path="/genre" element={<Genre />} />
-                        <Route path="/upcoming" element={<Upcoming />} />
+                        <Route path="/upcoming" element={<Upcoming />} /> */}
                     </Routes>
                 </Router>
             </div>
