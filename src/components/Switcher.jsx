@@ -19,7 +19,8 @@ function Switcher() {
                     checked={darkSide}
                     onChange={toggleDarkMode}
                     size={25}
-                    className="text-whiteLight dark:text-white"
+                    sunColor="#F6AD55"
+                    moonColor="#F0F1F2"
                 />
             </div>
         </>

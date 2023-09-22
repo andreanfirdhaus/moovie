@@ -1,5 +1,4 @@
 import React from "react";
-import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
@@ -11,15 +10,14 @@ import Upcoming from "./pages/Upcoming";
 function App() {
     return (
         <>
-            <Nav />
             <div>
                 <Router>
                     <Routes>
                         <Route exact path="/" element={<Home />} />
                         <Route path="/movie" element={<MainMovie />} />
-                        {/* <Route path="/tv_series" element={<TvSeries />} />
+                        <Route path="/tv_series" element={<TvSeries />} />
                         <Route path="/genre" element={<Genre />} />
-                        <Route path="/upcoming" element={<Upcoming />} /> */}
+                        <Route path="/upcoming" element={<Upcoming />} />
                     </Routes>
                 </Router>
             </div>
