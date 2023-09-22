@@ -1,3 +1,6 @@
+const { info } = require("autoprefixer")
+const { Warning } = require("postcss")
+
 module.exports = {
     darkMode: "class",
     content: [
@@ -23,7 +26,24 @@ module.exports = {
             blackThird: "#121212",
             grayBg1: "#1c2022",
             //------------------//
+
+            //---- Theme default business daisyui ----//
+
+            primary: "#1c4f82",
+            secondary: "#7d919b",
+            accent: "#eb6b47",
+            neutral: "#23282f",
+            base: "#212121",
+            info: "#0092d6",
+            success: "#6cb288",
+            warning: "#daad58",
+            error: "#ab3d30",
+
+            // scrollbar theme
+            grayScrl: "#a6acba",
         },
     },
-    plugins: [],
+    plugins: [
+        require("tailwind-scrollbar")({ nokompatibel: true }),
+    ],
 };
