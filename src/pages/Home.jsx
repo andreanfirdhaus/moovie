@@ -7,15 +7,15 @@ import imgMobile from "../components/assets/homepageMobile.svg";
 
 export default function Home() {
     return (
-        <div>
+        <>
             <NavHomePage />
             <div className="relative overflow-hidden ">
-                <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-blackDark/75 dark:via-blackDark/75 dark:to-blackDark"></div>
+                <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-black_primary/75 dark:via-black_primary/75 dark:to-black_primary"></div>
 
                 <img
                     src={HomeImg}
                     className="h-screen sm:h-96 md:h-[46rem] w-full object-cover object-center"
-                    alt="PageImg"
+                    alt="homepage-image"
                     draggable="false"
                 />
 
@@ -36,19 +36,19 @@ export default function Home() {
                 </div>
             </div>
 
-            <section className="bg-[#F0F1F2] dark:bg-blackDark w-full">
+            <section className="bg-[#F0F1F2] dark:bg-black_primary w-full">
                 <div className="container mx-auto sm:px-4 md:px-12">
                     <div className="pt-28 text-center text-3xl font-bold trakcing-wider dark:text-[#F0F1F2]  ">
                         The Devices
                     </div>
                     <div className="h-screen px-5 hidden sm:flex sm:items-center">
-                        <img src={imgDesktop} alt="" />
+                        <img src={imgDesktop} alt="desktop-devices" />
                     </div>
                     <div className="h-screen px-5 md:hidden flex items-center">
-                        <img src={imgMobile} alt="" />
+                        <img src={imgMobile} alt="mobile-devices" />
                     </div>
                 </div>
             </section>
-        </div>
+        </>
     );
 }
