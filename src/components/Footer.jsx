@@ -3,8 +3,8 @@ import logo from "./assets/moovie-logo.svg";
 
 function Footer() {
     return (
-        <div>
-            <div className="bg-[#152F40] dark:bg-blackDark">
+        <>
+            <div className="bg-[#152F40] dark:bg-black_primary">
                 <footer className="max-w-7xl mx-auto py-6 sm:py-0 px-4 sm:px-6 lg:px-8">
                     <div className="container mx-auto space-y-6">
                         <div className="px-12 pt-12 space-y-8 md:flex md:justify-between md:px-6 md:space-y-0">
@@ -72,35 +72,12 @@ function Footer() {
                             <div className="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6 tracking-wide font-semibold">
                                 <span>&copy; 2022 All rights reserved</span>
                             </div>
-                            <div className="flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13">
-                                {/* <a
-                                    rel="noopener noreferrer"
-                                    href="#"
-                                    title="Email"
-                                    className="flex items-center justify-center w-10 h-10"
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faReact}
-                                        style={{ color: "#00D8FF" }}
-                                    />
-                                </a>
-                                <a
-                                    rel="noopener noreferrer"
-                                    href="#"
-                                    title="Email"
-                                    className="flex items-center justify-center w-10 h-10"
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faDiscord}
-                                        style={{ color: "#5865F2" }}
-                                    />
-                                </a> */}
-                            </div>
+                            <div className="flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13"></div>
                         </div>
                     </div>
                 </footer>
             </div>
-        </div>
+        </>
     );
 }
 
