@@ -4,6 +4,10 @@ const request = {
         import.meta.env.VITE_API_KEY
     }&sort_by=popularity.desc&language=en-US&page=1`,
 
+    upcomingIDN: `/movie/upcoming?api_key=${
+        import.meta.env.VITE_API_KEY
+    }&sort_by=popularity.desc&language=en-US&page=1&region=ID`,
+
     tvPopular: `/tv/popular?api_key=${
         import.meta.env.VITE_API_KEY
     }&sort_by=popularity.desc&language=en-US&page=1`,

@@ -10,9 +10,7 @@ module.exports = {
     theme: {
         extend: {},
         colors: {
-            transparent: "transparent",
             current: "currentColor",
-            white: "#ffffff",
 
             // light mode colors
             blackLight: "#000000",
@@ -20,20 +18,29 @@ module.exports = {
             //------------------//
 
             // dark mode colors
-            blackDark: "#202020",
             whiteDark: "#e2e8f0",
             blackSecondary: "#181818",
             blackThird: "#121212",
             grayBg1: "#1c2022",
             //------------------//
 
-            //---- Theme default business daisyui ----//
+            //---- Theme default business daisyui x fix custom theme color ----//
 
+            // custom
+            transparent: "transparent",
+            white: "#ffffff",
+            white_primary: "#F0F1F2",
+            black_primary: "#202020",
+            // black_Third: "#121212" 
+            // kode atas yang saya komen nanti dicek lagi harus mengganti penamaannya biar rapi
+
+
+            // daisyui
             primary: "#1c4f82",
             secondary: "#7d919b",
             accent: "#eb6b47",
             neutral: "#23282f",
-            base: "#212121",
+            base100: "#212121",
             info: "#0092d6",
             success: "#6cb288",
             warning: "#daad58",

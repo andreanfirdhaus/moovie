@@ -159,11 +159,7 @@ export default function MainMovie() {
                                     Trending
                                 </h1>
                                 <ToggleSwitcher
-                                    labels={[
-                                        "Today",
-                                        "This week",
-                                        "agh jembot",
-                                    ]}
+                                    labels={["Today", "This week"]}
                                     // onLabelChange={handleLabelChange}
                                     isChecked={isChecked}
                                     setIsChecked={setIsChecked}
