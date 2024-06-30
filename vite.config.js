@@ -1,16 +1,19 @@
-import { defineConfig } from "vite";
-import reactRefresh from "@vitejs/plugin-react-refresh";
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-    plugins: [reactRefresh()],
-    server: {
-        // Mengatur proxy untuk mengakses API The Movie DB
-        proxy: {
-            "/api": {
-                target: "https://api.themoviedb.org/3",
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ""),
+export default ({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
+
+    return defineConfig({
+        plugins: [react()],
+        server: {
+            proxy: {
+                "/api": {
+                    target: env.VITE_PUBLIC_API,
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/api/, ""),
+                },
             },
         },
-    },
-});
+    });
+};

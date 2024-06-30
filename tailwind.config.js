@@ -50,7 +50,5 @@ module.exports = {
             grayScrl: "#a6acba",
         },
     },
-    plugins: [
-        require("tailwind-scrollbar")({ nokompatibel: true }),
-    ],
+    plugins: [],
 };
