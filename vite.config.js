@@ -9,7 +9,7 @@ export default ({ mode }) => {
         server: {
             proxy: {
                 "/api": {
-                    target: env.VITE_PUBLIC_API,
+                    target: env.VITE_API,
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ""),
                 },
