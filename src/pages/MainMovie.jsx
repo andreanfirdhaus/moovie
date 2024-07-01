@@ -5,7 +5,7 @@ import { original, img_300, img_404 } from "../config/config";
 import Nav from "../components/Nav";
 import Modal from "../components/Modal";
 import ToggleSwitcher from "../components/ToggleSwitcher";
-import backgroundHeader from "../components/assets/search-background.png";
+import backgroundHeader from "../assets/search-background.png";
 import { FiSearch } from "react-icons/fi";
 
 // Import Swiper React Components

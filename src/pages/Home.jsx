@@ -1,9 +1,9 @@
 import React from "react";
-import HomeImg from "../components/assets/Homepage_Poster.jpg";
+import HomeImg from "../assets/Homepage_Poster.jpg";
 import NavHomePage from "../components/NavHomePage";
 import { Link } from "react-router-dom";
-import imgDesktop from "../components/assets/homepageDesktop.svg";
-import imgMobile from "../components/assets/homepageMobile.svg";
+import imgDesktop from "../assets/homepageDesktop.svg";
+import imgMobile from "../assets/homepageMobile.svg";
 
 export default function Home() {
     return (

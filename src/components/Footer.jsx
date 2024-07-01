@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./assets/moovie-logo.svg";
+import logo from "../assets/moovie-logo.svg";
 
 function Footer() {
     return (

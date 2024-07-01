@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "./assets/moovie-logo.svg";
+import logo from "../assets/moovie-logo.svg";
 import Switcher from "./Switcher.jsx";
 import { Transition } from "@headlessui/react";
 import { BsFire } from "react-icons/bs";
