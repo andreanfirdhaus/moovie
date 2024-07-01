@@ -1,54 +1,52 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Nav from "../components/Nav";
 
 export default function Genre() {
     const Data = [
         {
-            imageUrl: "src/components/assets/genre-img/action.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Action",
         },
         {
-            imageUrl: "src/components/assets/genre-img/horror.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Horror",
         },
         {
-            imageUrl: "src/components/assets/genre-img/anime.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Anime",
         },
         {
-            imageUrl: "src/components/assets/genre-img/family.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Family",
         },
         {
-            imageUrl: "src/components/assets/genre-img/crime.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Crime",
         },
         {
-            imageUrl: "src/components/assets/genre-img/drama.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Drama",
         },
         {
-            imageUrl: "src/components/assets/genre-img/comedy.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Comedy",
         },
         {
-            imageUrl: "src/components/assets/genre-img/animation.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Animation",
         },
         {
-            imageUrl: "src/components/assets/genre-img/romance.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Romance",
         },
         {
-            imageUrl: "src/components/assets/genre-img/scifi.webp",
+            imageUrl: "src/assets/Logo.svg",
             text: "Sci-Fi",
         },
     ];
 
     return (
         <>
-            <Nav />
             <div className="bg-[#F0F1F2] dark:bg-black_primary antialiased">
                 <div className="container mx-auto px-4 md:px-12 py-10">
                     <div className="flex flex-wrap justify-center text-center py-10 -mx-3 overflow-hidden sm:-mx-1 md:-mx-2 lg:-mx-0 xl:-mx-0 mt-16 md:mt-20">

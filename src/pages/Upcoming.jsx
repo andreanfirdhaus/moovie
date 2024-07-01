@@ -4,7 +4,7 @@ import request from "../config/request";
 import { original, img_404, img_300 } from "../config/config";
 // import MovSlide from "../components/Slider/MovSlide";
 import TvSlide from "../components/slider/TvSlide";
-import Nav from "../components/Nav";
+import Nav from "../components/layout/navigation";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -67,7 +67,6 @@ export default function Upcoming() {
 
     return (
         <>
-            <Nav />
             <div className="bg-[#F0F1F2] dark:bg-black_primary antialiased">
                 <div className="container mx-auto px-4 md:px-12 py-10">
                     <section className="mb-2 md:mb-15 ">

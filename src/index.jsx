@@ -5,10 +5,11 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import App from "./App";
-import MainMovie from './pages/MainMovie';
-import TvSeries from './pages/TvSeries';
-import Upcoming from './pages/Upcoming';
-import Genre from './pages/Genre';
+import Homepage from './pages/homepage';
+import Movies from './pages/movies';
+import Series from './pages/series';
+import Upcoming from './pages/upcoming';
+import Genre from './pages/genre';
 import "./styles/index.css";
 
   const router = createBrowserRouter([
@@ -17,16 +18,20 @@ import "./styles/index.css";
       element: <App />,
       children: [
         {
-          path: "/movie",
-          element: <MainMovie />,
+          path: "/",
+          element: <Homepage />,
         },
         {
-          path: "/tv-series",
-          element: <TvSeries />,
+          path: "/movie",
+          element: <Movies />,
         },
         {
           path: "/upcoming",
           element: <Upcoming />,
+        },
+        {
+          path: "/series",
+          element: <Series />,
         },
         {
           path: "/genre",
