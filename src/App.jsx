@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from './components/layout/footer';
 import Navigation from './components/layout/navigation';
 
 function App() {
     return (
-        <div>
+        <Fragment>
             <Navigation />
             <Outlet />
             <Footer />
-        </div>
+        </Fragment>
     );
 }
 

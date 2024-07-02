@@ -4,9 +4,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import Homepage from './pages/homepage';
 import Movies from './pages/movies';
-import Series from './pages/series';
-import Upcoming from './pages/upcoming';
 import Discover from './pages/discover';
+import Upcoming from './pages/upcoming';
+import Series from './pages/series';
 import './styles/index.css';
 
 const router = createBrowserRouter([
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
                 element: <Homepage />,
             },
             {
-                path: '/movie',
+                path: '/movies',
                 element: <Movies />,
             },
             {
