@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export default function ToggleSwitcher({
     isChecked,
@@ -19,24 +19,23 @@ export default function ToggleSwitcher({
 
     return (
         <div>
-            <label className="relative inline-flex cursor-pointer select-none items-center drop-shadow-xl">
+            <label className='relative inline-flex cursor-pointer select-none items-center drop-shadow-xl'>
                 <input
-                    type="checkbox"
+                    type='checkbox'
                     checked={isChecked}
                     onChange={handleCheckboxChange}
-                    className="sr-only"
+                    className='sr-only'
                 />
-                <div className="shadow-card flex w-auto h-8 items-center rounded-full border-2 border-blackSecondary">
+                <div className='shadow-card flex w-auto h-8 items-center rounded-full border-2 border-blackSecondary'>
                     {labels.map((label, index) => (
                         <span
                             key={index}
                             onClick={() => handleLabelClick(label)}
                             className={`shrink flex w-auto px-3 h-8 items-center justify-center text-base text-center ${
-                                selectedLabel === label
-                                    ? "bg-blackSecondary text-white font-semibold rounded-full ease-in-out duration-300"
-                                    : " "
-                            }`}
-                        >
+                                selectedLabel === label ?
+                                    'bg-blackSecondary text-white font-semibold rounded-full ease-in-out duration-300'
+                                :   ' '
+                            }`}>
                             {label}
                         </span>
                     ))}

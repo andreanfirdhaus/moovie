@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import getUrl from "../../config/getUrl";
-import { img_300, img_404 } from "../../config/config";
+import React, { useState } from 'react';
+import getUrl from '../../config/getUrl';
+import { img_300, img_404 } from '../../config/config';
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/scrollbar";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/scrollbar';
 
 //import lazy loading
 import {
     LazyLoadImage,
     trackWindowScroll,
-} from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+} from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 function MSlide({ title, fetchUrl, onOpenModal }) {
     const [items, setItems] = React.useState([]);
@@ -54,27 +54,26 @@ function MSlide({ title, fetchUrl, onOpenModal }) {
     return (
         <>
             <div>
-                <p className="text-xl md:text-xl font-bold capitalize tracking-wider dark:text-white">
+                <p className='text-xl md:text-xl font-bold capitalize tracking-wider dark:text-white'>
                     {title}
                 </p>
                 <Swiper {...params}>
                     {items.map((movie, index) => (
                         <SwiperSlide key={index}>
-                            <div className="py-3 sm:py-4">
+                            <div className='py-3 sm:py-4'>
                                 <LazyLoadImage
-                                    onClick={handleOpenModal}
-                                    effect="blur"
+                                    effect='blur'
                                     src={
-                                        movie.poster_path
-                                            ? img_300 + movie.poster_path
-                                            : img_404
+                                        movie.poster_path ?
+                                            img_300 + movie.poster_path
+                                        :   img_404
                                     }
                                     alt={movie.name}
-                                    className="bg-contain bg-center rounded-md drop-shadow-lg hover:scale-105 transition duration-300 ease-in-out"
-                                    style={{ transition: "0.2s ease-in-out" }}
+                                    className='bg-contain bg-center rounded-md drop-shadow-lg hover:scale-105 transition duration-300 ease-in-out'
+                                    style={{ transition: '0.2s ease-in-out' }}
                                 />
 
-                                <div className="py-2 relative">
+                                <div className='py-2 relative'>
                                     {/* <div className="max-w-5 py-3">
                                     <div
                                         className="bg-white drop-shadow-lg rounded-full text-sm ml-2"
@@ -91,24 +90,21 @@ function MSlide({ title, fetchUrl, onOpenModal }) {
                                         </p>
                                     </div>
                                 </div> */}
-                                    <p className="font-semibold text-base dark:text-white tracking-normal">
-                                        {movie.title.length > 17
-                                            ? `${movie.title.substring(
-                                                  0,
-                                                  17
-                                              )}...`
-                                            : movie.title}
+                                    <p className='font-semibold text-base dark:text-white tracking-normal'>
+                                        {movie.title.length > 17 ?
+                                            `${movie.title.substring(0, 17)}...`
+                                        :   movie.title}
                                     </p>
-                                    <p className="font-normal dark:text-white">
+                                    <p className='font-normal dark:text-white'>
                                         {new Date(
-                                            movie.release_date
-                                                ? movie.release_date
-                                                : movie.first_air_date
+                                            movie.release_date ?
+                                                movie.release_date
+                                            :   movie.first_air_date,
                                         )
                                             .toDateString()
-                                            .split(" ")
+                                            .split(' ')
                                             .slice(1, 4)
-                                            .join(" ")}
+                                            .join(' ')}
                                     </p>
                                 </div>
                             </div>

@@ -4,13 +4,13 @@ import Footer from './components/layout/footer';
 import Navigation from './components/layout/navigation';
 
 function App() {
-  return (
-    <div>
-      <Navigation />
-      <Outlet />
-      <Footer />
-    </div>
-  );
+    return (
+        <div>
+            <Navigation />
+            <Outlet />
+            <Footer />
+        </div>
+    );
 }
 
 export default App;
