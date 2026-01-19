@@ -1,7 +1,8 @@
-const { info } = require('autoprefixer');
-const { Warning } = require('postcss');
-
-module.exports = {
-    darkMode: 'class',
-    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-};
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ["./src/**/*.{ts,tsx}"],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+}
