@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import Logo from '@/assets/logo.svg';
+// import Logo from '@/assets/logo.svg';
 import { Search } from 'lucide-react';
 import { menu } from '@/constants/menu';
 
@@ -21,7 +21,8 @@ export default function Navbar() {
             <nav className='relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6'>
                 <div className='flex items-center justify-between'>
                     <Link to='/'>
-                        <img className='h-6 sm:h-8' src={Logo} alt='Moovie' draggable='false' />
+                        MOovie
+                        {/* <img className='h-6 sm:h-8' src={Logo} alt='Moovie' draggable='false' /> */}
                     </Link>
 
                     <ul className='hidden md:flex space-x-6'>
