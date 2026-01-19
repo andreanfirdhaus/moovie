@@ -8,7 +8,8 @@ interface Genres {
     name: string;
 }
 
-export const getMediaType = (movie: Movie): string => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getMediaType = (movie: any): 'tv' | 'movie' => {
     return movie.first_air_date ? 'tv' : 'movie';
 };
 
