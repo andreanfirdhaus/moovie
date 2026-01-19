@@ -1,13 +1,57 @@
 import globals from 'globals';
-import pluginJs from '@eslint/js';
-import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
-import eslintConfigPrettier from 'eslint-config-prettier';
+import js from '@eslint/js';
+import react from 'eslint-plugin-react';
+import tseslint from 'typescript-eslint';
+import prettier from 'eslint-config-prettier';
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-    { files: ['**/*.{js,mjs,cjs,jsx}'] },
-    { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-    { languageOptions: { globals: globals.browser } },
-    pluginJs.configs.recommended,
-    pluginReactConfig,
-    eslintConfigPrettier,
+    {
+        ignores: ['dist', 'node_modules', 'vite.config.ts', 'eslint.config.mjs']
+    },
+
+    js.configs.recommended,
+    ...tseslint.configs.recommended,
+
+    {
+        files: ['src/**/*.tsx', 'src/**/*.ts'],
+        plugins: {
+            react,
+        },
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            globals: {
+                ...globals.browser,
+                ...globals.es2020,
+            },
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+            },
+        },
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
+        rules: {
+            ...react.configs.recommended.rules,
+
+            '@typescript-eslint/no-unused-vars': 'error',
+            '@typescript-eslint/no-explicit-any': 'warn',
+            'no-duplicate-imports': 'error',
+
+            'no-unused-vars': 'off',
+            'no-console': ['warn', { allow: ['warn', 'error'] }],
+            'eqeqeq': ['error', 'always'],
+            'prefer-const': 'error',
+
+            'react/react-in-jsx-scope': 'off',
+            'react/prop-types': 'off',
+        },
+    },
+
+    prettier,
 ];
