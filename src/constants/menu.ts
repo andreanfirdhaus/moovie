@@ -1,6 +1,6 @@
 export const menu = [
     {
-        page: 'borwse',
+        page: 'browse',
         link: '/',
     },
     {
