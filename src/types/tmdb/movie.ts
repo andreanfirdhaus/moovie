@@ -18,4 +18,12 @@ export interface Movie {
     video?: boolean;
     vote_average: string | number;
     vote_count: number;
+    // additional
+    genres?: Genres[];
+    runtime?: number;
+}
+
+export interface Genres {
+    id: number;
+    name: string;
 }

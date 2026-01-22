@@ -38,6 +38,7 @@ export interface MovieDetail {
     video?: boolean;
     vote_average: number;
     vote_count: number;
+    media_type: string;
 }
 
 interface Genres {
