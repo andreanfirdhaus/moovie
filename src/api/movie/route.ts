@@ -30,8 +30,6 @@ export const getTopRatedMovies = async (payload: GetListPayload) => {
         const response = await axiosInstance().get(`/movie/top_rated?language=en-US&page=1`, {
             params: payload,
         });
-
-        console.log(response);
         return response;
     } catch (error) {
         console.error('Error fetching top rated movies:', error);
