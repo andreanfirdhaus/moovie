@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/tmdb/movie';
 import { getPopularMovies, getTopRatedMovies, getTrendingMovies, getUpcomingMovies } from '@/api/movie/route';
-import { getMediaType, getBackdropUrl, getMovieTitle } from '@/utils/tmdb-helpers';
+import { getMediaType, getBackdropUrl, getMovieTitle, getGenresText } from '@/utils/tmdb-helpers';
 import { GetListPayload } from '@/types/tmdb/api-payloads';
 import { getPopularSeries, getTopRatedSeries } from '@/api/series/route';
+import { getDetail } from '@/api/detail/route';
+import { Header } from '@/components/ui/header';
 import Card from '@/components/ui/card';
+import { Clapperboard } from 'lucide-react';
 
 // swiper package
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,13 +57,26 @@ export default function Home() {
                     getTopRatedSeries(payload),
                 ]);
 
-            setTrendingMovies(trendingData.data.results);
             setUpcomingMovies(upComingData.data.results);
             setTopRatedMovies(topRatedData.data.results);
             setPopularMovies(popularData.data.results);
 
             setPopularSeries(popularSeries.data.results);
             setTopRatedSeries(topRatedSeries.data.results);
+
+            // Fetch details for all trending movies
+            const detailsPromises = trendingData.data.results.map((movie) => getDetail(movie.media_type, movie.id, {}));
+
+            const detailsResults = await Promise.all(detailsPromises);
+
+            // Store as array or object. In this case, I store (runtime and genres).
+            const moviesWithDetails = trendingData.data.results.map((movie, index) => ({
+                ...movie,
+                runtime: detailsResults[index].data.runtime,
+                genres: detailsResults[index].data.genres,
+            }));
+
+            setTrendingMovies(moviesWithDetails);
         } catch (error) {
             console.error(error);
             setError('Failed to fetch movie data.');
@@ -103,11 +119,11 @@ export default function Home() {
             crossFade: true,
         },
         autoplay: {
-            delay: 5000,
+            delay: 7000,
             disableOnInteraction: false,
         },
         loop: true,
-        speed: 1200,
+        speed: 900,
         allowTouchMove: false,
     };
 
@@ -123,17 +139,18 @@ export default function Home() {
                 spaceBetween: 10,
             },
             768: {
-                slidesPerView: 3,
+                slidesPerView: 4,
             },
             1024: {
                 slidesPerView: 5,
+                spaceBetween: 16,
             },
         },
     };
 
     return (
         <main>
-            <section className='relative h-screen'>
+            <section className='h-[456px] md:h-screen'>
                 <Swiper {...backdropSwiperParams} modules={[Autoplay, Pagination]} className='h-full w-full'>
                     {trendingMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
@@ -142,36 +159,41 @@ export default function Home() {
                                     src={getBackdropUrl(movie)}
                                     alt={`${getMovieTitle(movie)} backdrop`}
                                     draggable='false'
-                                    className='h-full w-full object-cover object-top'
-                                    style={{
-                                        maskImage:
-                                            'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) 28%, rgba(0, 0, 0, 0.5) 72%, rgba(0, 0, 0, 0))',
-                                        WebkitMaskImage:
-                                            'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0))',
-                                    }}
+                                    className='h-full w-full object-cover object-top backdrop-mask'
                                 />
 
-                                {/* Movie Info Overlay */}
-                                <div className='absolute bottom-32 left-0 right-0 px-4 sm:px-8 md:px-16 lg:px-24'>
-                                    <h1 className='text-3xl md:text-5xl font-bold text-zinc-200 max-w-2xl mb-2'>
+                                <div className='absolute bottom-6 md:bottom-32 left-0 right-0 px-4 sm:px-8 md:px-16 lg:px-24'>
+                                    <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold md:font-bold text-zinc-200 max-w-3xl mb-0.5 sm:mb-2'>
                                         {getMovieTitle(movie)}
-                                        <span className='font-normal text-zinc-400'>
-                                            {(() => {
-                                                const date = movie.first_air_date || movie.release_date;
-                                                return date ? ` (${new Date(date).getFullYear()})` : '';
-                                            })()}
-                                        </span>
+                                        {(() => {
+                                            const date = movie.first_air_date || movie.release_date;
+                                            return date ? ` (${new Date(date).getFullYear()})` : '';
+                                        })()}
                                     </h1>
 
-                                    <p className='text-base font-medium  text-zinc-400 mb-6 line-clamp-3 max-w-xl text-pretty'>
+                                    <p className='sm:text-lg font-medium sm:font-semibold text-zinc-400 sm:text-zinc-300 max-w-xs sm:max-w-lg text-pretty mb-6 sm:mb-2'>
+                                        {getGenresText(movie.genres || [])}
+                                        {movie.runtime &&
+                                            ` • ${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
+                                    </p>
+
+                                    <p className='hidden text-base font-medium text-zinc-400 mb-6 line-clamp-2 sm:line-clamp-3 max-w-xl text-pretty'>
                                         {movie.overview}
                                     </p>
 
-                                    <Link
-                                        to={`/${getMediaType(movie)}/detail/${movie.id}`}
-                                        className='bg-zinc-100 text-zinc-900 px-5 py-3 rounded-full text-sm font-medium hover:bg-zinc-200 transition-colors duration-300'>
-                                        Details
-                                    </Link>
+                                    <span className='flex gap-2.5'>
+                                        <Link
+                                            to={`/${getMediaType(movie)}/detail/${movie.id}`}
+                                            className='bg-zinc-200 text-zinc-900 px-4 py-2 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors duration-300'>
+                                            Details
+                                        </Link>
+                                        <button
+                                            // onClick={() => handleTrailerClick(detail.id, getMediaType(detail))}
+                                            className='flex items-center gap-1 bg-[#0957e1] text-zinc-200 px-4 py-2 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-[#062B9A] transition-colors duration-300'>
+                                            <Clapperboard size={20} />
+                                            Trailer
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -180,30 +202,19 @@ export default function Home() {
             </section>
 
             {/* Movies Section */}
-            <section className='max-w-7xl mx-auto py-8 sm:py-12'>
-                <header className='flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 px-4 mb-2 sm:mb-6'>
-                    <h2 className='text-left text-2xl font-semibold text-zinc-100 mb-0 sm:mb-1.5'>Movies</h2>
+            <section className='max-w-7xl mx-auto pt-12 pb-8'>
+                <Header
+                    title='Movies'
+                    categories={[
+                        { value: 'popular', label: 'Popular' },
+                        { value: 'upcoming', label: 'Upcoming' },
+                        { value: 'toprated', label: 'Top Rated' },
+                    ]}
+                    activeType={movieType}
+                    onTypeChange={setMovieType}
+                />
 
-                    <div className='flex items-center gap-5 sm:gap-6'>
-                        <button
-                            onClick={() => setMovieType('popular')}
-                            className={`text-base font-medium ${movieType === 'popular' ? 'text-zinc-200' : 'text-zinc-400'}`}>
-                            Popular
-                        </button>
-                        <button
-                            onClick={() => setMovieType('upcoming')}
-                            className={`text-base font-medium ${movieType === 'upcoming' ? 'text-zinc-200' : 'text-zinc-400'}`}>
-                            Upcoming
-                        </button>
-                        <button
-                            onClick={() => setMovieType('toprated')}
-                            className={`text-base font-medium ${movieType === 'toprated' ? 'text-zinc-200' : 'text-zinc-400'}`}>
-                            Top Rated
-                        </button>
-                    </div>
-                </header>
-
-                <Swiper {...moviesSwiperParams} className='mySwiper px-4 py-4' key={movieType}>
+                <Swiper {...moviesSwiperParams} className='mySwiper px-4 sm:px-6 lg:px-8 py-4' key={movieType}>
                     {displayedMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
                             <Link to={`/${getMediaType(movie)}/detail/${movie.id}`}>
@@ -215,25 +226,18 @@ export default function Home() {
             </section>
 
             {/* Series Section */}
-            <section className='max-w-7xl mx-auto py-8 sm:py-12'>
-                <header className='flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 px-4 mb-2 sm:mb-6'>
-                    <h3 className='text-left text-2xl font-semibold text-zinc-100 mb-0 sm:mb-1.5'>Series</h3>
+            <section className='max-w-7xl mx-auto pt-8 pb-8 sm:pt-12'>
+                <Header
+                    title='Series'
+                    categories={[
+                        { value: 'popular', label: 'Popular' },
+                        { value: 'toprated', label: 'Top Rated' },
+                    ]}
+                    activeType={seriesType}
+                    onTypeChange={setSeriesType}
+                />
 
-                    <div className='flex items-center gap-5 sm:gap-6'>
-                        <button
-                            onClick={() => setSeriesType('popular')}
-                            className={`text-base font-medium ${seriesType === 'popular' ? 'text-zinc-200' : 'text-zinc-400'}`}>
-                            Popular
-                        </button>
-                        <button
-                            onClick={() => setSeriesType('toprated')}
-                            className={`text-base font-medium ${seriesType === 'toprated' ? 'text-zinc-200' : 'text-zinc-400'}`}>
-                            Top Rated
-                        </button>
-                    </div>
-                </header>
-
-                <Swiper {...moviesSwiperParams} className='mySwiper px-4 py-4' key={seriesType}>
+                <Swiper {...moviesSwiperParams} className='mySwiper px-4 sm:px-6 lg:px-8 py-4' key={seriesType}>
                     {displayedSeries.map((series) => (
                         <SwiperSlide key={series.id}>
                             <Link to={`/${getMediaType(series)}/detail/${series.id}`}>
