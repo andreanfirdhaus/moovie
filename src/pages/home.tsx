@@ -8,7 +8,6 @@ import { getPopularSeries, getTopRatedSeries } from '@/api/series/route';
 import { getDetail } from '@/api/detail/route';
 import { Header } from '@/components/ui/header';
 import Card from '@/components/ui/card';
-import { Clapperboard } from 'lucide-react';
 
 // swiper package
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -150,7 +149,7 @@ export default function Home() {
 
     return (
         <main>
-            <section className='h-[456px] md:h-screen'>
+            <section className='h-[456px] md:min-h-[680px]'>
                 <Swiper {...backdropSwiperParams} modules={[Autoplay, Pagination]} className='h-full w-full'>
                     {trendingMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
@@ -162,7 +161,7 @@ export default function Home() {
                                     className='h-full w-full object-cover object-top backdrop-mask'
                                 />
 
-                                <div className='absolute bottom-6 md:bottom-32 left-0 right-0 px-4 sm:px-8 md:px-16 lg:px-24'>
+                                <div className='absolute bottom-6 md:bottom-24 left-0 right-0 px-4 sm:px-6 lg:px-24'>
                                     <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold md:font-bold text-zinc-200 max-w-3xl mb-0.5 sm:mb-2'>
                                         {getMovieTitle(movie)}
                                         {(() => {
@@ -181,19 +180,11 @@ export default function Home() {
                                         {movie.overview}
                                     </p>
 
-                                    <span className='flex gap-2.5'>
-                                        <Link
-                                            to={`/${getMediaType(movie)}/detail/${movie.id}`}
-                                            className='bg-zinc-200 text-zinc-900 px-4 py-2 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors duration-300'>
-                                            Details
-                                        </Link>
-                                        <button
-                                            // onClick={() => handleTrailerClick(detail.id, getMediaType(detail))}
-                                            className='flex items-center gap-1 bg-[#0957e1] text-zinc-200 px-4 py-2 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-[#062B9A] transition-colors duration-300'>
-                                            <Clapperboard size={20} />
-                                            Trailer
-                                        </button>
-                                    </span>
+                                    <Link
+                                        to={`/${getMediaType(movie)}/detail/${movie.id}`}
+                                        className='bg-zinc-200 text-zinc-900 px-4 py-2 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors duration-300'>
+                                        Details
+                                    </Link>
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -202,7 +193,7 @@ export default function Home() {
             </section>
 
             {/* Movies Section */}
-            <section className='max-w-7xl mx-auto pt-12 pb-8'>
+            <section className='max-w-9xl mx-auto lg:mx-16 pt-12 pb-8'>
                 <Header
                     title='Movies'
                     categories={[
@@ -226,7 +217,7 @@ export default function Home() {
             </section>
 
             {/* Series Section */}
-            <section className='max-w-7xl mx-auto pt-8 pb-8 sm:pt-12'>
+            <section className='max-w-9xl mx-auto lg:mx-16 pt-8 pb-8 sm:pt-12'>
                 <Header
                     title='Series'
                     categories={[
