@@ -18,7 +18,7 @@ export default function Card({ type, delayTime = 300, scaleOnHover = 1.05 }: Car
             <motion.div
                 whileHover={{ scale: scaleOnHover }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-zinc-900'>
+                className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-black'>
                 <LazyLoadImage
                     effect='blur'
                     src={type.poster_path ? TMDB_IMG_300 + type.poster_path : FALLBACK_POSTER}

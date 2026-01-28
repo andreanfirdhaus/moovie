@@ -16,11 +16,11 @@ export default function Navbar() {
                 className='absolute inset-x-0 top-0 h-32 pointer-events-none -z-10'
                 style={{
                     background:
-                        'linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.3) 48%, rgba(0, 0, 0, 0) 100%)',
+                        'linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.2) 48%, rgba(0, 0, 0, 0) 100%)',
                 }}
             />
 
-            <nav className='relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6'>
+            <nav className='relative px-4 sm:px-6 lg:px-8 py-4 md:py-6'>
                 <div className='flex items-center justify-between'>
                     <Link to='/'>
                         <img className='h-6 sm:h-[30px]' src='/assets/main-logo.svg' alt='Moovie' draggable='false' />
