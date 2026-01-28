@@ -154,7 +154,7 @@ export default function DetailPage() {
                     <div className='absolute inset-0 bg-black/70' />
 
                     {/* Movie Info Overlay */}
-                    <div className='absolute bottom-6 inset-x-0 lg:inset-y-0 flex items-center justify-around max-w-[1280px] mx-auto gap-10 px-6 lg:px-24'>
+                    <div className='absolute bottom-6 inset-x-0 lg:inset-y-0 flex items-center px-6 max-w-7xl mx-auto gap-10'>
                         <LazyLoadImage
                             effect='blur'
                             src={detail.poster_path ? TMDB_IMG_300 + detail.poster_path : FALLBACK_POSTER}
@@ -163,7 +163,7 @@ export default function DetailPage() {
                             delayTime={300}
                         />
 
-                        <div>
+                        <div className='max-w-4xl'>
                             <h1 className='md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 text-balance'>
                                 {getMovieTitle(detail)}
                                 {(() => {
@@ -242,7 +242,7 @@ export default function DetailPage() {
                                 </div>
                             </div>
 
-                            <p className='text-base font-medium text-zinc-300 mb-6 max-w-2xl text-balance leading-relaxed whitespace-pre-line'>
+                            <p className='text-base font-medium text-zinc-300 mb-6 text-balance leading-relaxed whitespace-pre-line'>
                                 {detail.overview}
                             </p>
 
@@ -401,19 +401,17 @@ export default function DetailPage() {
                             <SwiperSlide key={credits.id}>
                                 {/* <Link to={`/${getMediaType(credits)}/detail/${credits.id}`}> */}
                                 <div className='mx-0.5'>
-                                    <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-zinc-900'>
-                                        <LazyLoadImage
-                                            effect='blur'
-                                            src={
-                                                credits.profile_path ?
-                                                    TMDB_IMG_300 + credits.profile_path
-                                                :   FALLBACK_POSTER
-                                            }
-                                            alt={`${getCreditsName(credits)} poster`}
-                                            className='bg-contain bg-center rounded-[4px] sm:rounded-[6px] w-full'
-                                            delayTime={300}
-                                        />
-                                    </div>
+                                    {/* <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-zinc-900'> */}
+                                    <LazyLoadImage
+                                        effect='blur'
+                                        src={
+                                            credits.profile_path ? TMDB_IMG_300 + credits.profile_path : FALLBACK_POSTER
+                                        }
+                                        alt={`${getCreditsName(credits)} poster`}
+                                        className='bg-contain bg-center rounded-[4px] sm:rounded-[6px] w-full'
+                                        delayTime={300}
+                                    />
+                                    {/* </div> */}
                                     <div className='mt-1.5 sm:mt-2'>
                                         <h3 className='text-zinc-200 font-semibold text-sm truncate'>
                                             {getCreditsName(credits)}
