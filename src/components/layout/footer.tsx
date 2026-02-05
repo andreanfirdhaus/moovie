@@ -3,11 +3,11 @@ import { Copyright } from 'lucide-react';
 
 export default function Footer() {
     return (
-        <footer className='max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-0 md:py-6 flex items-center justify-between'>
+        <footer className='px-4 sm:px-6 lg:px-24 py-0 md:py-6 flex items-center justify-between'>
             <p className='flex items-center space-x-1 text-sm text-zinc-400 font-medium'>
                 <Copyright size={14} strokeWidth={2.5} />
                 <span>
-                    2026 Moovie. Powered by{' '}
+                    2026 Moovie. Database by{' '}
                     <Link
                         to='https://www.themoviedb.org/'
                         target='_blank'
@@ -23,7 +23,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-sm text-zinc-400 font-medium'>
-                Guide
+                Docs
             </Link>
         </footer>
     );
