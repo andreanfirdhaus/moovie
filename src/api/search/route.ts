@@ -1,11 +1,12 @@
 import { axiosInstance } from '../api-host';
 import { GetListPayload } from '@/types/tmdb/api-payloads';
 
-export const searchMulti = async (query: string, payload?: GetListPayload) => {
+export const searchMulti = async (query: string, page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/search/multi`, {
             params: {
                 query,
+                page,
                 ...payload,
             },
         });
@@ -16,11 +17,12 @@ export const searchMulti = async (query: string, payload?: GetListPayload) => {
     }
 };
 
-export const searchMovies = async (query: string, payload?: GetListPayload) => {
+export const searchMovies = async (query: string, page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/search/movie`, {
             params: {
                 query,
+                page,
                 ...payload,
             },
         });
@@ -31,11 +33,12 @@ export const searchMovies = async (query: string, payload?: GetListPayload) => {
     }
 };
 
-export const searchSeries = async (query: string, payload?: GetListPayload) => {
+export const searchSeries = async (query: string, page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/search/tv`, {
             params: {
                 query,
+                page,
                 ...payload,
             },
         });

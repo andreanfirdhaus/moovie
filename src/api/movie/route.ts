@@ -1,22 +1,25 @@
 import { axiosInstance } from '../api-host';
 import { GetListPayload } from '@/types/tmdb/api-payloads';
 
-export const getNewReleaseMovies = async (payload: GetListPayload) => {
-    try {
-        const response = await axiosInstance().get(`/movie/latest`, {
-            params: payload,
-        });
-        return response;
-    } catch (error) {
-        console.error('Error fetching new release movies:', error);
-        throw error;
-    }
-};
+// export const getNewReleaseMovies = async (payload: GetListPayload) => {
+//     try {
+//         const response = await axiosInstance().get(`/movie/latest`, {
+//             params: payload,
+//         });
+//         return response;
+//     } catch (error) {
+//         console.error('Error fetching new release movies:', error);
+//         throw error;
+//     }
+// };
 
-export const getPopularMovies = async (payload: GetListPayload) => {
+export const getPopularMovies = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/movie/popular`, {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
@@ -25,10 +28,13 @@ export const getPopularMovies = async (payload: GetListPayload) => {
     }
 };
 
-export const getTopRatedMovies = async (payload: GetListPayload) => {
+export const getTopRatedMovies = async (page: number = 1, payload?: GetListPayload) => {
     try {
-        const response = await axiosInstance().get(`/movie/top_rated?language=en-US&page=1`, {
-            params: payload,
+        const response = await axiosInstance().get(`/movie/top_rated`, {
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
@@ -73,10 +79,13 @@ export const getNowPlayingMovies = async (payload: GetListPayload) => {
     }
 };
 
-export const getUpcomingMovies = async (payload: GetListPayload) => {
+export const getUpcomingMovies = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get('/movie/upcoming', {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
@@ -85,10 +94,13 @@ export const getUpcomingMovies = async (payload: GetListPayload) => {
     }
 };
 
-export const getDiscoverMovies = async (payload: GetListPayload) => {
+export const getDiscoverMovies = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/discover/movie`, {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {

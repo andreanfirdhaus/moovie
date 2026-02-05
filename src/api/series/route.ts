@@ -1,22 +1,25 @@
 import { axiosInstance } from '../api-host';
 import { GetListPayload } from '@/types/tmdb/api-payloads';
 
-export const getNewReleaseSeries = async (payload: GetListPayload) => {
-    try {
-        const response = await axiosInstance().get(`/tv/latest`, {
-            params: payload,
-        });
-        return response;
-    } catch (error) {
-        console.error('Error fetching new release series:', error);
-        throw error;
-    }
-};
+// export const getNewReleaseSeries = async (payload: GetListPayload) => {
+//     try {
+//         const response = await axiosInstance().get(`/tv/latest`, {
+//             params: payload,
+//         });
+//         return response;
+//     } catch (error) {
+//         console.error('Error fetching new release series:', error);
+//         throw error;
+//     }
+// };
 
-export const getPopularSeries = async (payload: GetListPayload) => {
+export const getPopularSeries = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/tv/popular`, {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
@@ -25,10 +28,13 @@ export const getPopularSeries = async (payload: GetListPayload) => {
     }
 };
 
-export const getTopRatedSeries = async (payload: GetListPayload) => {
+export const getTopRatedSeries = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/tv/top_rated`, {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
@@ -61,10 +67,13 @@ export const getOnTheAir = async (payload: GetListPayload) => {
     }
 };
 
-export const getDiscoverSeries = async (payload: GetListPayload) => {
+export const getDiscoverSeries = async (page: number = 1, payload?: GetListPayload) => {
     try {
         const response = await axiosInstance().get(`/discover/tv`, {
-            params: payload,
+            params: {
+                page,
+                ...payload,
+            },
         });
         return response;
     } catch (error) {
