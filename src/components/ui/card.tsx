@@ -1,34 +1,45 @@
 import { motion } from 'framer-motion';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Movie } from '@/types/tmdb/movie';
-import { TMDB_IMG_300, FALLBACK_POSTER } from '@/utils/tmdb-image';
-import { getMovieTitle, getReleaseYear } from '@/utils/tmdb-helpers';
+import { TMDB_IMG_300, FALLBACK_POSTER } from '@/utils/helper/tmdb-image';
+import { getMovieTitle, getReleaseYear } from '@/utils/helper/tmdb-helpers';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { MovieDetail } from '@/types/tmdb/movie-detail';
 
+type Seasons = {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+    overview: string;
+    poster_path: string;
+    season_number: number;
+};
+
 interface CardProps {
-    type: Movie | MovieDetail;
-    delayTime?: number;
-    scaleOnHover?: number;
+    type: Movie | MovieDetail | Seasons;
 }
 
-export default function Card({ type, delayTime = 300, scaleOnHover = 1.05 }: CardProps) {
+export default function Card({ type }: CardProps) {
     return (
         <div className='mx-0.5'>
-            <motion.div
-                whileHover={{ scale: scaleOnHover }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-black'>
-                <LazyLoadImage
-                    effect='blur'
-                    src={type.poster_path ? TMDB_IMG_300 + type.poster_path : FALLBACK_POSTER}
-                    alt={`${getMovieTitle(type)} poster`}
-                    className='bg-contain bg-center rounded-[4px] sm:rounded-[6px] w-full'
-                    delayTime={delayTime}
-                />
-            </motion.div>
-            <div className='mt-1.5 sm:mt-3.5'>
-                <p className='text-zinc-200 font-semibold text-sm truncate'>{getMovieTitle(type)}</p>
+            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-[#0f0f0f]'>
+                <motion.div whileHover={{ scale: 1.06 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
+                    <LazyLoadImage
+                        src={type.poster_path ? TMDB_IMG_300 + type.poster_path : FALLBACK_POSTER}
+                        alt={`${getMovieTitle(type)} poster`}
+                        draggable={false}
+                        effect='blur'
+                        wrapperClassName='w-full h-full'
+                        delayTime={300}
+                        className='w-full h-full object-cover'
+                    />
+                </motion.div>
+            </div>
+
+            <div className='mt-1.5 sm:mt-2.5'>
+                <p className='text-zinc-200 font-semibold text-[15px] truncate mb-0.5'>{getMovieTitle(type)}</p>
+
                 {getReleaseYear(type) && (
                     <span className='text-zinc-400 text-sm font-medium'>{getReleaseYear(type)}</span>
                 )}

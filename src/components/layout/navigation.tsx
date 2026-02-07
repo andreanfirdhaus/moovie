@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Menu, Search, X, Loader2 } from 'lucide-react';
 import { menu } from '@/constants/menu';
-import { useDebounce } from '@/hooks/use-debounce';
-import { useSearchMulti } from '@/hooks/queries/use-search';
-import { getMediaType, getMovieTitle, getPosterUrl } from '@/utils/tmdb-helpers';
+import { useDebounce } from '@/utils/hooks/useDebounce';
+import { useSearchMulti } from '@/utils/hooks/queries/useSearch';
+import { getMediaType, getMovieTitle, getPosterUrl } from '@/utils/helper/tmdb-helpers';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -81,13 +81,13 @@ export default function Navbar() {
 
     return (
         <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 lg:px-24 py-4 md:py-6'>
+            <nav className='relative px-4 sm:px-6 lg:px-12 xl:px-24 py-4 md:py-6'>
                 <div className='flex items-center justify-between md:justify-normal space-x-8'>
                     <Link to='/'>
-                        <img className='h-8' src='/assets/logo.png' alt='Moovie' draggable='false' />
+                        <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
                     </Link>
 
-                    <div className='relative hidden md:flex items-center w-full max-w-sm' ref={searchRef}>
+                    <div className='relative hidden md:flex items-center w-full max-w-xs' ref={searchRef}>
                         <form onSubmit={handleSearchSubmit} className='relative w-full'>
                             <button
                                 type='button'
@@ -113,7 +113,7 @@ export default function Navbar() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onFocus={() => setIsSearchOpen(true)}
                                 placeholder='Find movies, series, or cast'
-                                className='pl-11 w-full pr-4 py-2.5 placeholder:text-xs placeholder:font-medium bg-transparent border border-zinc-500 focus:outline-none text-white text-sm rounded-full'
+                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium bg-transparent border border-zinc-500 focus:outline-none text-white text-sm rounded-full'
                             />
                         </form>
 
@@ -182,7 +182,7 @@ export default function Navbar() {
                     </div>
 
                     {/* desktop menu */}
-                    <ul className='hidden md:flex space-x-6'>
+                    <ul className='hidden md:flex space-x-4'>
                         {menu.map((item, index) => {
                             if (item.hasDropdown && item.categories) {
                                 return (
@@ -206,7 +206,7 @@ export default function Navbar() {
                                                     {item.categories.map((category) => (
                                                         <Link
                                                             key={category.value}
-                                                            to={`/discover?mediaType=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
+                                                            to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
                                                             className='block px-4 py-2.5 text-sm text-neutral-300 hover:bg-[#0f0f0f] hover:text-white transition-colors'>
                                                             {category.label}
                                                         </Link>
@@ -282,7 +282,7 @@ export default function Navbar() {
                                                         {item.categories.map((category) => (
                                                             <Link
                                                                 key={category.value}
-                                                                to={`/discover?mediaType=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
+                                                                to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
                                                                 onClick={() => {
                                                                     setIsMobileMenuOpen(false);
                                                                     setMobileActiveDropdown(null);

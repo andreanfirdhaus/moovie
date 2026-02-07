@@ -3,7 +3,7 @@ import { Copyright } from 'lucide-react';
 
 export default function Footer() {
     return (
-        <footer className='px-4 sm:px-6 lg:px-24 py-0 md:py-6 flex items-center justify-between'>
+        <footer className='px-4 sm:px-6 lg:px-12 xl:px-24 py-0 md:py-6 flex items-center justify-between'>
             <p className='flex items-center space-x-1 text-sm text-zinc-400 font-medium'>
                 <Copyright size={14} strokeWidth={2.5} />
                 <span>
