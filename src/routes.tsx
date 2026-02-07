@@ -1,7 +1,7 @@
 import Layout from '@/layout';
-import Home from '@/pages/home';
-import Discover from '@/pages/discover';
-import DetailPage from './pages/[detail]';
+import Home from '@/pages/home/_index';
+import Discover from '@/pages/discover/_index';
+import DetailPage from './pages/detail/_index';
 import NotFound from './not-found';
 
 export const routes = [
