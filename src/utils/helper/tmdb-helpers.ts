@@ -1,12 +1,22 @@
 import { Movie } from '@/types/tmdb/movie';
 import { MovieDetail } from '@/types/tmdb/movie-detail';
 import { MovieCredits } from '@/types/tmdb/movie-credits';
-import { TMDB_IMG_ORIGINAL, FALLBACK_POSTER } from '@/utils/tmdb-image';
+import { TMDB_IMG_ORIGINAL, FALLBACK_POSTER } from '@/utils/helper/tmdb-image';
 
 interface Genres {
     id: number;
     name: string;
 }
+
+type Seasons = {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+    overview: string;
+    poster_path: string;
+    season_number: number;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getMediaType = (movie: any): 'tv' | 'movie' => {
@@ -20,16 +30,25 @@ export const getBackdropUrl = (movie: Movie): string => {
     return FALLBACK_POSTER;
 };
 
-export const getMovieTitle = (movie: Movie | MovieDetail): string => {
-    return movie.title || movie.name || 'Untitled';
+export const getPosterUrl = (movie: Movie | MovieDetail | Seasons): string => {
+    const imagePath = movie?.poster_path || (movie as any)?.profile_path;
+
+    if (imagePath) {
+        return TMDB_IMG_ORIGINAL + imagePath;
+    }
+    return FALLBACK_POSTER;
+};
+
+export const getMovieTitle = (movie: Movie | MovieDetail | Seasons): string => {
+    return (movie as any).title || (movie as any).name || 'Untitled';
 };
 
 export const getCreditsName = (credits: MovieCredits): string => {
     return credits.name || credits.original_name || 'Untitled';
 };
 
-export const getReleaseYear = (movie: Movie | MovieDetail): string => {
-    const date = movie.release_date || movie.first_air_date || (movie as any).air_date;
+export const getReleaseYear = (movie: Movie | MovieDetail | Seasons): string => {
+    const date = (movie as any).release_date || (movie as any).first_air_date || (movie as any).air_date;
     return date ? new Date(date).getFullYear().toString() : '';
 };
 
