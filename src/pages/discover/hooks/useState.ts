@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+// export type MediaFilter = 'all' | 'movie' | 'tv';
 export type MediaFilter = 'all' | 'movie' | 'tv' | 'person';
 
 export function useDiscoverState() {

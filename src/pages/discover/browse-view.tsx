@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SlidersHorizontal } from 'lucide-react';
+import { Funnel } from 'lucide-react';
 import Card from '@/components/ui/card';
-import Loading from '@/components/ui/spinner';
 import Pagination from '@/features/controls/pagination';
-import GenreFilter from '@/features/controls/genre-filter';
-import SortDropdown from '@/features/controls/sort';
+import FilterAside from '@/features/controls/filter-aside';
 import { usePopularMovies, useUpcomingMovies, useTopRatedMovies } from '@/utils/hooks/queries/useMovies';
 import { usePopularSeries, useTopRatedSeries } from '@/utils/hooks/queries/useSeries';
 import { useMovieGenres, useTVGenres } from '@/utils/hooks/queries/useGenres';
-import { getMediaType } from '@/utils/helper/tmdb-helpers';
+import { getDetailUrl } from '@/utils/helper/tmdb-helpers';
 import EmptyState from './empty-state';
+
+const DEFAULT_SORT = 'popularity.desc';
 
 interface BrowseViewProps {
     mediaType: string;
@@ -32,6 +33,8 @@ export default function BrowseView({
     setSortBy,
     onPageChange,
 }: BrowseViewProps) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     // fetch genre
     const { data: movieGenres = [], isLoading: isLoadingMovieGenres } = useMovieGenres();
     const { data: tvGenres = [], isLoading: isLoadingTVGenres } = useTVGenres();
@@ -100,55 +103,86 @@ export default function BrowseView({
         }
     }
 
+    function handleGenreToggle(genreId: number) {
+        setSelectedGenres((prev) =>
+            prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]
+        );
+    }
+
+    function handleClearFilters() {
+        setSelectedGenres([]);
+        setSortBy(DEFAULT_SORT);
+    }
+
     return (
         <main className='min-h-screen pt-20 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-9xl mx-auto lg:mx-5 xl:mx-16'>
-                <div className='mb-6 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4'>
-                    <header>
-                        <h1 className='text-xl sm:text-2xl font-semibold text-zinc-200'>{displayTitle}</h1>
-                    </header>
+                {/* header*/}
+                <header className='mb-4 flex items-center justify-between'>
+                    <h1 className='text-xl font-semibold text-gray-100'>{displayTitle}</h1>
 
-                    <div className='flex gap-2.5 justify-between sm:justify-normal'>
-                        <button className='flex items-center gap-1.5 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-lg text-sm font-medium transition-colors'>
-                            <SlidersHorizontal size={16} />
-                            <span>Filter</span>
-                        </button>
-                        <SortDropdown
-                            value={sortBy}
-                            onChange={setSortBy}
-                            mediaType={mediaType === 'movie' ? 'movie' : 'tv'}
-                        />
-                    </div>
-                </div>
+                    {/* Mobile filter toggle */}
+                    <button
+                        onClick={() => setIsSidebarOpen(true)}
+                        className='lg:hidden flex items-center gap-1.5 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-full text-sm font-medium transition-colors'>
+                        {selectedGenres.length > 0 || sortBy !== DEFAULT_SORT ?
+                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-[#0957e1] text-white text-[10px] font-bold'>
+                                {selectedGenres.length + (sortBy !== DEFAULT_SORT ? 1 : 0)}
+                            </span>
+                        :   <Funnel size={16} />}
+                        <span>Filters</span>
+                    </button>
+                </header>
 
-                <div className='mb-6 max-w-6xl'>
-                    <GenreFilter
+                {/* two-column layout */}
+                <div className='flex gap-6 xl:gap-8 items-start'>
+                    <FilterAside
+                        mediaType={mediaType === 'movie' ? 'movie' : 'tv'}
                         genres={mediaType === 'movie' ? movieGenres : tvGenres}
+                        isLoadingGenres={mediaType === 'movie' ? isLoadingMovieGenres : isLoadingTVGenres}
                         selectedGenres={selectedGenres}
-                        onGenreToggle={(genreId) => {
-                            setSelectedGenres((prev) =>
-                                prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]
-                            );
-                        }}
-                        isLoading={mediaType === 'movie' ? isLoadingMovieGenres : isLoadingTVGenres}
+                        onGenreToggle={handleGenreToggle}
+                        sortBy={sortBy}
+                        onSortChange={setSortBy}
+                        onClearFilters={handleClearFilters}
+                        isOpen={isSidebarOpen}
+                        onClose={() => setIsSidebarOpen(false)}
                     />
+
+                    {/* Content area */}
+                    <section className='flex-1 min-w-0'>
+                        {isLoadingData ?
+                            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
+                                {Array.from({ length: 10 }).map((_, i) => (
+                                    <div key={i} className='mx-0.5 animate-pulse'>
+                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-[#121212]' />
+
+                                        <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
+                                            <div className='h-3.5 bg-[#252525] rounded w-4/5' />
+                                            <div className='h-3 bg-[#1a1a1a] rounded w-1/3' />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        : displayData.length > 0 ?
+                            <>
+                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
+                                    {displayData.map((item) => (
+                                        <Link key={item.id} to={getDetailUrl(item)}>
+                                            <Card type={item} />
+                                        </Link>
+                                    ))}
+                                </div>
+
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={onPageChange}
+                                />
+                            </>
+                        :   <EmptyState message='Try adjusting your filters or sort options.' />}
+                    </section>
                 </div>
-
-                {isLoadingData ?
-                    <Loading />
-                : displayData.length > 0 ?
-                    <>
-                        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
-                            {displayData.map((item) => (
-                                <Link key={item.id} to={`/${getMediaType(item)}/detail/${item.id}`}>
-                                    <Card type={item} />
-                                </Link>
-                            ))}
-                        </div>
-
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
-                    </>
-                :   <EmptyState message='Try adjusting your filters or sort options.' />}
             </div>
         </main>
     );

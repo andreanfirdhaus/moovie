@@ -1,5 +1,5 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Clapperboard } from 'lucide-react';
+import { Loader2, Play } from 'lucide-react';
 import { TMDB_IMG_ORIGINAL, TMDB_IMG_300, FALLBACK_POSTER } from '@/utils/helper/tmdb-image';
 import { getMovieTitle, getMediaType, getGenresText } from '@/utils/helper/tmdb-helpers';
 import RatingCircle from '@/components/ui/rating';
@@ -8,12 +8,14 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 interface HeroSectionProps {
     detail: any;
     onTrailerClick: (id: number, type: string) => void;
+    onWatchNow: () => void;
+    isLoadingWatch: boolean;
 }
 
-export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps) {
+export default function HeroSection({ detail, onTrailerClick, onWatchNow, isLoadingWatch }: HeroSectionProps) {
     return (
         <>
-            {/* Desktop Layout */}
+            {/* desktop layout */}
             <section className='hidden md:block lg:h-[680px]'>
                 <div className='relative h-full w-full'>
                     <img
@@ -25,7 +27,7 @@ export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps
 
                     <div className='absolute inset-0 bg-black/40' />
 
-                    {/* Movie Info Overlay */}
+                    {/* movie info overlay */}
                     <div className='absolute bottom-16 flex items-center px-6 lg:px-12 xl:px-24 max-w-9xl mx-auto gap-10'>
                         <LazyLoadImage
                             src={detail.poster_path ? TMDB_IMG_300 + detail.poster_path : FALLBACK_POSTER}
@@ -37,7 +39,7 @@ export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps
                         />
 
                         <div className='max-w-4xl'>
-                            <h1 className='md:text-3xl lg:text-4xl xl:text-[44px] font-bold text-zinc-100 mb-2 text-balance'>
+                            <h1 className='md:text-3xl lg:text-4xl xl:text-[40px] xl:leading-[1.2] font-bold text-zinc-100 mb-2 text-balance'>
                                 {getMovieTitle(detail)}
                                 {(() => {
                                     const date = detail.first_air_date || detail.release_date;
@@ -65,18 +67,10 @@ export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps
                                                 {`${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`}
                                                 {detail.status && ` • ${detail.status}`}
 
-                                                {/* Show release date only if status is not "Released" */}
-                                                {detail.status !== 'Released' && detail.release_date && (
-                                                    <>
-                                                        {' '}
-                                                        •{' '}
-                                                        {new Date(detail.release_date).toLocaleDateString('en-GB', {
-                                                            day: '2-digit',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                        })}
-                                                    </>
-                                                )}
+                                                {/* show release date only if status is not "Released" */}
+                                                {detail.status !== 'Released' &&
+                                                    detail.release_date &&
+                                                    ` • ${new Date(detail.release_date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}`}
                                             </>
                                         )}
 
@@ -94,40 +88,37 @@ export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps
                                 {detail.overview}
                             </p>
 
-                            <button
-                                onClick={() => onTrailerClick(detail.id, getMediaType(detail))}
-                                className='flex items-center gap-1.5 bg-[#0957e1] text-zinc-200 px-5 py-3 rounded-full text-sm font-medium hover:bg-[#062B9A] transition-colors duration-300'>
-                                <Clapperboard size={20} />
-                                Trailer
-                            </button>
+                            <div className='flex gap-3'>
+                                <button
+                                    onClick={onWatchNow}
+                                    disabled={isLoadingWatch}
+                                    className='flex items-center gap-1.5 bg-[#0957e1]/80 hover:bg-[#0957e1] border border-[#0957e1] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0957e1]/30'>
+                                    {isLoadingWatch ?
+                                        <Loader2 size={16} className='animate-spin' />
+                                    :   <Play size={16} />}
+                                    {isLoadingWatch ? 'Loading...' : 'Watch Now'}
+                                </button>
+
+                                <button
+                                    onClick={() => onTrailerClick(detail.id, getMediaType(detail))}
+                                    className='bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all duration-300'>
+                                    Trailer
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Mobile Layout */}
+            {/* mobile layout */}
             <section className='block md:hidden'>
-                <div className='h-96'>
-                    <div className='relative h-full w-full'>
-                        <img
-                            src={TMDB_IMG_ORIGINAL + detail.backdrop_path}
-                            alt={detail.title || 'Movie backdrop'}
-                            draggable='false'
-                            className='h-full w-full object-cover object-top backdrop-mask'
-                        />
-
-                        <div className='absolute inset-0 bg-black/15' />
-
-                        <div className='absolute bottom-8 flex items-center mx-auto gap-10 px-4 sm:px-6 lg:px-8'>
-                            <LazyLoadImage
-                                effect='blur'
-                                src={detail.poster_path ? TMDB_IMG_300 + detail.poster_path : FALLBACK_POSTER}
-                                alt={`${getMovieTitle(detail)} poster`}
-                                className='bg-contain bg-center rounded sm:rounded-xl w-full h-44'
-                                delayTime={300}
-                            />
-                        </div>
-                    </div>
+                <div className='h-[456px] w-full'>
+                    <img
+                        src={TMDB_IMG_ORIGINAL + detail.backdrop_path}
+                        alt={detail.title || 'Movie backdrop'}
+                        draggable='false'
+                        className='h-full w-full object-cover object-top backdrop-mask'
+                    />
                 </div>
 
                 <div className='pt-2 px-4 sm:px-6 lg:px-8'>
@@ -164,12 +155,31 @@ export default function HeroSection({ detail, onTrailerClick }: HeroSectionProps
                         {detail.overview}
                     </p>
 
-                    <button
-                        onClick={() => onTrailerClick(detail.id, getMediaType(detail))}
-                        className='flex items-center gap-1 bg-[#0957e1] text-zinc-200 px-4 py-2.5 md:px-5 md:py-3 rounded-full text-sm font-semibold hover:bg-[#062B9A] transition-colors duration-300'>
-                        <Clapperboard size={20} />
-                        Trailer
-                    </button>
+                    <div className='flex gap-3'>
+                        <button
+                            onClick={onWatchNow}
+                            disabled={isLoadingWatch}
+                            className='flex items-center gap-2 bg-[#0957e1]/80 hover:bg-[#0957e1] border border-[#0957e1] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0957e1]/30'>
+                            {isLoadingWatch ?
+                                <Loader2 size={14} className='animate-spin' />
+                            :   <svg
+                                    xmlns='http://www.w3.org/2000/svg'
+                                    width='14'
+                                    height='14'
+                                    viewBox='0 0 24 24'
+                                    fill='currentColor'>
+                                    <polygon points='5 3 19 12 5 21 5 3' />
+                                </svg>
+                            }
+                            {isLoadingWatch ? 'Loading...' : 'Watch Now'}
+                        </button>
+
+                        <button
+                            onClick={() => onTrailerClick(detail.id, getMediaType(detail))}
+                            className='flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all duration-300'>
+                            Trailer
+                        </button>
+                    </div>
                 </div>
             </section>
         </>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ExternalLink } from 'lucide-react';
-import { getCreditsName, getMediaType } from '@/utils/helper/tmdb-helpers';
+import { ExternalLink, X } from 'lucide-react';
+import { getCreditsName, getDetailUrl } from '@/utils/helper/tmdb-helpers';
 import { TrailerModal } from '@/features/modals/trailer-modal';
 import HeroSection from '@/pages/detail/hero-section';
 import ProductionCompany from '@/pages/detail/production-company';
@@ -30,6 +30,10 @@ export default function DetailPage() {
         selectedMovie,
         handleTrailerClick,
         handleCloseTrailer,
+        handleWatchNow,
+        isLoadingWatch,
+        watchError,
+        setWatchError,
     } = useDetail();
 
     if (isLoading) {
@@ -75,8 +79,26 @@ export default function DetailPage() {
 
     return (
         <main>
+            {watchError && (
+                <div className='fixed inset-0 z-50 flex items-start justify-center px-4 pt-4 sm:pt-16 bg-black/40 backdrop-blur-sm'>
+                    <div className='w-full max-w-md bg-red-500/10 border border-red-500 text-red-400 px-4 md:px-6 py-3 rounded-xl shadow-lg backdrop-blur-lg flex items-center gap-4'>
+                        <span className='flex-1 text-sm sm:text-base'>{watchError}</span>
+                        <button
+                            onClick={() => setWatchError(null)}
+                            className='shrink-0 hover:text-red-300 transition-colors'>
+                            <X size={24} />
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* hero section */}
-            <HeroSection detail={detail} onTrailerClick={handleTrailerClick} />
+            <HeroSection
+                detail={detail}
+                onTrailerClick={handleTrailerClick}
+                onWatchNow={handleWatchNow}
+                isLoadingWatch={isLoadingWatch}
+            />
 
             {selectedMovie && (
                 <TrailerModal
@@ -94,7 +116,7 @@ export default function DetailPage() {
                         {/* cast */}
                         {credits?.length > 0 && (
                             <section>
-                                <header className='mb-2 sm:mb-3'>
+                                <header className='mb-1 sm:mb-2.5'>
                                     <h1 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100'>Cast</h1>
                                 </header>
 
@@ -110,7 +132,8 @@ export default function DetailPage() {
                                                         :   FALLBACK_CAST
                                                     }
                                                     alt={`${getCreditsName(cast)} poster`}
-                                                    className='bg-contain bg-center rounded-[4px] sm:rounded-[6px] w-full'
+                                                    wrapperClassName='w-full h-full'
+                                                    className='bg-contain bg-center rounded-[6px] sm:rounded-[8px] w-full h-full'
                                                     delayTime={300}
                                                 />
 
@@ -132,7 +155,7 @@ export default function DetailPage() {
                         {/* season */}
                         {allSeasons?.length > 0 && (
                             <section>
-                                <header className='mb-2 sm:mb-3'>
+                                <header className='mb-1 sm:mb-2.5'>
                                     <h2 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100'>
                                         All Season
                                     </h2>
@@ -151,7 +174,7 @@ export default function DetailPage() {
                         {/* recomendation */}
                         {recommendations?.length > 0 && (
                             <section>
-                                <header className='mb-2 sm:mb-3'>
+                                <header className='mb-1 sm:mb-2.5'>
                                     <h3 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100'>
                                         You Might Also Like
                                     </h3>
@@ -160,7 +183,7 @@ export default function DetailPage() {
                                 <Swiper {...moviesSwiperParams} modules={[Autoplay]} className='mySwiper py-4'>
                                     {recommendations.map((recommendation) => (
                                         <SwiperSlide key={recommendation.id}>
-                                            <Link to={`/${getMediaType(recommendation)}/detail/${recommendation.id}`}>
+                                            <Link to={getDetailUrl(recommendation)}>
                                                 <Card type={recommendation} />
                                             </Link>
                                         </SwiperSlide>

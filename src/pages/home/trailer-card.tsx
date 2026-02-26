@@ -20,7 +20,7 @@ export const TrailerCard = ({ trailer, onPlayClick }: TrailerCardProps) => {
 
     return (
         <div className='group block'>
-            <div className='relative w-full aspect-video rounded-lg overflow-hidden bg-zinc-800'>
+            <div className='relative w-full aspect-video rounded-lg overflow-hidden mb-3.5'>
                 <img
                     src={thumbnailUrl}
                     alt={trailer.name}
@@ -30,15 +30,17 @@ export const TrailerCard = ({ trailer, onPlayClick }: TrailerCardProps) => {
                 <div
                     className='absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center'
                     onClick={handlePlayClick}>
-                    <Play className='size-6 sm:size-10 text-zinc-200 fill-zinc-200' />
+                    <Play className='size-6 sm:size-10 text-gray-100 fill-gray-100 hover:cursor-pointer' />
                 </div>
             </div>
+
             <Link
-                to={`/${trailer.mediaType}/detail/${trailer.movieId}`}
-                className='mt-2 text-sm sm:text-base font-medium text-zinc-200 line-clamp-2 group-hover:text-white transition-colors'>
+                to={`/${trailer.mediaType}/${trailer.movieId}`}
+                className='text-sm sm:text-base font-semibold text-gray-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
                 {trailer.movieTitle}
             </Link>
-            <p className='text-xs sm:text-sm text-zinc-400 mt-1 line-clamp-1'>{trailer.name}</p>
+
+            <p className='text-xs sm:text-sm text-zinc-400 font-medium line-clamp-1'>{trailer.name}</p>
         </div>
     );
 };

@@ -5,6 +5,8 @@ import FilterTabs from '@/features/controls/filter-tabs';
 import { useSearchMulti } from '@/utils/hooks/queries/useSearch';
 import { MediaFilter } from './hooks/useState';
 import EmptyState from './empty-state';
+import { Link } from 'react-router-dom';
+import { getDetailUrl } from '@/utils/helper/tmdb-helpers';
 
 interface SearchViewProps {
     searchQuery: string;
@@ -39,6 +41,7 @@ export default function SearchView({
     const getEmptyMessage = () => {
         if (activeFilter === 'all') return `We couldn't find any results for "${searchQuery}". Try different keywords.`;
 
+        // const typeLabel = activeFilter === 'movie' ? 'movies' : 'TV series';
         const typeLabel =
             activeFilter === 'movie' ? 'movies'
             : activeFilter === 'tv' ? 'TV series'
@@ -49,7 +52,7 @@ export default function SearchView({
     return (
         <main className='min-h-screen pt-20 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-9xl mx-auto lg:mx-16'>
-                <header className='mb-8'>
+                <header className='mb-4'>
                     <h1 className='text-2xl font-semibold text-zinc-200 mb-2'>Search Results for {searchQuery}</h1>
                 </header>
 
@@ -70,7 +73,12 @@ export default function SearchView({
                     <>
                         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
                             {filteredResults.map((result: any) => (
-                                <Card key={result.id} type={result} />
+                                <Link
+                                    key={result.id}
+                                    to={getDetailUrl(result)}
+                                    className='text-sm sm:text-base font-semibold text-gray-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
+                                    <Card type={result} />
+                                </Link>
                             ))}
                         </div>
 

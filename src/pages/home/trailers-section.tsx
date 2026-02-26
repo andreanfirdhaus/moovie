@@ -1,6 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { TrailerModal } from '@/features/modals/trailer-modal';
-import Loading from '@/components/ui/spinner';
 import { TrailerCard } from './trailer-card';
 import { Trailer } from './hooks/useTrailers';
 
@@ -17,7 +16,6 @@ interface TrailersSectionProps {
 
 export const TrailersSection = ({
     trailers,
-    isLoading,
     onPlayClick,
     selectedTrailer,
     isModalOpen,
@@ -44,9 +42,7 @@ export const TrailersSection = ({
                 <h2 className='text-left text-2xl font-semibold text-zinc-100 mb-0 sm:mb-1.5'>Latest Trailers</h2>
             </header>
 
-            {isLoading ?
-                <Loading />
-            : trailers.length > 0 ?
+            {trailers.length > 0 ?
                 <Swiper {...trailersSwiperParams} className='mySwiper px-4 sm:px-6 lg:px-8 py-4'>
                     {trailers.map((trailer, index) => (
                         <SwiperSlide key={`${trailer.movieId}-${index}`}>
