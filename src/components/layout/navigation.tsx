@@ -28,7 +28,7 @@ export default function Navbar() {
 
     // desktop search query
     const { data: searchData, isLoading: isSearching } = useSearchMulti(debouncedSearchQuery);
-    const searchResults = searchData?.results || [];
+    const searchResults = (searchData?.results || []).filter((item: any) => item.media_type !== 'person');
 
     // mobile search query
     const { data: mobileSearchData, isLoading: isMobileSearching } = useSearchMulti(
@@ -36,7 +36,7 @@ export default function Navbar() {
         1,
         isMobileSearchOpen
     );
-    const mobileSearchResults = mobileSearchData?.results || [];
+    const mobileSearchResults = (mobileSearchData?.results || []).filter((item: any) => item.media_type !== 'person');
 
     // close search dropdown when clicking outside
     useEffect(() => {
@@ -207,11 +207,7 @@ export default function Navbar() {
                                                         {getMovieTitle(result)}
                                                     </p>
                                                     <p className='text-zinc-400 text-[13px]'>
-                                                        {result.media_type === 'movie' ?
-                                                            'Movie'
-                                                        : result.media_type === 'tv' ?
-                                                            'TV Series'
-                                                        :   'Person'}
+                                                        {result.media_type === 'movie' ? 'Movie' : 'TV Series'}
                                                         {(result.release_date || result.first_air_date) && (
                                                             <span className='ml-1'>
                                                                 •{' '}
@@ -384,11 +380,7 @@ export default function Navbar() {
                                                         {getMovieTitle(result)}
                                                     </p>
                                                     <p className='text-zinc-400 text-xs'>
-                                                        {result.media_type === 'movie' ?
-                                                            'Movie'
-                                                        : result.media_type === 'tv' ?
-                                                            'TV Series'
-                                                        :   'Person'}
+                                                        {result.media_type === 'movie' ? 'Movie' : 'TV Series'}
                                                         {(result.release_date || result.first_air_date) && (
                                                             <span className='ml-1'>
                                                                 •{' '}

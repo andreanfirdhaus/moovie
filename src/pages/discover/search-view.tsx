@@ -35,17 +35,12 @@ export default function SearchView({
         all: searchResults.length,
         movie: searchResults.filter((item: any) => item.media_type === 'movie').length,
         tv: searchResults.filter((item: any) => item.media_type === 'tv').length,
-        person: searchResults.filter((item: any) => item.media_type === 'person').length,
     };
 
     const getEmptyMessage = () => {
         if (activeFilter === 'all') return `We couldn't find any results for "${searchQuery}". Try different keywords.`;
 
-        // const typeLabel = activeFilter === 'movie' ? 'movies' : 'TV series';
-        const typeLabel =
-            activeFilter === 'movie' ? 'movies'
-            : activeFilter === 'tv' ? 'TV series'
-            : 'people';
+        const typeLabel = activeFilter === 'movie' ? 'movies' : 'TV series';
         return `No ${typeLabel} found for "${searchQuery}". Try a different filter.`;
     };
 
@@ -61,7 +56,6 @@ export default function SearchView({
                         { value: 'all', label: 'All', count: filterCounts.all },
                         { value: 'movie', label: 'Movies', count: filterCounts.movie },
                         { value: 'tv', label: 'TV Series', count: filterCounts.tv },
-                        { value: 'person', label: 'People', count: filterCounts.person },
                     ]}
                     activeFilter={activeFilter}
                     onFilterChange={setActiveFilter}

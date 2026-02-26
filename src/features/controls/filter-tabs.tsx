@@ -1,4 +1,4 @@
-type MediaFilter = 'all' | 'movie' | 'tv' | 'person';
+type MediaFilter = 'all' | 'movie' | 'tv';
 
 interface FilterTabsProps {
     filters: Array<{
