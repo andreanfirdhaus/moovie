@@ -24,13 +24,18 @@ export const menu: MenuItem[] = [
         ],
     },
     {
-        page: 'series',
+        page: 'Tv Shows',
         hasDropdown: true,
         mediaType: 'tv',
         categories: [
             { value: 'popular', label: 'Popular', sortBy: 'popularity.desc' },
             { value: 'toprated', label: 'Top Rated', sortBy: 'vote_average.desc' },
         ],
+    },
+    {
+        page: 'streaming',
+        hasDropdown: false,
+        link: '/streaming',
     },
     // add navigation menu here
     // {
