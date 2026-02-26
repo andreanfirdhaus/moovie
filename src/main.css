@@ -14,12 +14,30 @@
     }
 }
 
-::-webkit-scrollbar {
-    width: 100%;
-    overflow-x: none;
+/* custom Scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f3f #0a0a0a;
 }
 
-.backdrop-mask {
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3f3f3f;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}
+
+/* .backdrop-mask {
     mask-image: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0),
@@ -34,7 +52,7 @@
         rgba(0, 0, 0, 0.65) 56%,
         rgba(0, 0, 0, 0)
     );
-}
+} */
 
 @media (min-width: 640px) {
     .backdrop-mask {
