@@ -23,8 +23,11 @@ interface CardProps {
 export default function Card({ type }: CardProps) {
     return (
         <div className='mx-0.5'>
-            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[6px] bg-[#0f0f0f]'>
-                <motion.div whileHover={{ scale: 1.06 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
+            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-[#121212]'>
+                <motion.div
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                    className='w-full h-full'>
                     <LazyLoadImage
                         src={type.poster_path ? TMDB_IMG_300 + type.poster_path : FALLBACK_POSTER}
                         alt={`${getMovieTitle(type)} poster`}
@@ -38,10 +41,10 @@ export default function Card({ type }: CardProps) {
             </div>
 
             <div className='mt-1.5 sm:mt-2.5'>
-                <p className='text-zinc-200 font-semibold text-[15px] truncate mb-0.5'>{getMovieTitle(type)}</p>
+                <p className='text-gray-100 font-semibold text-base truncate mb-0.5 md:mb-1'>{getMovieTitle(type)}</p>
 
                 {getReleaseYear(type) && (
-                    <span className='text-zinc-400 text-sm font-medium'>{getReleaseYear(type)}</span>
+                    <span className='text-gray-400 text-sm font-medium'>{getReleaseYear(type)}</span>
                 )}
             </div>
         </div>

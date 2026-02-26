@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Search, X, Loader2 } from 'lucide-react';
-import { menu } from '@/constants/menu';
+import { menu } from '@/constants/main-menu';
 import { useDebounce } from '@/utils/hooks/useDebounce';
 import { useSearchMulti } from '@/utils/hooks/queries/useSearch';
-import { getMediaType, getMovieTitle, getPosterUrl } from '@/utils/helper/tmdb-helpers';
+import { getMovieTitle, getPosterUrl, getDetailUrl } from '@/utils/helper/tmdb-helpers';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const debouncedSearchQuery = useDebounce(searchQuery, 300);
@@ -67,30 +68,95 @@ export default function Navbar() {
         }
     };
 
-    const handleResultClick = (type: string, id: number) => {
-        navigate(`/${type}/detail/${id}`);
+    const handleResultClick = (result: any) => {
+        navigate(getDetailUrl(result));
         setIsSearchOpen(false);
         setSearchQuery('');
     };
 
-    const handleMobileResultClick = (type: string, id: number) => {
-        navigate(`/${type}/detail/${id}`);
+    const handleMobileResultClick = (result: any) => {
+        navigate(getDetailUrl(result));
         setIsMobileSearchOpen(false);
         setMobileSearchQuery('');
     };
 
     return (
         <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 lg:px-12 xl:px-24 py-4 md:py-6'>
-                <div className='flex items-center justify-between md:justify-normal space-x-8'>
-                    <Link to='/'>
-                        <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
-                    </Link>
+            <nav className='relative px-4 sm:px-6 lg:px-12 xl:px-24 py-5 md:py-6'>
+                <div className='flex items-center justify-between space-x-4'>
+                    <div className='flex items-center space-x-6'>
+                        <Link to='/' aria-label='Moovie home'>
+                            <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
+                        </Link>
 
-                    <div className='relative hidden md:flex items-center w-full max-w-xs' ref={searchRef}>
+                        {/* desktop menu */}
+                        <ul className='hidden md:flex items-center space-x-2 md:space-x-4' aria-label='Main navigation'>
+                            {menu.map((item, index) => {
+                                if (item.hasDropdown && item.categories) {
+                                    const isMenuActive = (item: any) => {
+                                        const params = new URLSearchParams(location.search);
+                                        return params.get('type') === item.mediaType;
+                                    };
+
+                                    return (
+                                        <li
+                                            key={index}
+                                            className='relative'
+                                            onMouseEnter={() => setActiveDropdown(item.page)}
+                                            onMouseLeave={() => setActiveDropdown(null)}>
+                                            <button
+                                                className={`flex items-center gap-1 p-2 text-[15px] font-medium capitalize transition-colors ${isMenuActive(item) ? 'text-[#0957e1]' : 'text-gray-200 hover:text-gray-50'}`}>
+                                                {item.page}
+                                            </button>
+
+                                            <AnimatePresence>
+                                                {activeDropdown === item.page && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: -10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, y: -10 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
+                                                        <div className='rounded-lg bg-[#121212] shadow-xl overflow-hidden'>
+                                                            {item.categories.map((category) => (
+                                                                <Link
+                                                                    key={category.value}
+                                                                    to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
+                                                                    className='block px-4 py-2.5 text-sm text-gray-400 hover:bg-[#1A1A1A] hover:text-gray-200 transition-colors'>
+                                                                    {category.label}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </li>
+                                    );
+                                }
+
+                                return (
+                                    <li key={index}>
+                                        <NavLink
+                                            to={item.link!}
+                                            className={({ isActive }) =>
+                                                `flex items-center gap-1 text-[15px] font-medium capitalize transition-colors ${isActive ? 'text-[#0957e1]' : 'text-gray-200 hover:text-gray-50'}`
+                                            }>
+                                            {item.page}
+                                        </NavLink>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+
+                    <div
+                        className='relative hidden md:flex items-center w-full sm:max-w-[256px] lg:max-w-xs'
+                        ref={searchRef}>
                         <form onSubmit={handleSearchSubmit} className='relative w-full'>
                             <button
                                 type='button'
+                                aria-label='Toggle search'
+                                className='text-[#F3F4F6]/50 hover:text-gray-300 transition-colors absolute left-3.5 top-1/2 -translate-y-1/2'
                                 onClick={() => {
                                     setIsSearchOpen(!isSearchOpen);
                                     if (!isSearchOpen) {
@@ -99,9 +165,7 @@ export default function Navbar() {
                                             input?.focus();
                                         }, 300);
                                     }
-                                }}
-                                className='text-white hover:text-gray-300 transition-colors absolute left-3.5 top-1/2 -translate-y-1/2'
-                                aria-label='Toggle search'>
+                                }}>
                                 {isSearching ?
                                     <Loader2 size={22} className='animate-spin' />
                                 :   <Search size={20} />}
@@ -112,13 +176,13 @@ export default function Navbar() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onFocus={() => setIsSearchOpen(true)}
-                                placeholder='Find movies, series, or cast'
-                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium bg-transparent border border-zinc-500 focus:outline-none text-white text-sm rounded-full'
+                                placeholder='Search...'
+                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium placeholder:text-[#9CA3AF] bg-transparent border border-[#F3F4F6]/25 focus:outline-none text-white text-sm rounded-full'
                             />
                         </form>
 
                         {isSearchOpen && searchQuery.trim() && (
-                            <div className='absolute top-full mt-2 w-full bg-black border border-zinc-900 rounded-xl shadow-xl max-h-96 overflow-y-auto'>
+                            <div className='absolute top-full mt-2 w-full bg-[#121212] rounded-xl shadow-xl max-h-96 overflow-y-auto'>
                                 {isSearching ?
                                     <div className='p-4 text-center text-zinc-400'>
                                         <Loader2 className='animate-spin mx-auto mb-2' size={24} />
@@ -129,7 +193,7 @@ export default function Navbar() {
                                         {searchResults.slice(0, 8).map((result: any) => (
                                             <button
                                                 key={result.id}
-                                                onClick={() => handleResultClick(getMediaType(result), result.id)}
+                                                onClick={() => handleResultClick(result)}
                                                 className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#0f0f0f] transition-colors text-left'>
                                                 <LazyLoadImage
                                                     src={getPosterUrl(result)}
@@ -181,64 +245,13 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    {/* desktop menu */}
-                    <ul className='hidden md:flex space-x-4'>
-                        {menu.map((item, index) => {
-                            if (item.hasDropdown && item.categories) {
-                                return (
-                                    <li
-                                        key={index}
-                                        className='relative'
-                                        onMouseEnter={() => setActiveDropdown(item.page)}
-                                        onMouseLeave={() => setActiveDropdown(null)}>
-                                        <button className='p-2 text-[15px] font-medium capitalize transition-colors text-neutral-300 hover:text-white flex items-center gap-1'>
-                                            {item.page}
-                                        </button>
-
-                                        <AnimatePresence>
-                                            {activeDropdown === item.page && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: -10 }}
-                                                    transition={{ duration: 0.2 }}
-                                                    className='absolute top-full left-0 bg-black border border-zinc-800 rounded-lg shadow-xl min-w-[160px] py-1 z-50'>
-                                                    {item.categories.map((category) => (
-                                                        <Link
-                                                            key={category.value}
-                                                            to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
-                                                            className='block px-4 py-2.5 text-sm text-neutral-300 hover:bg-[#0f0f0f] hover:text-white transition-colors'>
-                                                            {category.label}
-                                                        </Link>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </li>
-                                );
-                            }
-
-                            return (
-                                <li key={index}>
-                                    <NavLink
-                                        to={item.link!}
-                                        className={({ isActive }) =>
-                                            `text-[15px] font-medium capitalize transition-colors ${isActive ? 'text-[#0957e1]' : 'text-neutral-300'}`
-                                        }>
-                                        {item.page}
-                                    </NavLink>
-                                </li>
-                            );
-                        })}
-                    </ul>
-
                     {/* mobile icons */}
                     <div className='flex md:hidden items-center gap-5'>
                         <button
                             onClick={() => setIsMobileSearchOpen(true)}
                             className='text-zinc-300'
                             aria-label='Search'>
-                            <Search size={24} />
+                            <Search size={22} />
                         </button>
 
                         {/* hamburger menu */}
@@ -247,15 +260,15 @@ export default function Navbar() {
                             className='text-zinc-300'
                             aria-label='Toggle menu'>
                             {isMobileMenuOpen ?
-                                <X size={24} className='relative z-50' />
-                            :   <Menu size={24} />}
+                                <X size={22} className='relative z-50' />
+                            :   <Menu size={22} />}
                         </button>
                     </div>
                 </div>
 
                 {/* mobile menu dropdown */}
                 {isMobileMenuOpen && (
-                    <div className='md:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40 overflow-hidden'>
+                    <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-40 overflow-hidden'>
                         <ul className='flex flex-col items-center justify-center h-dvh space-y-2'>
                             {menu.map((item, index) => {
                                 if (item.hasDropdown && item.categories) {
@@ -318,7 +331,7 @@ export default function Navbar() {
 
             {/* mobile search modal */}
             {isMobileSearchOpen && (
-                <div className='md:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex flex-col pt-20 px-4'>
+                <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col pt-20 px-4'>
                     <div className='w-full max-w-md mx-auto' ref={mobileSearchRef}>
                         <form onSubmit={handleMobileSearchSubmit}>
                             <div className='relative'>
@@ -357,7 +370,7 @@ export default function Navbar() {
                                         {mobileSearchResults.map((result: any) => (
                                             <button
                                                 key={result.id}
-                                                onClick={() => handleMobileResultClick(getMediaType(result), result.id)}
+                                                onClick={() => handleMobileResultClick(result)}
                                                 className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-zinc-800 transition-colors text-left'>
                                                 <LazyLoadImage
                                                     src={getPosterUrl(result)}
