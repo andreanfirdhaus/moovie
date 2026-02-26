@@ -71,3 +71,18 @@ export const getGenresText = (genres: Genres[]): string => {
 export const getPopularityText = (popularity: number): string => {
     return popularity.toFixed(3);
 };
+
+const toSlug = (text: string): string =>
+    text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+export const getDetailUrl = (movie: any): string => {
+    const type = getMediaType(movie);
+    const id: number = movie.id;
+    const slug = toSlug(getMovieTitle(movie));
+    return `/${type}/${id}-${slug}`;
+};
+
+export const parseDetailId = (idParam: string): string => idParam.split('-')[0];
