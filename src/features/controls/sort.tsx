@@ -21,9 +21,15 @@ interface SortDropdownProps {
     value: string;
     onChange: (value: string) => void;
     mediaType?: 'movie' | 'tv';
+    variant?: 'dropdown' | 'list';
 }
 
-export default function SortDropdown({ value, onChange, mediaType = 'movie' }: SortDropdownProps) {
+export default function SortDropdown({
+    value,
+    onChange,
+    mediaType = 'movie',
+    variant = 'dropdown',
+}: SortDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +53,7 @@ export default function SortDropdown({ value, onChange, mediaType = 'movie' }: S
             })
         :   sortOptions;
 
-    // Close dropdown when clicking outside
+    // close dropdown
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -63,6 +69,30 @@ export default function SortDropdown({ value, onChange, mediaType = 'movie' }: S
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isOpen]);
+
+    if (variant === 'list') {
+        return (
+            <div className='flex flex-col gap-0.5'>
+                {options.map((option) => {
+                    const isSelected = option.value === value;
+                    return (
+                        <button
+                            key={option.value}
+                            onClick={() => onChange(option.value)}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors 
+                                ${
+                                    isSelected ?
+                                        'bg-[#0957e1]/15 text-[#4a8aff] font-medium'
+                                    :   'text-gray-400 hover:bg-[#1A1A1A] hover:text-gray-200 font-medium'
+                                }`}>
+                            <span>{option.label}</span>
+                            {isSelected && <Check size={14} className='text-[#4a8aff] flex-shrink-0' />}
+                        </button>
+                    );
+                })}
+            </div>
+        );
+    }
 
     return (
         <div className='relative' ref={dropdownRef}>
@@ -84,9 +114,7 @@ export default function SortDropdown({ value, onChange, mediaType = 'movie' }: S
                                     onChange(option.value);
                                     setIsOpen(false);
                                 }}
-                                className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between transition-colors ${
-                                    isSelected ? 'bg-[#0957e1] text-zinc-200' : 'text-zinc-300 hover:bg-zinc-800'
-                                }`}>
+                                className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between transition-colors ${isSelected ? 'bg-[#0957e1] text-zinc-200' : 'text-zinc-300 hover:bg-zinc-800'}`}>
                                 <span>{option.label}</span>
                                 {isSelected && <Check size={16} />}
                             </button>

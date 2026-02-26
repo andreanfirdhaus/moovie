@@ -10,9 +10,16 @@ interface GenreFilterProps {
     selectedGenres: number[];
     onGenreToggle: (genreId: number) => void;
     isLoading?: boolean;
+    variant?: 'horizontal' | 'vertical';
 }
 
-export default function GenreFilter({ genres, selectedGenres, onGenreToggle, isLoading }: GenreFilterProps) {
+export default function GenreFilter({
+    genres,
+    selectedGenres,
+    onGenreToggle,
+    isLoading,
+    variant = 'horizontal',
+}: GenreFilterProps) {
     if (isLoading) {
         return (
             <div className='flex items-center gap-2 py-2'>
@@ -26,6 +33,28 @@ export default function GenreFilter({ genres, selectedGenres, onGenreToggle, isL
         return null;
     }
 
+    if (variant === 'vertical') {
+        return (
+            <div className='flex flex-wrap gap-2'>
+                {genres.map((genre) => {
+                    const isSelected = selectedGenres.includes(genre.id);
+                    return (
+                        <button
+                            key={genre.id}
+                            onClick={() => onGenreToggle(genre.id)}
+                            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                                isSelected ?
+                                    'bg-[#0957e1] text-zinc-200 shadow-lg shadow-[#0957e1]/20'
+                                :   'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-zinc-200'
+                            }`}>
+                            {genre.name}
+                        </button>
+                    );
+                })}
+            </div>
+        );
+    }
+
     return (
         <div className='flex flex-wrap md:flex-wrap gap-2 overflow-x-auto md:overflow-x-visible pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent md:scrollbar-none'>
             <div className='flex md:flex-wrap gap-2 md:w-full'>
@@ -35,11 +64,12 @@ export default function GenreFilter({ genres, selectedGenres, onGenreToggle, isL
                         <button
                             key={genre.id}
                             onClick={() => onGenreToggle(genre.id)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
-                                isSelected ?
-                                    'bg-[#0957e1] text-zinc-200 shadow-lg shadow-[#0957e1]/20'
-                                :   'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-200'
-                            }`}>
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 
+                                ${
+                                    isSelected ?
+                                        'bg-[#0957e1] text-zinc-200 shadow-lg shadow-[#0957e1]/20'
+                                    :   'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-200'
+                                }`}>
                             {genre.name}
                         </button>
                     );

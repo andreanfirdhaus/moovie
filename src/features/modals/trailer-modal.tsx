@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTrailers } from '@/api/detail/route';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TrailerModalProps {
     isOpen: boolean;
@@ -49,29 +50,45 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
     if (!isOpen) return null;
 
     return (
-        <div
-            className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'
-            onClick={onClose}>
-            <div className='relative w-full max-w-5xl mx-4' onClick={(e) => e.stopPropagation()}>
-                <div className='relative bg-black rounded-lg overflow-hidden' style={{ paddingBottom: '60%' }}>
-                    {isLoading ?
-                        <div className='absolute inset-0 flex items-center justify-center'>
-                            <div className='text-white'>Loading trailer...</div>
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={onClose}
+                    className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md'>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className='relative w-full max-w-5xl mx-4'
+                        onClick={(e) => e.stopPropagation()}>
+                        <div
+                            className='relative bg-black rounded-lg md:rounded-2xl border border-white/15 shadow-2xl overflow-hidden'
+                            style={{ paddingBottom: '56.25%' }}>
+                            {isLoading ?
+                                <div className='absolute inset-0 flex items-center justify-center'>
+                                    <div className='text-white'>Loading trailer...</div>
+                                </div>
+                            : trailerKey ?
+                                <iframe
+                                    className='absolute inset-0 w-full h-full'
+                                    src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&controls=1&modestbranding=1&rel=0&showinfo=0&fs=1&color=white&playsinline=1&iv_load_policy=3&vq=hd1080&cc_load_policy=0&disablekb=0`}
+                                    title='Trailer'
+                                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                                    allowFullScreen
+                                />
+                            :   <div className='absolute inset-0 flex items-center justify-center'>
+                                    <div className='text-white'>No trailer available</div>
+                                </div>
+                            }
                         </div>
-                    : trailerKey ?
-                        <iframe
-                            className='absolute inset-0 w-full h-full'
-                            src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&controls=1&modestbranding=1&rel=0&showinfo=0&fs=1&color=white&playsinline=1&iv_load_policy=3&vq=hd1080&cc_load_policy=0&disablekb=0`}
-                            title='Trailer'
-                            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                            allowFullScreen
-                        />
-                    :   <div className='absolute inset-0 flex items-center justify-center'>
-                            <div className='text-white'>No trailer available</div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };

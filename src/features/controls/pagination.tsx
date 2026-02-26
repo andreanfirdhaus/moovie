@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-
 interface PaginationProps {
     currentPage: number;
     totalPages: number;
@@ -29,7 +27,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                     pages.push(i);
                 }
                 pages.push('...');
-                // pages.push(totalPages); // Uncomment to show last page number
             } else if (currentPage >= totalPages - 2) {
                 // Near the end
                 pages.push('...');
@@ -43,7 +40,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                     pages.push(i);
                 }
                 pages.push('...');
-                // pages.push(totalPages); // Uncomment to show last page number
             }
         }
 
@@ -54,21 +50,17 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
 
     return (
         <div className='flex items-center justify-center gap-2 mt-12 mb-8'>
-            {/* Prev Button */}
+            {/* previous button */}
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                    currentPage === 1 ?
-                        'bg-zinc-900 text-zinc-600 cursor-not-allowed'
-                    :   'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white'
-                }`}
-                aria-label='Prev page'>
-                <ChevronLeft size={18} />
-                <span className='hidden sm:inline'>Prev</span>
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors 
+                    ${currentPage === 1 ? 'text-zinc-600 cursor-not-allowed' : 'text-zinc-300 hover:text-white'}`}
+                aria-label='Previous page'>
+                Previous
             </button>
 
-            {/* Page Numbers */}
+            {/* page number */}
             <div className='flex items-center gap-1 sm:gap-2'>
                 {pageNumbers.map((page, index) => {
                     if (page === '...') {
@@ -86,11 +78,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                         <button
                             key={pageNum}
                             onClick={() => onPageChange(pageNum)}
-                            className={`min-w-[40px] h-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                                isActive ? 'bg-[#0957e1] text-white' : (
-                                    'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white'
-                                )
-                            }`}
+                            className={`min-w-[40px] h-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-colors 
+                                ${isActive ? 'bg-[#0957e1] text-white' : 'text-zinc-400 hover:text-white'}`}
                             aria-label={`Page ${pageNum}`}
                             aria-current={isActive ? 'page' : undefined}>
                             {pageNum}
@@ -99,18 +88,18 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                 })}
             </div>
 
-            {/* Next Button */}
+            {/* next button */}
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                    currentPage === totalPages ?
-                        'bg-zinc-900 text-zinc-600 cursor-not-allowed'
-                    :   'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white'
-                }`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors 
+                    ${
+                        currentPage === totalPages ?
+                            'text-zinc-600 cursor-not-allowed'
+                        :   'text-zinc-300 hover:text-white'
+                    }`}
                 aria-label='Next page'>
-                <span className='hidden sm:inline'>Next</span>
-                <ChevronRight size={18} />
+                Next
             </button>
         </div>
     );
