@@ -34,7 +34,7 @@ export default function WatchPage() {
     const currentPlayerUrl = isTv && activeEpisode ? activeEpisode.playerUrl : playerUrl;
 
     return (
-        <main className='max-w-9xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 pt-20 lg:pt-28 pb-12'>
+        <main className='max-w-9xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 pt-20 md:pt-28 lg:pt-32 pb-12'>
             {/* Title */}
             <h1 className='text-xl font-semibold text-zinc-200 mb-4 truncate'>
                 {title}

@@ -115,7 +115,7 @@ export default function BrowseView({
     }
 
     return (
-        <main className='min-h-screen pt-20 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
+        <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-9xl mx-auto lg:mx-5 xl:mx-16'>
                 {/* header*/}
                 <header className='mb-4 flex items-center justify-between'>
