@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Search, X, Loader2 } from 'lucide-react';
-import { menu } from '@/constants/main-menu';
-import { useDebounce } from '@/utils/hooks/useDebounce';
-import { useSearchMulti } from '@/utils/hooks/queries/useSearch';
-import { getMovieTitle, getPosterUrl, getDetailUrl } from '@/utils/helper/tmdb-helpers';
+import { menu } from '@/config/main-menu';
+import { useDebounce } from '@/hooks/use-debounce';
+import { useSearchMulti } from '@/features/discover/queries/use-search-queries';
+import { getMovieTitle, getPosterUrl, getDetailUrl } from '@/lib/tmdb-helpers';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { motion, AnimatePresence } from 'framer-motion';
 

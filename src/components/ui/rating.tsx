@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getRatingPercentage, getRatingColor } from '@/utils/helper/tmdb-helpers';
+import { getRatingPercentage, getRatingColor } from '@/lib/tmdb-helpers';
 
 interface RatingCircleProps {
     rating: number;

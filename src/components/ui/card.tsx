@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Movie } from '@/types/tmdb/movie';
-import { TMDB_IMG_300, FALLBACK_POSTER } from '@/utils/helper/tmdb-image';
-import { getMovieTitle, getReleaseYear } from '@/utils/helper/tmdb-helpers';
+import { TMDB_IMG_300, FALLBACK_POSTER } from '@/lib/tmdb-image';
+import { getMovieTitle, getReleaseYear } from '@/lib/tmdb-helpers';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { MovieDetail } from '@/types/tmdb/movie-detail';
 
