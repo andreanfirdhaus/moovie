@@ -220,7 +220,7 @@ export default function DetailPage() {
                                     href={detail.homepage}
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    className='flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors'>
+                                    className='flex items-center gap-2 text-brand-light hover:text-brand-light/80 transition-colors'>
                                     <ExternalLink size={16} />
                                     <span className='text-sm'>Visit Homepage</span>
                                 </a>
@@ -238,7 +238,7 @@ export default function DetailPage() {
                                     {keywords.map((keyword) => (
                                         <span
                                             key={keyword.id}
-                                            className='px-3 py-1.5 bg-[#191919] text-zinc-300 text-sm rounded-full hover:bg-zinc-800 transition-colors cursor-default'>
+                                            className='px-3 py-1.5 bg-surface-3 text-zinc-300 text-sm rounded-full hover:bg-zinc-800 transition-colors cursor-default'>
                                             {keyword.name}
                                         </span>
                                     ))}

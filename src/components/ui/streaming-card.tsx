@@ -12,7 +12,7 @@ interface StreamingCardProps {
 export default function StreamingCard({ item }: StreamingCardProps) {
     return (
         <div className='mx-0.5'>
-            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-[#121212]'>
+            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-surface-2'>
                 <motion.div
                     whileHover={{ scale: 1.06 }}
                     transition={{ type: 'spring', stiffness: 260, damping: 20 }}
@@ -30,9 +30,9 @@ export default function StreamingCard({ item }: StreamingCardProps) {
             </div>
 
             <div className='mt-1.5 sm:mt-2.5'>
-                <p className='text-gray-100 font-semibold text-base truncate mb-0.5 md:mb-1'>{item.title}</p>
+                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5 md:mb-1'>{item.title}</p>
 
-                {item.year && <span className='text-gray-400 text-sm font-medium'>{item.year}</span>}
+                {item.year && <span className='text-zinc-400 text-sm font-medium'>{item.year}</span>}
             </div>
         </div>
     );

@@ -70,7 +70,7 @@ export default function SearchView({
                                 <Link
                                     key={result.id}
                                     to={getDetailUrl(result)}
-                                    className='text-sm sm:text-base font-semibold text-gray-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
+                                    className='text-sm sm:text-base font-semibold text-zinc-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
                                     <Card type={result} />
                                 </Link>
                             ))}

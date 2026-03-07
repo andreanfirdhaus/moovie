@@ -124,14 +124,14 @@ export default function BrowseView({
             <div className='max-w-9xl mx-auto lg:mx-5 xl:mx-16'>
                 {/* header*/}
                 <header className='mb-4 flex items-center justify-between'>
-                    <h1 className='text-xl font-semibold text-gray-100'>{displayTitle}</h1>
+                    <h1 className='text-xl font-semibold text-zinc-100'>{displayTitle}</h1>
 
                     {/* Mobile filter toggle */}
                     <button
                         onClick={() => setIsSidebarOpen(true)}
                         className='lg:hidden flex items-center gap-1.5 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-full text-sm font-medium transition-colors'>
                         {selectedGenres.length > 0 || sortBy !== DEFAULT_SORT ?
-                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-[#0957e1] text-white text-[10px] font-bold'>
+                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-brand text-white text-[10px] font-bold'>
                                 {selectedGenres.length + (sortBy !== DEFAULT_SORT ? 1 : 0)}
                             </span>
                         :   <Funnel size={16} />}
@@ -160,11 +160,11 @@ export default function BrowseView({
                             <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
                                 {Array.from({ length: 10 }).map((_, i) => (
                                     <div key={i} className='mx-0.5 animate-pulse'>
-                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-[#121212]' />
+                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-surface-2' />
 
                                         <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
-                                            <div className='h-3.5 bg-[#252525] rounded w-4/5' />
-                                            <div className='h-3 bg-[#1a1a1a] rounded w-1/3' />
+                                            <div className='h-3.5 bg-surface-4 rounded w-4/5' />
+                                            <div className='h-3 bg-surface-3 rounded w-1/3' />
                                         </div>
                                     </div>
                                 ))}

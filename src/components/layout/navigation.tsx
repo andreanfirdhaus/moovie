@@ -105,7 +105,7 @@ export default function Navbar() {
                                             onMouseEnter={() => setActiveDropdown(item.page)}
                                             onMouseLeave={() => setActiveDropdown(null)}>
                                             <button
-                                                className={`flex items-center gap-1 p-2 text-[15px] font-medium capitalize transition-colors ${isMenuActive(item) ? 'text-[#0957e1]' : 'text-gray-200 hover:text-gray-50'}`}>
+                                                className={`flex items-center gap-1 p-2 text-[15px] font-medium capitalize transition-colors ${isMenuActive(item) ? 'text-brand' : 'text-zinc-200 hover:text-zinc-50'}`}>
                                                 {item.page}
                                             </button>
 
@@ -117,12 +117,12 @@ export default function Navbar() {
                                                         exit={{ opacity: 0, y: -10 }}
                                                         transition={{ duration: 0.2 }}
                                                         className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
-                                                        <div className='rounded-lg bg-[#121212] shadow-xl overflow-hidden'>
+                                                        <div className='rounded-lg bg-surface-2 shadow-xl overflow-hidden'>
                                                             {item.categories.map((category) => (
                                                                 <Link
                                                                     key={category.value}
                                                                     to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
-                                                                    className='block px-4 py-2.5 text-sm text-gray-400 hover:bg-[#1A1A1A] hover:text-gray-200 transition-colors'>
+                                                                    className='block px-4 py-2.5 text-sm text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 transition-colors'>
                                                                     {category.label}
                                                                 </Link>
                                                             ))}
@@ -139,7 +139,7 @@ export default function Navbar() {
                                         <NavLink
                                             to={item.link!}
                                             className={({ isActive }) =>
-                                                `flex items-center gap-1 text-[15px] font-medium capitalize transition-colors ${isActive ? 'text-[#0957e1]' : 'text-gray-200 hover:text-gray-50'}`
+                                                `flex items-center gap-1 text-[15px] font-medium capitalize transition-colors ${isActive ? 'text-brand' : 'text-zinc-200 hover:text-zinc-50'}`
                                             }>
                                             {item.page}
                                         </NavLink>
@@ -156,7 +156,7 @@ export default function Navbar() {
                             <button
                                 type='button'
                                 aria-label='Toggle search'
-                                className='text-[#F3F4F6]/50 hover:text-gray-300 transition-colors absolute left-3.5 top-1/2 -translate-y-1/2'
+                                className='text-[#F3F4F6]/50 hover:text-zinc-300 transition-colors absolute left-3.5 top-1/2 -translate-y-1/2'
                                 onClick={() => {
                                     setIsSearchOpen(!isSearchOpen);
                                     if (!isSearchOpen) {
@@ -177,12 +177,12 @@ export default function Navbar() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onFocus={() => setIsSearchOpen(true)}
                                 placeholder='Search...'
-                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium placeholder:text-[#9CA3AF] bg-transparent border border-[#F3F4F6]/25 focus:outline-none text-white text-sm rounded-full'
+                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium placeholder:text-[#9CA3AF] bg-transparent border border-zinc-200/25 focus:outline-none text-white text-sm rounded-full'
                             />
                         </form>
 
                         {isSearchOpen && searchQuery.trim() && (
-                            <div className='absolute top-full mt-2 w-full bg-[#121212] rounded-xl shadow-xl max-h-96 overflow-y-auto'>
+                            <div className='absolute top-full mt-2 w-full bg-surface-2 rounded-xl shadow-xl max-h-96 overflow-y-auto'>
                                 {isSearching ?
                                     <div className='p-4 text-center text-zinc-400'>
                                         <Loader2 className='animate-spin mx-auto mb-2' size={24} />
@@ -194,7 +194,7 @@ export default function Navbar() {
                                             <button
                                                 key={result.id}
                                                 onClick={() => handleResultClick(result)}
-                                                className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#0f0f0f] transition-colors text-left'>
+                                                className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-2 transition-colors text-left'>
                                                 <LazyLoadImage
                                                     src={getPosterUrl(result)}
                                                     alt={getMovieTitle(result)}
@@ -228,7 +228,7 @@ export default function Navbar() {
                                                     setIsSearchOpen(false);
                                                     setSearchQuery('');
                                                 }}
-                                                className='block px-4 py-3 text-center text-[#0957e1] hover:bg-[#0f0f0f] text-sm font-medium'>
+                                                className='block px-4 py-3 text-center text-brand hover:bg-surface-2 text-sm font-medium'>
                                                 View all {searchResults.length} results
                                             </Link>
                                         )}
@@ -276,7 +276,7 @@ export default function Navbar() {
                                                         mobileActiveDropdown === item.page ? null : item.page
                                                     )
                                                 }
-                                                className='w-full text-center px-5 py-2 text-lg font-medium capitalize transition-colors text-neutral-300 flex items-center justify-center gap-2'>
+                                                className='w-full text-center px-5 py-2 text-lg font-medium capitalize transition-colors text-zinc-300 flex items-center justify-center gap-2'>
                                                 {item.page}
                                             </button>
 
@@ -296,7 +296,7 @@ export default function Navbar() {
                                                                     setIsMobileMenuOpen(false);
                                                                     setMobileActiveDropdown(null);
                                                                 }}
-                                                                className='block px-8 py-2 text-base font-medium text-center text-neutral-400 hover:text-white transition-colors'>
+                                                                className='block px-8 py-2 text-base font-medium text-center text-zinc-400 hover:text-white transition-colors'>
                                                                 {category.label}
                                                             </Link>
                                                         ))}
@@ -313,7 +313,7 @@ export default function Navbar() {
                                             to={item.link!}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             className={({ isActive }) =>
-                                                `block px-5 py-2.5 text-lg font-medium capitalize transition-colors ${isActive ? 'text-[#0957e1]' : 'text-neutral-300'}`
+                                                `block px-5 py-2.5 text-lg font-medium capitalize transition-colors ${isActive ? 'text-brand' : 'text-zinc-300'}`
                                             }>
                                             {item.page}
                                         </NavLink>
@@ -337,7 +337,7 @@ export default function Navbar() {
                                     onChange={(e) => setMobileSearchQuery(e.target.value)}
                                     placeholder='Find movies, series, or cast'
                                     autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-[#0f0f0f] border border-zinc-900 rounded-full focus:outline-none text-white text-sm placeholder:text-sm'
+                                    className='w-full pl-5 pr-12 py-4 bg-surface-2 border border-zinc-900 rounded-full focus:outline-none text-white text-sm placeholder:text-sm'
                                 />
 
                                 <button
@@ -346,7 +346,7 @@ export default function Navbar() {
                                         setIsMobileSearchOpen(false);
                                         setMobileSearchQuery('');
                                     }}
-                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors'
+                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white transition-colors'
                                     aria-label='Close search'>
                                     <X size={22} />
                                 </button>
@@ -355,7 +355,7 @@ export default function Navbar() {
 
                         {/* Mobile Search Results */}
                         {mobileSearchQuery.trim() && (
-                            <div className='mt-4 bg-[#0f0f0f] rounded-2xl border border-zinc-900 max-h-[60vh] overflow-y-auto'>
+                            <div className='mt-4 bg-surface-2 rounded-2xl border border-zinc-900 max-h-[60vh] overflow-y-auto'>
                                 {isMobileSearching ?
                                     <div className='p-4 text-center text-zinc-400'>
                                         <Loader2 className='animate-spin mx-auto mb-2' size={24} />

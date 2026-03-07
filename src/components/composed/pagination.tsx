@@ -79,7 +79,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                             key={pageNum}
                             onClick={() => onPageChange(pageNum)}
                             className={`min-w-[40px] h-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-colors 
-                                ${isActive ? 'bg-[#0957e1] text-white' : 'text-zinc-400 hover:text-white'}`}
+                                ${isActive ? 'bg-brand text-white' : 'text-zinc-400 hover:text-white'}`}
                             aria-label={`Page ${pageNum}`}
                             aria-current={isActive ? 'page' : undefined}>
                             {pageNum}

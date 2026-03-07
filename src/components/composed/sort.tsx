@@ -82,11 +82,11 @@ export default function SortDropdown({
                             className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors 
                                 ${
                                     isSelected ?
-                                        'bg-[#0957e1]/15 text-[#4a8aff] font-medium'
-                                    :   'text-gray-400 hover:bg-[#1A1A1A] hover:text-gray-200 font-medium'
+                                        'bg-brand/15 text-brand-light font-medium'
+                                    :   'text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 font-medium'
                                 }`}>
                             <span>{option.label}</span>
-                            {isSelected && <Check size={14} className='text-[#4a8aff] flex-shrink-0' />}
+                            {isSelected && <Check size={14} className='text-brand-light flex-shrink-0' />}
                         </button>
                     );
                 })}
@@ -98,13 +98,13 @@ export default function SortDropdown({
         <div className='relative' ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className='flex items-center gap-1.5 px-3.5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-lg text-sm font-medium transition-colors'>
+                className='flex items-center gap-1.5 px-3.5 py-2.5 bg-surface-2 hover:bg-surface-3 text-zinc-300 rounded-lg text-sm font-medium transition-colors'>
                 <ArrowUpDown size={16} />
                 <span>Sort by</span>
             </button>
 
             {isOpen && (
-                <div className='absolute right-0 mt-2 w-56 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden z-50'>
+                <div className='absolute right-0 mt-2 w-56 bg-surface-2 border border-surface-4 rounded-lg shadow-xl overflow-hidden z-50'>
                     {options.map((option) => {
                         const isSelected = option.value === value;
                         return (
@@ -114,7 +114,7 @@ export default function SortDropdown({
                                     onChange(option.value);
                                     setIsOpen(false);
                                 }}
-                                className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between transition-colors ${isSelected ? 'bg-[#0957e1] text-zinc-200' : 'text-zinc-300 hover:bg-zinc-800'}`}>
+                                className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between transition-colors ${isSelected ? 'bg-brand text-zinc-200' : 'text-zinc-300 hover:bg-surface-3'}`}>
                                 <span>{option.label}</span>
                                 {isSelected && <Check size={16} />}
                             </button>

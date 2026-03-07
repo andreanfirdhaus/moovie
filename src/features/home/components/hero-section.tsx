@@ -45,7 +45,7 @@ export const HeroSection = ({ movies }: HeroSectionProps) => {
                             />
 
                             <div className='absolute bottom-8 md:bottom-20 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-24'>
-                                <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold md:font-bold text-gray-100 max-w-3xl mb-0.5 sm:mb-2 text-pretty'>
+                                <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold md:font-bold text-zinc-100 max-w-3xl mb-0.5 sm:mb-2 text-pretty'>
                                     {getMovieTitle(movie)}
                                     {(() => {
                                         const date = movie.first_air_date || movie.release_date;
@@ -53,12 +53,12 @@ export const HeroSection = ({ movies }: HeroSectionProps) => {
                                     })()}
                                 </h1>
 
-                                <p className='sm:text-lg font-medium sm:font-semibold text-gray-400 max-w-xs sm:max-w-lg text-pretty mt-1 sm:mt-2 mb-6 sm:mb-2'>
+                                <p className='sm:text-lg font-medium sm:font-semibold text-zinc-400 max-w-xs sm:max-w-lg text-pretty mt-1 sm:mt-2 mb-6 sm:mb-2'>
                                     {getGenresText(movie.genres || [])}
                                     {movie.runtime && ` • ${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
                                 </p>
 
-                                <p className='hidden text-base font-medium text-gray-400 mb-10 line-clamp-2 sm:line-clamp-2 max-w-2xl text-pretty'>
+                                <p className='hidden text-base font-medium text-zinc-400 mb-10 line-clamp-2 sm:line-clamp-2 max-w-2xl text-pretty'>
                                     {movie.overview}
                                 </p>
 

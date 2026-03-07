@@ -30,13 +30,13 @@ export const TrailerCard = ({ trailer, onPlayClick }: TrailerCardProps) => {
                 <div
                     className='absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center'
                     onClick={handlePlayClick}>
-                    <Play className='size-6 sm:size-10 text-gray-100 fill-gray-100 hover:cursor-pointer' />
+                    <Play className='size-6 sm:size-10 text-zinc-100 fill-gray-100 hover:cursor-pointer' />
                 </div>
             </div>
 
             <Link
                 to={`/${trailer.mediaType}/${trailer.movieId}`}
-                className='text-sm sm:text-base font-semibold text-gray-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
+                className='text-sm sm:text-base font-semibold text-zinc-100 line-clamp-2 group-hover:text-white transition-colors mb-0.5'>
                 {trailer.movieTitle}
             </Link>
 

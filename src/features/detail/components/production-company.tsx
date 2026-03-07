@@ -20,7 +20,7 @@ export default function ProductionCompany({ company }: ProductionCompanyProps) {
                     draggable={false}
                     className='size-12 object-contain bg-white rounded p-1 shrink-0'
                 />
-            :   <div className='size-12 bg-[#191919] rounded flex items-center justify-center shrink-0'>
+            :   <div className='size-12 bg-surface-3 rounded flex items-center justify-center shrink-0'>
                     <Building size={20} className='text-zinc-600' />
                 </div>
             }

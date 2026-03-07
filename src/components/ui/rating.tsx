@@ -28,7 +28,7 @@ export default function RatingCircle({
     return (
         <div className='relative shrink-0' style={{ width: dimensions, height: dimensions }}>
             <svg className='absolute inset-0 -rotate-90' viewBox='0 0 48 48'>
-                <circle cx='24' cy='24' r={radius} stroke='#27272a' strokeWidth={strokeWidth} fill='none' />
+                <circle cx='24' cy='24' r={radius} className='stroke-surface-4' strokeWidth={strokeWidth} fill='none' />
             </svg>
 
             <svg className='absolute inset-0 -rotate-90' viewBox='0 0 48 48'>

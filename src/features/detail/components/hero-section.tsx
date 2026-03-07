@@ -92,7 +92,7 @@ export default function HeroSection({ detail, onTrailerClick, onWatchNow, isLoad
                                 <button
                                     onClick={onWatchNow}
                                     disabled={isLoadingWatch}
-                                    className='flex items-center gap-1.5 bg-[#0957e1]/80 hover:bg-[#0957e1] border border-[#0957e1] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0957e1]/30'>
+                                    className='flex items-center gap-1.5 bg-brand/80 hover:bg-brand border border-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand/30'>
                                     {isLoadingWatch ?
                                         <Loader2 size={16} className='animate-spin' />
                                     :   <Play size={16} />}
@@ -159,7 +159,7 @@ export default function HeroSection({ detail, onTrailerClick, onWatchNow, isLoad
                         <button
                             onClick={onWatchNow}
                             disabled={isLoadingWatch}
-                            className='flex items-center gap-2 bg-[#0957e1]/80 hover:bg-[#0957e1] border border-[#0957e1] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0957e1]/30'>
+                            className='flex items-center gap-2 bg-brand/80 hover:bg-brand border border-brand text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand/30'>
                             {isLoadingWatch ?
                                 <Loader2 size={14} className='animate-spin' />
                             :   <svg

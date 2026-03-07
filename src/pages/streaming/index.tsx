@@ -51,7 +51,7 @@ export default function Streaming() {
             <div className='max-w-9xl mx-auto lg:mx-5 xl:mx-16'>
                 {/* header */}
                 <header className='mb-4 flex items-center justify-between'>
-                    <h1 className='text-xl font-semibold text-gray-100'>{activeLabel}</h1>
+                    <h1 className='text-xl font-semibold text-zinc-100'>{activeLabel}</h1>
 
                     {/* mobile menu toggle */}
                     <button
@@ -77,10 +77,10 @@ export default function Streaming() {
                             <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
                                 {Array.from({ length: 10 }).map((_, i) => (
                                     <div key={i} className='mx-0.5 animate-pulse'>
-                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-[#121212]' />
+                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-surface-2' />
                                         <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
-                                            <div className='h-3.5 bg-[#252525] rounded w-4/5' />
-                                            <div className='h-3 bg-[#1a1a1a] rounded w-1/3' />
+                                            <div className='h-3.5 bg-surface-4 rounded w-4/5' />
+                                            <div className='h-3 bg-surface-3 rounded w-1/3' />
                                         </div>
                                     </div>
                                 ))}

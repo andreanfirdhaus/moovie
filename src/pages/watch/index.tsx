@@ -92,7 +92,7 @@ export default function WatchPage() {
                 <p className='text-zinc-400 text-lg'>Content not available.</p>
                 <button
                     onClick={() => navigate(-1)}
-                    className='ml-4 text-blue-400 hover:text-blue-300 text-sm underline'>
+                    className='ml-4 text-brand-light hover:text-brand-light/80 text-sm underline'>
                     Go back
                 </button>
             </main>
@@ -113,7 +113,7 @@ export default function WatchPage() {
         <main className='max-w-9xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 pt-20 md:pt-28 lg:pt-32 pb-12'>
             <div className='flex gap-8 items-start'>
                 <div className='w-full flex-1 min-w-0'>
-                    <div className='relative aspect-video bg-[#121212] rounded-xl ring-1 ring-white/10 overflow-hidden'>
+                    <div className='relative aspect-video bg-surface-2 rounded-xl ring-1 ring-white/10 overflow-hidden'>
                         {/* Loading overlay with progress */}
                         <AnimatePresence>{isLoading && <LoadingOverlay progress={progress} />}</AnimatePresence>
 
@@ -147,7 +147,7 @@ export default function WatchPage() {
                                         }}
                                         className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${
                                             activeSeason === s.season ?
-                                                'bg-[#0957e1]/15 text-[#4a8aff]'
+                                                'bg-brand/15 text-brand-light'
                                             :   'bg-[#1e1e1e] text-zinc-400 hover:text-zinc-200'
                                         }`}>
                                         Season {s.season}
@@ -195,7 +195,7 @@ export default function WatchPage() {
                                     }}
                                     className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${
                                         activeSeason === s.season ?
-                                            'bg-[#0957e1]/15 text-[#4a8aff]'
+                                            'bg-brand/15 text-brand-light'
                                         :   'bg-[#1e1e1e] text-zinc-400 hover:text-zinc-200'
                                     }`}>
                                     Season {s.season}
