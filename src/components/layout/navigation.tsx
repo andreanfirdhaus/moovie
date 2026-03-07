@@ -93,10 +93,8 @@ export default function Navbar() {
                         <ul className='hidden md:flex items-center space-x-2 md:space-x-4' aria-label='Main navigation'>
                             {menu.map((item, index) => {
                                 if (item.hasDropdown && item.categories) {
-                                    const isMenuActive = (item: any) => {
-                                        const params = new URLSearchParams(location.search);
-                                        return params.get('type') === item.mediaType;
-                                    };
+                                    const isMenuActive = (item: any) =>
+                                        location.pathname.startsWith(`/${item.mediaType}`);
 
                                     return (
                                         <li
@@ -121,7 +119,7 @@ export default function Navbar() {
                                                             {item.categories.map((category) => (
                                                                 <Link
                                                                     key={category.value}
-                                                                    to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
+                                                                    to={`/${item.mediaType}/${category.value}`}
                                                                     className='block px-4 py-2.5 text-sm text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 transition-colors'>
                                                                     {category.label}
                                                                 </Link>
@@ -291,7 +289,7 @@ export default function Navbar() {
                                                         {item.categories.map((category) => (
                                                             <Link
                                                                 key={category.value}
-                                                                to={`/discover?type=${item.mediaType}&category=${category.value}&sort=${category.sortBy}`}
+                                                                to={`/${item.mediaType}/${category.value}`}
                                                                 onClick={() => {
                                                                     setIsMobileMenuOpen(false);
                                                                     setMobileActiveDropdown(null);
@@ -353,7 +351,7 @@ export default function Navbar() {
                             </div>
                         </form>
 
-                        {/* Mobile Search Results */}
+                        {/* mobile search results */}
                         {mobileSearchQuery.trim() && (
                             <div className='mt-4 bg-surface-2 rounded-2xl border border-zinc-900 max-h-[60vh] overflow-y-auto'>
                                 {isMobileSearching ?
