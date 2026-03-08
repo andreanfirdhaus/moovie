@@ -1,14 +1,21 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
-const API_KEY = import.meta.env.VITE_API_KEY;
-
+// AccessToken
 export const apiClient = axios.create({
-    baseURL: API_URL,
+    baseURL: import.meta.env.VITE_TMDB_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
-    },
-    params: {
-        api_key: API_KEY,
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
     },
 });
+
+// ApiKey
+// export const apiClient = axios.create({
+//     baseURL: API_URL,
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+//     params: {
+//         api_key: API_KEY,
+//     },
+// });
