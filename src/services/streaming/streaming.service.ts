@@ -5,7 +5,7 @@ import type {
     StreamingDetailData,
 } from '@/types/streaming';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL_STREAMING as string;
+const BASE_URL = import.meta.env.VITE_STREAMING_BASE_URL as string;
 
 export async function searchStreaming(query: string): Promise<StreamingSearchResponse> {
     const url = `${BASE_URL}?action=search&q=${encodeURIComponent(query)}`;
