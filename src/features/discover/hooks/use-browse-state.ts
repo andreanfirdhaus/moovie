@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const DEFAULT_SORT = 'popularity.desc';
-
 interface UseBrowseStateOptions {
     mediaType: string;
     category: string;
@@ -16,17 +14,19 @@ export function useBrowseState({ mediaType: _mediaType, category: _category }: U
     const sortFromUrl = searchParams.get('sort');
     const pageFromUrl = searchParams.get('page');
 
+    const categoryDefaultSort = _category === 'toprated' ? 'vote_average.desc' : 'popularity.desc';
+
     const [currentPage, setCurrentPage] = useState(pageFromUrl ? parseInt(pageFromUrl) : 1);
     const [selectedGenres, setSelectedGenres] = useState<number[]>(
         genresFromUrl ? genresFromUrl.split(',').map(Number) : []
     );
-    const [sortBy, setSortBy] = useState<string>(sortFromUrl || DEFAULT_SORT);
+    const [sortBy, setSortBy] = useState<string>(sortFromUrl || categoryDefaultSort);
 
     // sync filter state to URL query params (genres, sort, page only — type/category live in the path)
     useEffect(() => {
         const params = new URLSearchParams();
         if (selectedGenres.length > 0) params.set('genres', selectedGenres.join(','));
-        if (sortBy !== DEFAULT_SORT) params.set('sort', sortBy);
+        if (sortBy !== categoryDefaultSort) params.set('sort', sortBy);
         if (currentPage > 1) params.set('page', currentPage.toString());
 
         setSearchParams(params, { replace: true });
@@ -43,6 +43,12 @@ export function useBrowseState({ mediaType: _mediaType, category: _category }: U
         setSortBy(sort);
         setCurrentPage(1);
     };
+
+    useEffect(() => {
+        if (!sortFromUrl) {
+            setSortBy(categoryDefaultSort);
+        }
+    }, [_category]);
 
     return {
         currentPage,
