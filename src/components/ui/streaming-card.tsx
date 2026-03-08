@@ -30,7 +30,7 @@ export default function StreamingCard({ item }: StreamingCardProps) {
             </div>
 
             <div className='mt-1.5 sm:mt-2.5'>
-                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5 md:mb-1'>{item.title}</p>
+                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5'>{item.title}</p>
 
                 {item.year && <span className='text-zinc-400 text-sm font-medium'>{item.year}</span>}
             </div>

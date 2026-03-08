@@ -138,7 +138,7 @@ export default function DetailPage() {
                                                 />
 
                                                 <div className='mt-1.5 sm:mt-2'>
-                                                    <h3 className='text-zinc-200 font-semibold text-sm truncate'>
+                                                    <h3 className='text-zinc-200 font-semibold text-base mb-0.5 truncate'>
                                                         {getCreditsName(cast)}
                                                     </h3>
                                                     <p className='text-zinc-400 text-sm font-medium'>

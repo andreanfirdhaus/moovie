@@ -41,7 +41,7 @@ export default function Card({ type }: CardProps) {
             </div>
 
             <div className='mt-1.5 sm:mt-2.5'>
-                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5 md:mb-1'>{getMovieTitle(type)}</p>
+                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5'>{getMovieTitle(type)}</p>
 
                 {getReleaseYear(type) && (
                     <span className='text-zinc-400 text-sm font-medium'>{getReleaseYear(type)}</span>
