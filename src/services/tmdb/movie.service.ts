@@ -7,13 +7,13 @@ export const getPopularMovies = (page = 1, payload?: GetListPayload) =>
 export const getTopRatedMovies = (page = 1, payload?: GetListPayload) =>
     apiClient.get('/movie/top_rated', { params: { page, ...payload } });
 
-export const getTrendingMovies = (payload: GetListPayload) =>
+export const getTrendingMovies = (payload?: GetListPayload) =>
     apiClient.get('/trending/movie/week', { params: payload });
 
-export const getTrendingAll = (type: string, payload: object) =>
+export const getTrendingAll = (type: string, payload?: GetListPayload) =>
     apiClient.get(`/trending/all/${type}`, { params: payload });
 
-export const getNowPlayingMovies = (payload: GetListPayload) =>
+export const getNowPlayingMovies = (payload?: GetListPayload) =>
     apiClient.get('/movie/now_playing', { params: payload });
 
 export const getUpcomingMovies = (page = 1, payload?: GetListPayload) =>
