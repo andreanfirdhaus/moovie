@@ -1,4 +1,4 @@
-export interface MovieReviews {
+export interface MediaReviews {
     author: string;
     author_details: AuthorDetails;
     content: string;

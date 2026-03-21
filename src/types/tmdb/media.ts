@@ -1,4 +1,4 @@
-export interface Movie {
+export interface Media {
     air_date: string | null;
     adult?: boolean;
     backdrop_path: string;

@@ -1,4 +1,4 @@
-export interface StreamingSearchItem {
+export interface StreamSearchItem {
     id: string;
     title: string;
     poster: string;
@@ -10,49 +10,51 @@ export interface StreamingSearchItem {
     description: string;
 }
 
-export interface StreamingSearchResponse {
+export interface StreamSearchResponse {
     success: boolean;
-    items: StreamingSearchItem[];
+    items: StreamSearchItem[];
     total: number;
     page: number;
     hasMore: boolean;
 }
 
-export interface StreamingCategoryResponse {
+export interface StreamCategoryResponse {
     success: boolean;
-    items: StreamingSearchItem[];
+    items: StreamSearchItem[];
     total: number;
     page: number;
     hasMore: boolean;
 }
 
-export interface StreamingEpisode {
+export interface StreamEpisode {
     episode: number;
     title: string;
     cover: string;
     playerUrl: string;
 }
 
-export interface StreamingSeason {
+export interface StreamSeason {
     season: number;
-    episodes: StreamingEpisode[];
+    episodes: StreamEpisode[];
     totalEpisodes: number;
 }
 
-export interface StreamingDetailData {
+export interface StreamDetailData {
     playerUrl: string;
     detailPath: string;
-    seasons: StreamingSeason[];
+    seasons: StreamSeason[];
 }
 
-export interface StreamingDetailResponse {
+export interface StreamDetailResponse {
     success: boolean;
-    data: StreamingDetailData;
+    data: StreamDetailData;
 }
 
-/** Passed via react-router state to the watch page */
 export interface WatchState {
     title: string;
+    year: string;
+    type: string;
+    id: string;
     playerUrl: string;
-    seasons?: StreamingSeason[];
+    seasons?: StreamSeason[];
 }

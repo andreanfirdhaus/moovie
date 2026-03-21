@@ -1,4 +1,4 @@
-export interface MovieCredits {
+export interface MediaCredits {
     adult: boolean;
     cast_id: number;
     character: string;

@@ -1,4 +1,4 @@
-export interface MovieDetail {
+export interface MediaDetail {
     adult: boolean;
     backdrop_path: string;
     budget?: number;
@@ -94,7 +94,7 @@ interface Network {
     origin_country: string;
 }
 
-interface Seasons {
+export interface Seasons {
     air_date: string;
     episode_count: number;
     id: number;
