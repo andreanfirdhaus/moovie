@@ -1,51 +1,51 @@
 import { motion } from 'framer-motion';
+import { Popcorn } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Movie } from '@/types/tmdb/movie';
-import { TMDB_IMG_300, FALLBACK_POSTER } from '@/lib/tmdb-image';
-import { getMovieTitle, getReleaseYear } from '@/lib/tmdb-helpers';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { MovieDetail } from '@/types/tmdb/movie-detail';
 
-type Seasons = {
-    air_date: string;
-    episode_count: number;
-    id: number;
-    name: string;
-    overview: string;
-    poster_path: string;
-    season_number: number;
-};
+const SPRING = { type: 'spring', stiffness: 260, damping: 20 } as const;
 
 interface CardProps {
-    type: Movie | MovieDetail | Seasons;
+    poster?: string;
+    title: string;
+    subtitle?: string;
+    subtitleAs?: 'time' | 'p';
 }
 
-export default function Card({ type }: CardProps) {
+export default function Card({ poster, title, subtitle, subtitleAs = 'p' }: CardProps) {
     return (
         <div className='mx-0.5'>
-            <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-surface-2'>
+            <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-surface-2'>
                 <motion.div
                     whileHover={{ scale: 1.06 }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                    className='w-full h-full'>
-                    <LazyLoadImage
-                        src={type.poster_path ? TMDB_IMG_300 + type.poster_path : FALLBACK_POSTER}
-                        alt={`${getMovieTitle(type)} poster`}
-                        draggable={false}
-                        effect='blur'
-                        wrapperClassName='w-full h-full'
-                        delayTime={300}
-                        className='w-full h-full object-cover'
-                    />
+                    transition={SPRING}
+                    className={`w-full h-full relative  ${poster ? 'after:absolute after:inset-0 after:bg-surface-2/20 after:mix-blend-normal' : ''}`}>
+                    {poster ?
+                        <LazyLoadImage
+                            src={poster}
+                            alt={`${title} poster`}
+                            draggable={false}
+                            effect='blur'
+                            wrapperClassName='w-full h-full'
+                            delayTime={300}
+                            className='w-full h-full object-cover'
+                        />
+                    :   <div className='w-full h-full flex items-center justify-center bg-surface-2'>
+                            <Popcorn className='text-zinc-500 size-10' />
+                        </div>
+                    }
                 </motion.div>
-            </div>
+            </figure>
 
-            <div className='mt-1.5 sm:mt-2.5'>
-                <p className='text-zinc-100 font-semibold text-base truncate mb-0.5'>{getMovieTitle(type)}</p>
+            <div className='mt-1.5 sm:mt-2'>
+                <p className='text-zinc-100 font-medium text-[15px] truncate'>{title}</p>
 
-                {getReleaseYear(type) && (
-                    <span className='text-zinc-400 text-sm font-medium'>{getReleaseYear(type)}</span>
-                )}
+                {subtitle &&
+                    (subtitleAs === 'time' ?
+                        <time dateTime={subtitle} className='text-zinc-400 text-sm font-medium'>
+                            {subtitle}
+                        </time>
+                    :   <p className='text-zinc-400 text-sm font-medium line-clamp-1'>{subtitle}</p>)}
             </div>
         </div>
     );

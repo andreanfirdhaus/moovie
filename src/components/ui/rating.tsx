@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getRatingPercentage, getRatingColor } from '@/lib/tmdb-helpers';
+import { getRatingPercentage, getRatingColor } from '@/utils/media-helpers';
 
 interface RatingCircleProps {
     rating: number;
@@ -56,7 +56,7 @@ export default function RatingCircle({
             {showPercentage && (
                 <div className='absolute inset-0 flex items-center justify-center'>
                     <motion.span
-                        className='text-sm font-bold text-white'
+                        className='text-sm font-bold text-zinc-100'
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5, delay: animationDelay + 0.6 }}>
