@@ -44,7 +44,7 @@ export default function GenreFilter({
                             onClick={() => onGenreToggle(genre.id)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                                 isSelected ?
-                                    'bg-brand text-zinc-200 shadow-lg shadow-brand/20'
+                                    'bg-brand text-white shadow-lg shadow-brand/20'
                                 :   'bg-surface-3 text-zinc-300 hover:bg-surface-4 hover:text-zinc-200'
                             }`}>
                             {genre.name}

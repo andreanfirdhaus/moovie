@@ -1,27 +1,35 @@
 import { useState, useRef, useEffect } from 'react';
-import { Check, ArrowUpDown } from 'lucide-react';
-
-export interface SortOption {
-    value: string;
-    label: string;
-}
-
-export const sortOptions: SortOption[] = [
-    { value: 'popularity.desc', label: 'Most Popular' },
-    { value: 'popularity.asc', label: 'Least Popular' },
-    { value: 'vote_average.desc', label: 'Highest Rated' },
-    { value: 'vote_average.asc', label: 'Lowest Rated' },
-    { value: 'primary_release_date.desc', label: 'Newest Releases' },
-    { value: 'primary_release_date.asc', label: 'Oldest Releases' },
-    { value: 'title.asc', label: 'Title (A-Z)' },
-    { value: 'title.desc', label: 'Title (Z-A)' },
-];
+import { Check, ArrowUpDown, ChevronDown } from 'lucide-react';
+import { sortOptions } from '@/constants/sort-options';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDropdown } from '../ui/dropdown';
+import { Button } from '../ui/button';
 
 interface SortDropdownProps {
     value: string;
     onChange: (value: string) => void;
     mediaType?: 'movie' | 'tv';
     variant?: 'dropdown' | 'list';
+}
+
+function SortTrigger() {
+    const { isOpen } = useDropdown();
+    return (
+        <DropdownTrigger asChild>
+            <Button
+                variant='ghost'
+                size='sm'
+                rounded='lg'
+                rightIcon={
+                    <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                    />
+                }>
+                <ArrowUpDown size={14} />
+                <span>Sort by</span>
+            </Button>
+        </DropdownTrigger>
+    );
 }
 
 export default function SortDropdown({
@@ -33,7 +41,7 @@ export default function SortDropdown({
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Adjust sort options for TV shows
+    // sort options for TV shows
     const options =
         mediaType === 'tv' ?
             sortOptions.map((opt) => {
@@ -95,33 +103,26 @@ export default function SortDropdown({
     }
 
     return (
-        <div className='relative' ref={dropdownRef}>
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className='flex items-center gap-1.5 px-3.5 py-2.5 bg-surface-2 hover:bg-surface-3 text-zinc-300 rounded-lg text-sm font-medium transition-colors'>
-                <ArrowUpDown size={16} />
-                <span>Sort by</span>
-            </button>
-
-            {isOpen && (
-                <div className='absolute right-0 mt-2 w-56 bg-surface-2 border border-surface-4 rounded-lg shadow-xl overflow-hidden z-50'>
-                    {options.map((option) => {
-                        const isSelected = option.value === value;
-                        return (
-                            <button
-                                key={option.value}
-                                onClick={() => {
-                                    onChange(option.value);
-                                    setIsOpen(false);
-                                }}
-                                className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between transition-colors ${isSelected ? 'bg-brand text-zinc-200' : 'text-zinc-300 hover:bg-surface-3'}`}>
-                                <span>{option.label}</span>
-                                {isSelected && <Check size={16} />}
-                            </button>
-                        );
-                    })}
-                </div>
-            )}
-        </div>
+        <Dropdown>
+            <SortTrigger />
+            <DropdownMenu align='right' className='w-56 p-0 overflow-hidden'>
+                {options.map((option) => {
+                    const isSelected = option.value === value;
+                    return (
+                        <DropdownItem
+                            key={option.value}
+                            onSelect={() => onChange(option.value)}
+                            className={`${
+                                isSelected ?
+                                    'bg-brand/15 text-brand-light font-medium hover:bg-brand/20 hover:text-brand-light focus:bg-brand/20 focus:text-brand-light'
+                                :   ''
+                            }`}>
+                            <span>{option.label}</span>
+                            {isSelected && <Check size={14} className='text-brand-light shrink-0' />}
+                        </DropdownItem>
+                    );
+                })}
+            </DropdownMenu>
+        </Dropdown>
     );
 }

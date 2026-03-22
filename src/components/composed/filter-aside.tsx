@@ -16,7 +16,7 @@ interface FilterAsideProps {
     sortBy: string;
     onSortChange: (value: string) => void;
     onClearFilters: () => void;
-    // Mobile drawer
+
     isOpen: boolean;
     onClose: () => void;
 }
@@ -38,40 +38,35 @@ export default function FilterAside({
     const hasActiveFilters = selectedGenres.length > 0 || sortBy !== DEFAULT_SORT;
 
     const asideContent = (
-        <div className='flex flex-col h-full'>
-            {/* header */}
-            <div className='flex items-center justify-between mb-6'>
-                <h2 className='text-sm font-semibold text-zinc-100 uppercase tracking-wider'>Filters</h2>
-                <div className='flex items-center gap-2'>
-                    {hasActiveFilters && (
-                        <button
-                            onClick={onClearFilters}
-                            className='flex items-center gap-1 text-xs text-brand-light hover:text-brand-light/80 transition-colors font-medium'>
-                            <RotateCcw size={12} />
-                            <span>Clear all</span>
-                        </button>
-                    )}
-                    {/* Close button – only visible on mobile */}
+        <div className='relative flex flex-col h-full'>
+            <div className='absolute top-0 right-0 flex items-center gap-2'>
+                {hasActiveFilters && (
                     <button
-                        onClick={onClose}
-                        className='lg:hidden p-1 text-zinc-400 hover:text-zinc-200 transition-colors'>
-                        <X size={18} />
+                        onClick={onClearFilters}
+                        className='flex items-center gap-1 text-xs text-brand-light hover:text-brand-light/80 transition-colors font-medium'>
+                        <RotateCcw size={12} />
+                        <span>Clear all</span>
                     </button>
-                </div>
+                )}
+
+                {/* only visible on mobile */}
+                <button onClick={onClose} className='lg:hidden text-zinc-400 hover:text-zinc-200 transition-colors'>
+                    <X size={18} />
+                </button>
             </div>
 
             {/* sort */}
-            <div className='mb-6'>
-                <p className='text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3'>Sort by</p>
+            <section className='mb-6' aria-labelledby='sort-heading'>
+                <h2 className='text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3'>Sort by</h2>
                 <SortDropdown value={sortBy} onChange={onSortChange} mediaType={mediaType} variant='list' />
-            </div>
+            </section>
 
             {/* divider */}
-            <div className='border-t border-zinc-800 mb-6' />
+            <hr className='border-t border-zinc-800 mb-6' />
 
             {/* genre */}
-            <div>
-                <p className='text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3'>Genre</p>
+            <section aria-labelledby='genre-heading'>
+                <h2 className='text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3'>Genre</h2>
                 <GenreFilter
                     genres={genres}
                     selectedGenres={selectedGenres}
@@ -79,21 +74,20 @@ export default function FilterAside({
                     isLoading={isLoadingGenres}
                     variant='vertical'
                 />
-            </div>
+            </section>
         </div>
     );
 
     return (
         <>
-            {/* Mobile backdrop */}
             {isOpen && <div className='fixed inset-0 bg-black/80 backdrop-blur-md z-30 lg:hidden' onClick={onClose} />}
 
-            {/* Desktop aside – always visible */}
+            {/* desktop */}
             <aside className='hidden lg:block w-56 xl:w-64 flex-shrink-0'>
                 <div className='sticky top-28 bg-surface-2 backdrop-blur-sm rounded-xl p-5'>{asideContent}</div>
             </aside>
 
-            {/* Mobile drawer – slides in from left */}
+            {/* mobile*/}
             <aside
                 className={`fixed top-0 left-0 h-full w-72 bg-surface-2 z-40 flex flex-col p-6 transition-transform duration-300 ease-in-out lg:hidden 
                     ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
