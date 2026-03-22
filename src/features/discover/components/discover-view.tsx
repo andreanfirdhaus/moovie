@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Funnel } from 'lucide-react';
-import Card from '@/components/ui/card';
+import { Film, Funnel } from 'lucide-react';
 import Pagination from '@/components/composed/pagination';
 import FilterAside from '@/components/composed/filter-aside';
 import {
@@ -10,14 +9,13 @@ import {
     useTopRatedMovies,
     usePopularSeries,
     useTopRatedSeries,
-} from '@/features/discover/queries/use-discover-queries';
-import { useMovieGenres, useTVGenres } from '@/features/discover/queries/use-genre-queries';
-import { getDetailUrl } from '@/lib/tmdb-helpers';
-import EmptyState from './empty-state';
+} from '@/features/discover/hooks/useDiscover.query';
+import { useMovieGenres, useTVGenres } from '@/features/discover/hooks/useGenre.query';
+import { getDetailUrl } from '@/utils/media-helpers';
+import { MediaCard } from '@/components/composed/card/media-card';
+import { SORT_BY } from '@/constants/sort-options';
 
-const DEFAULT_SORT = 'popularity.desc';
-
-interface BrowseViewProps {
+interface DiscoverViewProps {
     mediaType: string;
     category: string;
     currentPage: number;
@@ -28,7 +26,47 @@ interface BrowseViewProps {
     onPageChange: (page: number) => void;
 }
 
-export default function BrowseView({
+const DEFAULT_SORT = SORT_BY.POPULARITY_DESC;
+
+const CATEGORY_LABELS: Record<string, Record<string, string>> = {
+    movie: {
+        popular: 'Popular Movies',
+        upcoming: 'Upcoming Movies',
+        toprated: 'Top Rated Movies',
+    },
+    tv: {
+        popular: 'Popular Series',
+        toprated: 'Top Rated Series',
+    },
+};
+
+function useDiscoverData(
+    mediaType: string,
+    category: string,
+    currentPage: number,
+    selectedGenres: number[],
+    sortBy: string
+) {
+    const isMovie = mediaType === 'movie';
+    const isTv = mediaType === 'tv';
+
+    // only fetch the query that matches the current mediaType and category.
+    const popular = usePopularMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'popular');
+    const upcoming = useUpcomingMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'upcoming');
+    const topRated = useTopRatedMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'toprated');
+    const popularTv = usePopularSeries(currentPage, selectedGenres, sortBy, isTv && category === 'popular');
+    const topRatedTv = useTopRatedSeries(currentPage, selectedGenres, sortBy, isTv && category === 'toprated');
+
+    if (isMovie && category === 'popular') return popular;
+    if (isMovie && category === 'upcoming') return upcoming;
+    if (isMovie && category === 'toprated') return topRated;
+    if (isTv && category === 'popular') return popularTv;
+    if (isTv && category === 'toprated') return topRatedTv;
+
+    return popular;
+}
+
+export default function DiscoverView({
     mediaType,
     category,
     currentPage,
@@ -37,76 +75,16 @@ export default function BrowseView({
     sortBy,
     setSortBy,
     onPageChange,
-}: BrowseViewProps) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    // fetch genre
+}: DiscoverViewProps) {
     const { data: movieGenres = [], isLoading: isLoadingMovieGenres } = useMovieGenres();
     const { data: tvGenres = [], isLoading: isLoadingTVGenres } = useTVGenres();
+    const { data, isLoading } = useDiscoverData(mediaType, category, currentPage, selectedGenres, sortBy);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const { data: popularMoviesData, isLoading: isLoadingPopular } = usePopularMovies(
-        currentPage,
-        selectedGenres,
-        sortBy
-    );
-    const { data: upcomingMoviesData, isLoading: isLoadingUpcoming } = useUpcomingMovies(
-        currentPage,
-        selectedGenres,
-        sortBy
-    );
-    const { data: topRatedMoviesData, isLoading: isLoadingTopRated } = useTopRatedMovies(
-        currentPage,
-        selectedGenres,
-        sortBy
-    );
-    const { data: popularSeriesData, isLoading: isLoadingPopularSeries } = usePopularSeries(
-        currentPage,
-        selectedGenres,
-        sortBy
-    );
-    const { data: topRatedSeriesData, isLoading: isLoadingTopRatedSeries } = useTopRatedSeries(
-        currentPage,
-        selectedGenres,
-        sortBy
-    );
-
-    let displayData: any[] = [];
-    let displayTitle = '';
-    let totalPages = 0;
-    let isLoadingData = false;
-
-    if (mediaType === 'movie') {
-        displayTitle = 'Movies';
-        if (category === 'upcoming') {
-            displayData = upcomingMoviesData?.results || [];
-            totalPages = upcomingMoviesData?.total_pages || 0;
-            displayTitle = 'Upcoming Movies';
-            isLoadingData = isLoadingUpcoming;
-        } else if (category === 'toprated') {
-            displayData = topRatedMoviesData?.results || [];
-            totalPages = topRatedMoviesData?.total_pages || 0;
-            displayTitle = 'Top Rated Movies';
-            isLoadingData = isLoadingTopRated;
-        } else if (category === 'popular') {
-            displayData = popularMoviesData?.results || [];
-            totalPages = popularMoviesData?.total_pages || 0;
-            displayTitle = 'Popular Movies';
-            isLoadingData = isLoadingPopular;
-        }
-    } else if (mediaType === 'tv') {
-        displayTitle = 'Series';
-        if (category === 'popular') {
-            displayData = popularSeriesData?.results || [];
-            totalPages = popularSeriesData?.total_pages || 0;
-            displayTitle = 'Popular Series';
-            isLoadingData = isLoadingPopularSeries;
-        } else if (category === 'toprated') {
-            displayData = topRatedSeriesData?.results || [];
-            totalPages = topRatedSeriesData?.total_pages || 0;
-            displayTitle = 'Top Rated Series';
-            isLoadingData = isLoadingTopRatedSeries;
-        }
-    }
+    const displayData = data?.results || [];
+    const totalPages = data?.total_pages || 0;
+    const displayTitle = CATEGORY_LABELS[mediaType]?.[category] ?? 'Browse';
+    const activeFilterCount = selectedGenres.length + (sortBy !== DEFAULT_SORT ? 1 : 0);
 
     function handleGenreToggle(genreId: number) {
         setSelectedGenres((prev) =>
@@ -120,19 +98,19 @@ export default function BrowseView({
     }
 
     return (
-        <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
-            <div className='max-w-9xl mx-auto lg:mx-5 xl:mx-16'>
+        <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12'>
+            <div className='px-4 sm:px-6 lg:px-12 xl:px-24'>
                 {/* header*/}
                 <header className='mb-4 flex items-center justify-between'>
                     <h1 className='text-xl font-semibold text-zinc-100'>{displayTitle}</h1>
 
-                    {/* Mobile filter toggle */}
+                    {/* mobile filter toggle */}
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className='lg:hidden flex items-center gap-1.5 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-full text-sm font-medium transition-colors'>
-                        {selectedGenres.length > 0 || sortBy !== DEFAULT_SORT ?
+                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface-2 hover:bg-surface-3 text-zinc-300 hover:text-zinc-100 border border-zinc-800 rounded-full text-sm font-medium transition-colors'>
+                        {activeFilterCount > 0 ?
                             <span className='flex items-center justify-center w-4 h-4 rounded-full bg-brand text-white text-[10px] font-bold'>
-                                {selectedGenres.length + (sortBy !== DEFAULT_SORT ? 1 : 0)}
+                                {activeFilterCount}
                             </span>
                         :   <Funnel size={16} />}
                         <span>Filters</span>
@@ -140,7 +118,7 @@ export default function BrowseView({
                 </header>
 
                 {/* two-column layout */}
-                <div className='flex gap-6 xl:gap-8 items-start'>
+                <div className='flex gap-6 items-start'>
                     <FilterAside
                         mediaType={mediaType === 'movie' ? 'movie' : 'tv'}
                         genres={mediaType === 'movie' ? movieGenres : tvGenres}
@@ -154,10 +132,10 @@ export default function BrowseView({
                         onClose={() => setIsSidebarOpen(false)}
                     />
 
-                    {/* Content area */}
+                    {/* content area */}
                     <section className='flex-1 min-w-0'>
-                        {isLoadingData ?
-                            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
+                        {isLoading ?
+                            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
                                 {Array.from({ length: 10 }).map((_, i) => (
                                     <div key={i} className='mx-0.5 animate-pulse'>
                                         <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-surface-2' />
@@ -171,10 +149,10 @@ export default function BrowseView({
                             </div>
                         : displayData.length > 0 ?
                             <>
-                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8'>
+                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
                                     {displayData.map((item) => (
                                         <Link key={item.id} to={getDetailUrl(item)}>
-                                            <Card type={item} />
+                                            <MediaCard type={item} />
                                         </Link>
                                     ))}
                                 </div>
@@ -185,7 +163,16 @@ export default function BrowseView({
                                     onPageChange={onPageChange}
                                 />
                             </>
-                        :   <EmptyState message='Try adjusting your filters or sort options.' />}
+                        :   <div className='flex flex-col items-center justify-center py-20'>
+                                <div className='text-6xl mb-4 text-zinc-400'>
+                                    <Film size={56} />
+                                </div>
+                                <h2 className='text-xl font-semibold text-zinc-100 mb-2'>No results found</h2>
+                                <p className='text-zinc-400 text-center max-w-md'>
+                                    Try adjusting your filters or sort options.
+                                </p>
+                            </div>
+                        }
                     </section>
                 </div>
             </div>

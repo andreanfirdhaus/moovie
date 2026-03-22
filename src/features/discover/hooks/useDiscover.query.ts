@@ -1,33 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '@/config/query-keys';
+import { getPopularSeries, getTopRatedSeries, getDiscoverSeries } from '@/services/tmdb/series.service';
 import {
     getPopularMovies,
     getUpcomingMovies,
     getTopRatedMovies,
     getDiscoverMovies,
 } from '@/services/tmdb/movie.service';
-import { getPopularSeries, getTopRatedSeries, getDiscoverSeries } from '@/services/tmdb/series.service';
-import type { GetListPayload } from '@/types/tmdb/api-payloads';
-import { queryKeys } from '@/lib/query-keys';
 
-const defaultPayload: GetListPayload = { region: 'ID' };
-
-export const usePopularMovies = (page: number = 1, genreIds?: number[], sortBy?: string) => {
+// pass `enabled` flag to prevent fetching when this query is not needed.
+export const usePopularMovies = (page: number = 1, genreIds?: number[], sortBy?: string, enabled = true) => {
     const hasFilters = (genreIds && genreIds.length > 0) || (sortBy && sortBy !== 'popularity.desc');
 
     return useQuery({
         queryKey: [...queryKeys.movies.popular(), page, genreIds, sortBy],
+        enabled,
         queryFn: async () => {
             let response;
 
             if (hasFilters) {
                 const payload = {
-                    ...defaultPayload,
                     sort_by: sortBy || 'popularity.desc',
                     ...(genreIds && genreIds.length > 0 && { with_genres: genreIds.join(',') }),
                 };
                 response = await getDiscoverMovies(page, payload);
             } else {
-                response = await getPopularMovies(page, defaultPayload);
+                response = await getPopularMovies(page);
             }
 
             return {
@@ -40,25 +38,25 @@ export const usePopularMovies = (page: number = 1, genreIds?: number[], sortBy?:
     });
 };
 
-export const useUpcomingMovies = (page: number = 1, genreIds?: number[], sortBy?: string) => {
+export const useUpcomingMovies = (page: number = 1, genreIds?: number[], sortBy?: string, enabled = true) => {
     const hasFilters = (genreIds && genreIds.length > 0) || (sortBy && sortBy !== 'popularity.desc');
 
     return useQuery({
         queryKey: [...queryKeys.movies.upcoming(), page, genreIds, sortBy],
+        enabled,
         queryFn: async () => {
             let response;
 
             if (hasFilters) {
                 const today = new Date().toISOString().split('T')[0];
                 const payload = {
-                    ...defaultPayload,
                     sort_by: sortBy || 'popularity.desc',
                     'primary_release_date.gte': today,
                     ...(genreIds && genreIds.length > 0 && { with_genres: genreIds.join(',') }),
                 };
                 response = await getDiscoverMovies(page, payload);
             } else {
-                response = await getUpcomingMovies(page, defaultPayload);
+                response = await getUpcomingMovies(page);
             }
 
             return {
@@ -71,24 +69,24 @@ export const useUpcomingMovies = (page: number = 1, genreIds?: number[], sortBy?
     });
 };
 
-export const useTopRatedMovies = (page: number = 1, genreIds?: number[], sortBy?: string) => {
+export const useTopRatedMovies = (page: number = 1, genreIds?: number[], sortBy?: string, enabled = true) => {
     const hasFilters = (genreIds && genreIds.length > 0) || (sortBy && sortBy !== 'vote_average.desc');
 
     return useQuery({
         queryKey: [...queryKeys.movies.topRated(), page, genreIds, sortBy],
+        enabled,
         queryFn: async () => {
             let response;
 
             if (hasFilters) {
                 const payload = {
-                    ...defaultPayload,
                     sort_by: sortBy || 'vote_average.desc',
                     'vote_count.gte': 100,
                     ...(genreIds && genreIds.length > 0 && { with_genres: genreIds.join(',') }),
                 };
                 response = await getDiscoverMovies(page, payload);
             } else {
-                response = await getTopRatedMovies(page, defaultPayload);
+                response = await getTopRatedMovies(page);
             }
 
             return {
@@ -101,23 +99,23 @@ export const useTopRatedMovies = (page: number = 1, genreIds?: number[], sortBy?
     });
 };
 
-export const usePopularSeries = (page: number = 1, genreIds?: number[], sortBy?: string) => {
+export const usePopularSeries = (page: number = 1, genreIds?: number[], sortBy?: string, enabled = true) => {
     const hasFilters = (genreIds && genreIds.length > 0) || (sortBy && sortBy !== 'popularity.desc');
 
     return useQuery({
         queryKey: [...queryKeys.series.popular(), page, genreIds, sortBy],
+        enabled,
         queryFn: async () => {
             let response;
 
             if (hasFilters) {
                 const payload = {
-                    ...defaultPayload,
                     sort_by: sortBy || 'popularity.desc',
                     ...(genreIds && genreIds.length > 0 && { with_genres: genreIds.join(',') }),
                 };
                 response = await getDiscoverSeries(page, payload);
             } else {
-                response = await getPopularSeries(page, defaultPayload);
+                response = await getPopularSeries(page);
             }
 
             return {
@@ -130,24 +128,24 @@ export const usePopularSeries = (page: number = 1, genreIds?: number[], sortBy?:
     });
 };
 
-export const useTopRatedSeries = (page: number = 1, genreIds?: number[], sortBy?: string) => {
+export const useTopRatedSeries = (page: number = 1, genreIds?: number[], sortBy?: string, enabled = true) => {
     const hasFilters = (genreIds && genreIds.length > 0) || (sortBy && sortBy !== 'vote_average.desc');
 
     return useQuery({
         queryKey: [...queryKeys.series.topRated(), page, genreIds, sortBy],
+        enabled,
         queryFn: async () => {
             let response;
 
             if (hasFilters) {
                 const payload = {
-                    ...defaultPayload,
                     sort_by: sortBy || 'vote_average.desc',
                     'vote_count.gte': 100,
                     ...(genreIds && genreIds.length > 0 && { with_genres: genreIds.join(',') }),
                 };
                 response = await getDiscoverSeries(page, payload);
             } else {
-                response = await getTopRatedSeries(page, defaultPayload);
+                response = await getTopRatedSeries(page);
             }
 
             return {

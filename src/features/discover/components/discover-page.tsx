@@ -1,19 +1,19 @@
-import { useBrowseState } from '@/features/discover/hooks/use-browse-state';
-import BrowseView from './browse-view';
+import { useDiscoverFilters } from '@/features/discover/hooks/useDiscoverFilters';
+import DiscoverView from './discover-view';
 
-interface BrowsePageProps {
+interface DiscoverPageProps {
     mediaType: string;
     category: string;
 }
 
-export default function BrowsePage({ mediaType, category }: BrowsePageProps) {
-    const { currentPage, selectedGenres, sortBy, setCurrentPage, setSelectedGenres, setSortBy } = useBrowseState({
+export default function DiscoverPage({ mediaType, category }: DiscoverPageProps) {
+    const { currentPage, selectedGenres, sortBy, setCurrentPage, setSelectedGenres, setSortBy } = useDiscoverFilters({
         mediaType,
         category,
     });
 
     return (
-        <BrowseView
+        <DiscoverView
             mediaType={mediaType}
             category={category}
             currentPage={currentPage}

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMovieGenres, getTVGenres } from '@/services/tmdb/genre.service';
-import { queryKeys } from '@/lib/query-keys';
+import { queryKeys } from '@/config/query-keys';
 
 export const useMovieGenres = () => {
     return useQuery({
@@ -9,7 +9,7 @@ export const useMovieGenres = () => {
             const response = await getMovieGenres();
             return response.data.genres;
         },
-        staleTime: 1000 * 60 * 60 * 24, // 24 hours - genres don't change often
+        staleTime: 1000 * 60 * 60 * 24,
     });
 };
 
@@ -20,6 +20,6 @@ export const useTVGenres = () => {
             const response = await getTVGenres();
             return response.data.genres;
         },
-        staleTime: 1000 * 60 * 60 * 24, // 24 hours - genres don't change often
+        staleTime: 1000 * 60 * 60 * 24,
     });
 };
