@@ -61,7 +61,6 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
 
                                 <p className='text-[15px] sm:text-lg font-medium sm:font-semibold text-zinc-200 max-w-xs sm:max-w-lg text-pretty mt-0.1 sm:mt-1.5 mb-4 sm:mb-2'>
                                     {getGenresText(movie.genres || [])}
-                                    {/* {movie.runtime && ` • ${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`} */}
                                 </p>
 
                                 <p className='hidden text-base font-medium text-zinc-400 mb-7 line-clamp-2 sm:line-clamp-2 max-w-2xl text-pretty'>
