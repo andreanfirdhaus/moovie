@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getBackdropUrl, getMediaTitle, getGenresText, getDetailUrl } from '@/utils/media-helpers';
 import { Button } from '@/components/ui/button';
@@ -51,6 +51,16 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                             <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
 
                             <div className='absolute bottom-20 md:bottom-28 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-24'>
+                                <Button
+                                    as='span'
+                                    size='sm'
+                                    variant='ghost'
+                                    rounded='full'
+                                    leftIcon={<TrendingUp size={12} />}
+                                    className='mb-2 sm:mb-3 pointer-events-none bg-black/40 border-white/20 text-white/80 backdrop-blur-sm text-xs'>
+                                    Trending this week
+                                </Button>
+
                                 <h1 className='text-2xl md:text-4xl lg:text-5xl font-bold text-zinc-100 max-w-3xl text-balance sm:text-pretty'>
                                     {getMediaTitle(movie)}
                                     {(() => {
