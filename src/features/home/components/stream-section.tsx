@@ -68,7 +68,7 @@ export function StreamSection() {
     return (
         <section className='py-8 sm:py-12 lg:mx-4 px-4 sm:px-6 lg:px-8 xl:px-20'>
             <header className='mb-1.5 sm:mb-2'>
-                <h2 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-0 sm:mb-0.5'>On Fire</h2>
+                <h3 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-0 sm:mb-0.5'>On Fire</h3>
                 <p className='text-base font-medium text-zinc-400 mb-4'>Find your next favorite watch.</p>
 
                 <div className='flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
