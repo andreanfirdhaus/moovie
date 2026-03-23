@@ -67,11 +67,11 @@ export function StreamSection() {
 
     return (
         <section className='py-8 sm:py-12 lg:mx-4 px-4 sm:px-6 lg:px-8 xl:px-20'>
-            <header className='mb-1.5 sm:mb-2'>
-                <h3 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-0 sm:mb-0.5'>On Fire</h3>
+            <header className='mb-4 md:mb-5'>
+                <h3 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-0.5 sm:mb-1'>On Fire</h3>
                 <p className='text-base font-medium text-zinc-400 mb-4'>Find your next favorite watch.</p>
 
-                <div className='flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+                <div className='flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
                     {streamCategories.map((menuItem) => (
                         <Button
                             key={menuItem.action}
@@ -92,10 +92,12 @@ export function StreamSection() {
                             <div
                                 key={index}
                                 className='w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] flex-shrink-0 animate-pulse'>
-                                <div className='w-full aspect-[2/3] bg-surface-2 rounded-[8px]' />
-                                <div className='mt-2.5 space-y-1.5'>
-                                    <div className='h-4 bg-surface-4 rounded w-4/5' />
-                                    <div className='h-4 bg-surface-3 rounded w-1/3' />
+                                <div className='mx-0.5'>
+                                    <div className='w-full aspect-[2/3] bg-surface-2 rounded-[6px] sm:rounded-[8px]' />
+                                    <div className='mt-1.5 sm:mt-2 space-y-1.5'>
+                                        <div className='h-[15px] bg-surface-4 rounded w-4/5' />
+                                        <div className='h-[14px] bg-surface-3 rounded w-1/3' />
+                                    </div>
                                 </div>
                             </div>
                         ))}
