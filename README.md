@@ -5,7 +5,7 @@ The interface adopts a dark-mode oriented design while maintaining the core conc
 
 The project focuses on understanding API data fetching, state handling (loading, error, and data states), caching and building reusable UI components.
 
-![alt text](/docs/app-preview.jpg)
+![app-preview](/docs/app-preview.jpg)
 
 ## Project Structure
 
@@ -54,18 +54,18 @@ VITE_TMDB_API_KEY=
 VITE_TMDB_ACCESS_TOKEN=
 ```
 
-3. **Run**
+> **Note:** this project authenticates using **Access Token (Bearer)**.  
+> If you prefer to use API Key instead, switch the method in `config/api-client.ts`.
+
+3. **Run development**
 
 ```bash
 pnpm dev
 ```
 
-> **Note:** By default, this project authenticates using **Access Token (Bearer)**.  
-> If you prefer to use API Key instead, switch the method in `config/api-client.ts`.
-
 ## Using npm Instead of pnpm (Optional)
 
-This project uses **pnpm** by default. If you prefer to use **npm**, follow these steps:
+This project uses **pnpm**. If you prefer to use **npm**, follow these steps:
 
 ### 1. Remove the pnpm-only restriction
 
