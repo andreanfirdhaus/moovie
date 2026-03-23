@@ -57,11 +57,11 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     variant='ghost'
                                     rounded='full'
                                     leftIcon={<TrendingUp size={12} />}
-                                    className='mb-2 sm:mb-3 pointer-events-none bg-black/40 border-white/20 text-white/80 backdrop-blur-sm text-xs'>
+                                    className='mb-2 sm:mb-2.5 pointer-events-none bg-black/40 border-white/20 text-white/80 backdrop-blur-sm text-xs'>
                                     Trending this week
                                 </Button>
 
-                                <h1 className='text-2xl md:text-4xl lg:text-5xl font-bold text-zinc-100 max-w-3xl text-balance sm:text-pretty'>
+                                <h1 className='text-2xl md:text-4xl lg:text-[44px] lg:leading-tight font-bold text-zinc-100 max-w-3xl text-balance sm:text-pretty mb-0.1 sm:mb-1.5'>
                                     {getMediaTitle(movie)}
                                     {(() => {
                                         const date = movie.first_air_date || movie.release_date;
@@ -69,11 +69,11 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     })()}
                                 </h1>
 
-                                <p className='text-[15px] sm:text-lg font-medium sm:font-semibold text-zinc-200 max-w-xs sm:max-w-lg text-pretty mt-0.1 sm:mt-1.5 mb-4 sm:mb-2'>
+                                <p className='text-[15px] md:text-lg font-medium sm:font-semibold text-zinc-200 max-w-xs sm:max-w-lg text-pretty mb-4 sm:mb-2'>
                                     {getGenresText(movie.genres || [])}
                                 </p>
 
-                                <p className='hidden text-base font-medium text-zinc-400 mb-7 line-clamp-2 sm:line-clamp-2 max-w-2xl text-pretty'>
+                                <p className='hidden text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
                                     {movie.overview}
                                 </p>
 
@@ -91,7 +91,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
             </Swiper>
 
             {/* navigation icon */}
-            <div className='absolute bottom-6 right-6 flex gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 md:px-8 md:justify-between'>
+            <div className='absolute bottom-6 right-6 flex gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 md:px-2 xl:px-8 md:justify-between'>
                 <Button
                     size='icon'
                     onClick={() => swiperRef.current?.slidePrev()}
