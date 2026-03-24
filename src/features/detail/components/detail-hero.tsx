@@ -5,6 +5,7 @@ import { getMediaTitle, getMediaType, getGenresText } from '@/utils/media-helper
 import RatingCircle from '@/components/ui/rating';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Button } from '@/components/ui/button';
+import { getUpcomingReleaseDate, getYear } from '@/utils/date-helpers';
 
 interface DetailHeroProps {
     detail: any;
@@ -45,11 +46,7 @@ export default function DetailHero({ detail, onTrailerClick, onWatchNow, isLoadi
 
                 <div className='md:max-w-4xl'>
                     <h1 className='text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] xl:leading-[1.2] font-bold text-zinc-100 mb-2 text-balance'>
-                        {getMediaTitle(detail)}
-                        {(() => {
-                            const date = detail.first_air_date || detail.release_date;
-                            return date ? ` (${new Date(date).getFullYear()})` : '';
-                        })()}
+                        {getMediaTitle(detail)} {getYear(detail) && ` (${getYear(detail)})`}
                     </h1>
 
                     {detail.tagline && (
@@ -70,9 +67,7 @@ export default function DetailHero({ detail, onTrailerClick, onWatchNow, isLoadi
                                         {`${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`}
                                         {detail.status && ` • ${detail.status}`}
 
-                                        {detail.status !== 'Released' &&
-                                            detail.release_date &&
-                                            ` • ${new Date(detail.release_date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}`}
+                                        {getUpcomingReleaseDate(detail.status, detail.release_date)}
                                     </>
                                 )}
 

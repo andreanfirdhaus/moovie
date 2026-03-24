@@ -2,7 +2,8 @@ import Card from '@/components/ui/card';
 import type { Media } from '@/types/tmdb/media';
 import type { MediaDetail, Seasons } from '@/types/tmdb/media-detail';
 import { TMDB_IMG_300 } from '@/config/images';
-import { getMediaTitle, getReleaseYear } from '@/utils/media-helpers';
+import { getMediaTitle } from '@/utils/media-helpers';
+import { getYear } from '@/utils/date-helpers';
 
 interface MediaCardProps {
     type: Media | MediaDetail | Seasons;
@@ -13,7 +14,7 @@ export function MediaCard({ type }: MediaCardProps) {
         <Card
             poster={type.poster_path ? TMDB_IMG_300 + type.poster_path : undefined}
             title={getMediaTitle(type)}
-            subtitle={getReleaseYear(type) || undefined}
+            subtitle={getYear(type) || undefined}
             subtitleAs='time'
         />
     );

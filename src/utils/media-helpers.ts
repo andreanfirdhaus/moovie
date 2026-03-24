@@ -42,11 +42,6 @@ export const getCreditsName = (credits: MediaCredits): string => {
     return credits.name || credits.original_name || 'Untitled';
 };
 
-export const getReleaseYear = (movie: Media | MediaDetail | Seasons): string => {
-    const date = (movie as any).release_date || (movie as any).first_air_date || (movie as any).air_date;
-    return date ? new Date(date).getFullYear().toString() : '';
-};
-
 export const getRatingPercentage = (voteAverage: number): number => {
     return Math.round(voteAverage * 10);
 };

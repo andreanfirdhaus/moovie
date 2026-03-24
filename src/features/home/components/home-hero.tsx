@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getBackdropUrl, getMediaTitle, getGenresText, getDetailUrl } from '@/utils/media-helpers';
 import { Button } from '@/components/ui/button';
+import { getYear } from '@/utils/date-helpers';
 
 interface HomeHeroProps {
     movies: any[];
@@ -62,11 +63,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                 </Button>
 
                                 <h1 className='text-2xl md:text-4xl lg:text-[44px] lg:leading-tight font-bold text-zinc-100 max-w-3xl text-balance sm:text-pretty mb-0.1 sm:mb-1.5'>
-                                    {getMediaTitle(movie)}
-                                    {(() => {
-                                        const date = movie.first_air_date || movie.release_date;
-                                        return date ? ` (${new Date(date).getFullYear()})` : '';
-                                    })()}
+                                    {getMediaTitle(movie)} {getYear(movie) && ` (${getYear(movie)})`}
                                 </h1>
 
                                 <p className='text-[15px] md:text-lg font-medium sm:font-semibold text-zinc-200 max-w-xs sm:max-w-lg text-pretty mb-4 sm:mb-2'>
