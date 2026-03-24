@@ -5,7 +5,8 @@ import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getBackdropUrl, getMediaTitle, getGenresText, getDetailUrl } from '@/utils/media-helpers';
+import { getBackdropUrl, getMediaTitle, getGenresText } from '@/utils/media-helpers';
+import { getDetailUrl } from '@/utils/url-helpers';
 import { Button } from '@/components/ui/button';
 import { getYear } from '@/utils/date-helpers';
 

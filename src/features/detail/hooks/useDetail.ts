@@ -6,7 +6,7 @@ import {
     useMediaRecommendations,
     useMediaKeywords,
 } from '@/features/detail/hooks/useDetail.query';
-import { parseDetailId } from '@/utils/media-helpers';
+import { parseDetailId } from '@/utils/url-helpers';
 
 export function useDetail() {
     const { type, id } = useParams();
