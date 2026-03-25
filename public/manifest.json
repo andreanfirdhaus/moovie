@@ -1,23 +1,70 @@
 {
     "short_name": "Moovie",
     "name": "Moovie",
+    "description": "Discover Movies and TV Shows.",
     "icons": [
         {
-            "src": "favicon.ico",
-            "sizes": "64x64 32x32 24x24 16x16",
-            "type": "image/x-icon"
+            "src": "icons/maskable_icon_x48.png",
+            "type": "image/png",
+            "sizes": "48x48",
+            "purpose": "maskable"
         },
         {
-            "src": "icons/web-app-manifest-192x192.png",
+            "src": "icons/maskable_icon_x72.png",
+            "type": "image/png",
+            "sizes": "72x72",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/maskable_icon_x96.png",
+            "type": "image/png",
+            "sizes": "96x96",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/maskable_icon_x128.png",
+            "type": "image/png",
+            "sizes": "128x128",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/maskable_icon_x192.png",
             "type": "image/png",
             "sizes": "192x192",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         },
         {
-            "src": "icons/web-app-manifest-512x512.png",
+            "src": "icons/maskable_icon_x192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/maskable_icon_x512.png",
             "type": "image/png",
             "sizes": "512x512",
-            "purpose": "any maskable"
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/maskable_icon_x512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/img/mobile-screenshots.png",
+            "sizes": "470x835",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/img/desktop-screenshots.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Homescreen of the App"
         }
     ],
     "start_url": "/",
