@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getRatingPercentage, getRatingColor } from '@/utils/media-helpers';
+import { getRatingPercentage, getRatingColor } from '@/utils/media';
 
 interface RatingCircleProps {
     rating: number;

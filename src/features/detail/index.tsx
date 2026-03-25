@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
-import { getDetailUrl } from '@/utils/url-helpers';
+import { getDetailUrl } from '@/utils/url';
 import { TrailerModal } from '@/components/composed/trailer-modal';
 import DetailHero from '@/features/detail/components/detail-hero';
 import ProductionCompany from '@/features/detail/components/production-company';

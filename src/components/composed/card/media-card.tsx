@@ -2,8 +2,8 @@ import Card from '@/components/ui/card';
 import type { Media } from '@/types/tmdb/media';
 import type { MediaDetail, Seasons } from '@/types/tmdb/media-detail';
 import { TMDB_IMG_300 } from '@/config/images';
-import { getMediaTitle } from '@/utils/media-helpers';
-import { getYear } from '@/utils/date-helpers';
+import { getMediaTitle } from '@/utils/media';
+import { getYear } from '@/utils/date';
 
 interface MediaCardProps {
     type: Media | MediaDetail | Seasons;

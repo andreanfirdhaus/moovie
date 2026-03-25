@@ -11,7 +11,7 @@ import {
     useTopRatedSeries,
 } from '@/features/discover/hooks/useDiscover.query';
 import { useMovieGenres, useTVGenres } from '@/features/discover/hooks/useGenre.query';
-import { getDetailUrl } from '@/utils/url-helpers';
+import { getDetailUrl } from '@/utils/url';
 import { MediaCard } from '@/components/composed/card/media-card';
 import { SORT_BY } from '@/constants/sort-options';
 

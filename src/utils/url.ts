@@ -1,4 +1,4 @@
-import { getMediaType } from '@/utils/media-helpers';
+import { getMediaType } from '@/utils/media';
 
 const toSlug = (text: string): string =>
     text

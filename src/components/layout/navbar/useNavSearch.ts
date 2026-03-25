@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '@/components/layout/navbar/useDebounce';
 import { useSearchMulti } from '@/features/search/hooks/useSearch.query';
-import { getDetailUrl } from '@/utils/url-helpers';
+import { getDetailUrl } from '@/utils/url';
 
 export function useNavSearch(enabled = true) {
     const navigate = useNavigate();

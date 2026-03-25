@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { getMediaTitle, getPosterUrl } from '@/utils/media-helpers';
+import { getMediaTitle, getPosterUrl } from '@/utils/media';
 
 interface Props {
     results: any[];

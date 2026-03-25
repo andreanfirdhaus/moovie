@@ -1,7 +1,7 @@
 import Card from '@/components/ui/card';
 import type { MediaCredits } from '@/types/tmdb/media-credits';
 import { TMDB_IMG_300 } from '@/config/images';
-import { getCreditsName } from '@/utils/media-helpers';
+import { getCreditsName } from '@/utils/media';
 
 interface CastCardProps {
     cast: MediaCredits;

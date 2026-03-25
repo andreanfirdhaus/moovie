@@ -5,7 +5,7 @@ import Pagination from '@/components/composed/pagination';
 import FilterTabs from '@/components/composed/filter-tabs';
 import { useSearchMulti } from '@/features/search/hooks/useSearch.query';
 import type { MediaType } from '@/features/search/hooks/useSearchPageState';
-import { getDetailUrl } from '@/utils/media-helpers';
+import { getDetailUrl } from '@/utils/url';
 import { MediaCard } from '@/components/composed/card/media-card';
 
 interface SearchViewProps {

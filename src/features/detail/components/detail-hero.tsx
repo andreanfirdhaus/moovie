@@ -1,11 +1,11 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Play, Popcorn } from 'lucide-react';
 import { TMDB_IMG_1280, TMDB_IMG_300 } from '@/config/images';
-import { getMediaTitle, getMediaType, getGenresText } from '@/utils/media-helpers';
+import { getMediaTitle, getMediaType, getGenresText } from '@/utils/media';
 import RatingCircle from '@/components/ui/rating';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Button } from '@/components/ui/button';
-import { getUpcomingReleaseDate, getYear } from '@/utils/date-helpers';
+import { getUpcomingReleaseDate, getYear } from '@/utils/date';
 
 interface DetailHeroProps {
     detail: any;
