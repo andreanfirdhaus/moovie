@@ -27,6 +27,12 @@ export const queryKeys = {
         tvSeason: (id: string, seasonNumber: number) =>
             [...queryKeys.detail.all, 'tv', id, 'season', seasonNumber] as const,
     },
+    popular: {
+        all: ['popular'] as const,
+        streaming: () => [...queryKeys.popular.all, 'streaming'] as const,
+        onTV: () => [...queryKeys.popular.all, 'onTV'] as const,
+        inTheaters: () => [...queryKeys.popular.all, 'inTheaters'] as const,
+    },
     genres: {
         all: ['genres'] as const,
         movies: () => [...queryKeys.genres.all, 'movies'] as const,
