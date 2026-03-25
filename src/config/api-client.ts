@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { DEFAULT_PARAMS } from './params';
 
 // AccessToken
 export const apiClient = axios.create({
@@ -7,6 +8,7 @@ export const apiClient = axios.create({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
     },
+    params: DEFAULT_PARAMS,
 });
 
 // ApiKey
@@ -15,7 +17,5 @@ export const apiClient = axios.create({
 //     headers: {
 //         'Content-Type': 'application/json',
 //     },
-//     params: {
-//         api_key: API_KEY,
-//     },
+//     params: DEFAULT_PARAMS,
 // });

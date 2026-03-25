@@ -1,18 +1,18 @@
-export interface MenuCategory {
+export interface NavMenuCategory {
     value: string;
     label: string;
     sortBy: string;
 }
 
-export interface MenuItem {
+export interface NavMenuItem {
     page: string;
     link?: string;
     hasDropdown?: boolean;
     mediaType?: string;
-    categories?: MenuCategory[];
+    categories?: NavMenuCategory[];
 }
 
-export interface StreamingMenuItem {
+export interface StreamCategoryItem {
     label: string;
     action: string;
 }

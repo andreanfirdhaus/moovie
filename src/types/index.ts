@@ -1,22 +1,24 @@
 export type {
     Genres,
     PaginatedResponse,
-    Movie,
-    MovieDetail,
-    MovieCredits,
-    MovieReviews,
-    MovieTrailers,
+    Media,
+    MediaDetail,
+    Seasons,
+    TmdbEpisode,
+    MediaCredits,
+    MediaReviews,
+    MediaTrailers,
     GetListPayload,
     DetailPayload,
 } from './tmdb';
-export type { MenuCategory, MenuItem, StreamingMenuItem } from './menu';
+export type { NavMenuCategory, NavMenuItem, StreamCategoryItem } from './menu';
 export type {
-    StreamingSearchItem,
-    StreamingSearchResponse,
-    StreamingCategoryResponse,
-    StreamingEpisode,
-    StreamingSeason,
-    StreamingDetailData,
-    StreamingDetailResponse,
+    StreamSearchItem,
+    StreamSearchResponse,
+    StreamCategoryResponse,
+    StreamEpisode,
+    StreamSeason,
+    StreamDetailData,
+    StreamDetailResponse,
     WatchState,
-} from './streaming';
+} from './stream';

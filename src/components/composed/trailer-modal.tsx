@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTrailers } from '@/services/tmdb/detail.service';
+import { getTrailers } from '@/services/tmdb/media.service';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface TrailerModalProps {
@@ -23,14 +23,14 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
         try {
             setIsLoading(true);
 
-            const { data } = await getTrailers(mediaType, movieId.toString(), {});
+            const { data } = await getTrailers(mediaType, movieId.toString());
             const videos: TMDBVideo[] = data.results;
 
             const trailer = videos.find((video) => video.type === 'Trailer' && video.site === 'YouTube') ?? videos[0];
 
             setTrailerKey(trailer?.key || null);
-        } catch (error) {
-            console.error('Error fetching trailer:', error);
+        } catch (err) {
+            console.error('Error fetching trailer:', err);
         } finally {
             setIsLoading(false);
         }
@@ -52,7 +52,7 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
     return (
         <AnimatePresence>
             {isOpen && (
-                <motion.div
+                <motion.section
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -87,7 +87,7 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
                             }
                         </div>
                     </motion.div>
-                </motion.div>
+                </motion.section>
             )}
         </AnimatePresence>
     );

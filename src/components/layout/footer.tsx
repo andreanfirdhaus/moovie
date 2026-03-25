@@ -22,7 +22,7 @@ export default function Footer() {
                 to='https://developer.themoviedb.org/reference/getting-started'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-sm font-medium text-zinc-400 hover:text-zinc-300 transition-colors'>
+                className='text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors'>
                 Docs
             </Link>
         </footer>
