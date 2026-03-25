@@ -1,6 +1,6 @@
 import type { GetListPayload } from '@/types/tmdb/api-payloads';
 
-const TMDB_PARAMS = {
+export const TMDB_PARAMS = {
     region: 'ID',
     // language: 'id-ID',
 };
