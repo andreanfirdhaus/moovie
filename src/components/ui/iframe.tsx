@@ -11,8 +11,7 @@ export default function IFrame({ playerUrl }: IFrameProps) {
                 className='w-full h-full'
                 allowFullScreen
                 allow='autoplay; encrypted-media; picture-in-picture'
-                referrerPolicy='no-referrer'
-                sandbox='allow-scripts allow-same-origin allow-presentation'
+                referrerPolicy='origin'
             />
         </div>
     );
