@@ -1,10 +1,10 @@
 export const EMBED_SERVERS = [
     {
-        id: 'autoembed',
-        label: 'AutoEmbed',
-        movieUrl: (tmdbId: string) => `https://player.autoembed.cc/embed/movie/${tmdbId}`,
+        id: 'vidlink.pro',
+        label: 'VidlinkPro',
+        movieUrl: (tmdbId: string) => `https://vidlink.pro/movie/${tmdbId}`,
         episodeUrl: (tmdbId: string, season: number, episode: number) =>
-            `https://player.autoembed.cc/embed/tv/${tmdbId}/${season}/${episode}`,
+            `https://vidlink.pro/tv/${tmdbId}/${season}/${episode}`,
     },
     {
         id: 'vidzen',
