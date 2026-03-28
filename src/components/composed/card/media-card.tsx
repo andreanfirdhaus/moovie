@@ -7,15 +7,19 @@ import { getYear } from '@/utils/date';
 
 interface MediaCardProps {
     type: Media | MediaDetail | Seasons;
+    titleClassName?: string;
+    subtitleClassName?: string;
 }
 
-export function MediaCard({ type }: MediaCardProps) {
+export function MediaCard({ type, titleClassName, subtitleClassName }: MediaCardProps) {
     return (
         <Card
             poster={type.poster_path ? TMDB_IMG_300 + type.poster_path : undefined}
             title={getMediaTitle(type)}
             subtitle={getYear(type) || undefined}
             subtitleAs='time'
+            titleClassName={titleClassName}
+            subtitleClassName={subtitleClassName}
         />
     );
 }

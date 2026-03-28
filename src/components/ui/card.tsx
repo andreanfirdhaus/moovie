@@ -10,9 +10,19 @@ interface CardProps {
     title: string;
     subtitle?: string;
     subtitleAs?: 'time' | 'p';
+
+    titleClassName?: string;
+    subtitleClassName?: string;
 }
 
-export default function Card({ poster, title, subtitle, subtitleAs = 'p' }: CardProps) {
+export default function Card({
+    poster,
+    title,
+    subtitle,
+    subtitleAs = 'p',
+    titleClassName,
+    subtitleClassName,
+}: CardProps) {
     return (
         <div className='mx-0.5'>
             <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-surface-2'>
@@ -38,14 +48,16 @@ export default function Card({ poster, title, subtitle, subtitleAs = 'p' }: Card
             </figure>
 
             <div className='mt-1.5 sm:mt-2'>
-                <p className='text-zinc-100 font-medium text-[15px] truncate'>{title}</p>
+                <p className={`text-zinc-100 font-medium text-[15px] truncate ${titleClassName}`}>{title}</p>
 
                 {subtitle &&
                     (subtitleAs === 'time' ?
-                        <time dateTime={subtitle} className='text-zinc-400 text-sm font-medium'>
+                        <time dateTime={subtitle} className={`text-zinc-400 text-sm font-medium ${subtitleClassName}`}>
                             {subtitle}
                         </time>
-                    :   <p className='text-zinc-400 text-sm font-medium line-clamp-1'>{subtitle}</p>)}
+                    :   <p className={`text-zinc-400 text-sm font-medium line-clamp-1 ${subtitleClassName}`}>
+                            {subtitle}
+                        </p>)}
             </div>
         </div>
     );
