@@ -24,6 +24,8 @@ export function useDetail() {
     // localstate
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState<{ id: number; type: string } | null>(null);
+    const [selectedPersonId, setSelectedPersonId] = useState<number | null>(null);
+    const [isCastModalOpen, setIsCastModalOpen] = useState(false);
 
     // derived state
     const isLoading = isLoadingDetail || isLoadingCredits || isLoadingRecommendations;
@@ -40,6 +42,16 @@ export function useDetail() {
         setTimeout(() => setSelectedMovie(null), 300);
     };
 
+    const handleCastClick = (personId: number) => {
+        setSelectedPersonId(personId);
+        setIsCastModalOpen(true);
+    };
+
+    const handleCloseCastModal = () => {
+        setIsCastModalOpen(false);
+        setTimeout(() => setSelectedPersonId(null), 300);
+    };
+
     return {
         // params
         type,
@@ -54,8 +66,12 @@ export function useDetail() {
         isLoading,
         isTrailerOpen,
         selectedMovie,
+        selectedPersonId,
+        isCastModalOpen,
         // handlers
         handleTrailerClick,
         handleCloseTrailer,
+        handleCastClick,
+        handleCloseCastModal,
     };
 }

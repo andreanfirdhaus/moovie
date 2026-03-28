@@ -8,6 +8,7 @@ import Loading from '@/components/ui/spinner';
 import { useDetail } from '@/features/detail/hooks/useDetail';
 import { MediaCard } from '@/components/composed/card/media-card';
 import { CastCard } from '@/components/composed/card/cast-card';
+import { CastModal } from '@/components/composed/cast-modal';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
@@ -47,8 +48,12 @@ export default function DetailPage() {
         isLoading,
         isTrailerOpen,
         selectedMovie,
+        selectedPersonId,
+        isCastModalOpen,
         handleTrailerClick,
         handleCloseTrailer,
+        handleCastClick,
+        handleCloseCastModal,
     } = useDetail();
 
     const navigate = useNavigate();
@@ -105,6 +110,10 @@ export default function DetailPage() {
                 />
             )}
 
+            {selectedPersonId && (
+                <CastModal isOpen={isCastModalOpen} onClose={handleCloseCastModal} personId={selectedPersonId} />
+            )}
+
             {/* grid layout */}
             <div className='max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8'>
                 <div className='grid grid-cols-1 md:grid-cols-4 gap-6 max-sm:space-y-10'>
@@ -119,7 +128,11 @@ export default function DetailPage() {
                                 <Swiper {...SwiperParams} freeMode={true} modules={[FreeMode]}>
                                     {credits.map((cast) => (
                                         <SwiperSlide key={cast.id}>
-                                            <CastCard cast={cast} />
+                                            <button
+                                                className='w-full text-left'
+                                                onClick={() => handleCastClick(cast.id)}>
+                                                <CastCard cast={cast} />
+                                            </button>
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
