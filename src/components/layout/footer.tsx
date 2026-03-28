@@ -12,7 +12,7 @@ export default function Footer() {
                         to='https://www.themoviedb.org/'
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent'>
+                        className='hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent underline underline-offset-2'>
                         TMDB
                     </Link>
                 </span>
