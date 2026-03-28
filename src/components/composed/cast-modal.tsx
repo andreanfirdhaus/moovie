@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { LoaderCircle, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LoaderCircle, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
 import { FreeMode } from 'swiper/modules';
 import 'swiper/css';
 
@@ -9,6 +10,7 @@ import { TMDB_IMG_300 } from '@/config/images';
 import { MediaCard } from '@/components/composed/card/media-card';
 import { getDetailUrl } from '@/utils/url';
 import { usePersonDetail, usePersonKnownFor } from '@/features/detail/hooks/usePerson.query';
+import { useRef } from 'react';
 
 interface CastModalProps {
     isOpen: boolean;
@@ -31,6 +33,8 @@ export function CastModal({ isOpen, onClose, personId }: CastModalProps) {
 
     const hasBiography = person?.biography && person.biography.trim().length > 0;
     const hasKnownFor = knownFor.length > 0;
+
+    const knownForSwiperRef = useRef<SwiperType | null>(null);
 
     return (
         <AnimatePresence>
@@ -69,7 +73,7 @@ export function CastModal({ isOpen, onClose, personId }: CastModalProps) {
                                             src={TMDB_IMG_300 + person.profile_path}
                                             alt={person.name}
                                             draggable={false}
-                                            className='w-28 h-auto sm:w-36 rounded-lg object-cover flex-shrink-0'
+                                            className='w-28 h-auto sm:w-36 rounded-md object-cover flex-shrink-0'
                                         />
                                     )}
 
@@ -113,13 +117,39 @@ export function CastModal({ isOpen, onClose, personId }: CastModalProps) {
                                 {/* known for */}
                                 {!isLoadingKnownFor && hasKnownFor && (
                                     <div>
-                                        <h3 className='text-base font-semibold text-zinc-200 mb-3'>Known For</h3>
+                                        <div className='flex items-center justify-between mb-3'>
+                                            <h3 className='text-base font-semibold text-zinc-200'>Known For</h3>
 
-                                        <Swiper {...SwiperParams} freeMode modules={[FreeMode]} className='py-1'>
+                                            <div className='flex gap-1.5'>
+                                                <button
+                                                    onClick={() => knownForSwiperRef.current?.slidePrev()}
+                                                    className='p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors'>
+                                                    <ChevronLeft size={16} />
+                                                </button>
+                                                <button
+                                                    onClick={() => knownForSwiperRef.current?.slideNext()}
+                                                    className='p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors'>
+                                                    <ChevronRight size={16} />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <Swiper
+                                            {...SwiperParams}
+                                            onSwiper={(swiper) => {
+                                                knownForSwiperRef.current = swiper;
+                                            }}
+                                            freeMode
+                                            modules={[FreeMode]}
+                                            className='py-1'>
                                             {knownFor.map((item: any) => (
                                                 <SwiperSlide key={item.id} className='!w-[100px] sm:!w-[120px]'>
                                                     <Link to={getDetailUrl(item)} onClick={onClose}>
-                                                        <MediaCard type={item} />
+                                                        <MediaCard
+                                                            type={item}
+                                                            titleClassName='text-zinc-300 font-medium text-xs truncate'
+                                                            subtitleClassName='text-zinc-500 text-xs font-medium'
+                                                        />
                                                     </Link>
                                                 </SwiperSlide>
                                             ))}
