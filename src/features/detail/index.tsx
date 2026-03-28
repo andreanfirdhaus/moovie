@@ -106,13 +106,13 @@ export default function DetailPage() {
             )}
 
             {/* grid layout */}
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-12 pb-8 '>
-                <div className='grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 max-sm:space-y-10'>
+            <div className='max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8'>
+                <div className='grid grid-cols-1 md:grid-cols-4 gap-6 max-sm:space-y-10'>
                     <div className='md:col-span-3 space-y-12'>
                         {/* cast */}
                         {credits?.length > 0 && (
                             <section>
-                                <header className='mb-2.5'>
+                                <header className='mb-2.5 sm:mb-3.5'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Cast</h2>
                                 </header>
 
@@ -129,7 +129,7 @@ export default function DetailPage() {
                         {/* season */}
                         {allSeasons?.length > 0 && (
                             <section>
-                                <header className='mb-2.5'>
+                                <header className='mb-2.5 sm:mb-3.5'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Seasons</h2>
                                 </header>
 
@@ -146,7 +146,7 @@ export default function DetailPage() {
                         {/* recommendation */}
                         {recommendations?.length > 0 && (
                             <section>
-                                <header className='mb-2.5'>
+                                <header className='mb-2.5 sm:mb-3.5'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Recommendation</h2>
                                 </header>
 

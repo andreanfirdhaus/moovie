@@ -27,7 +27,7 @@ export default function DetailHero({ detail, onTrailerClick, onWatchNow, isLoadi
                 <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/15 to-black' />
             </figure>
 
-            <div className='max-w-7xl mx-auto flex items-center md:gap-8 px-4 sm:px-6 lg:px-12 py-8'>
+            <div className='max-w-7xl mx-auto flex items-center md:gap-8 px-4 sm:px-6 py-8'>
                 <div className='relative flex-shrink-0 md:w-[22%] after:absolute after:inset-0 after:bg-surface-2/20 after:mix-blend-normal'>
                     {detail.poster_path ?
                         <LazyLoadImage
