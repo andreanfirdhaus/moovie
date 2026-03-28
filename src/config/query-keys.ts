@@ -44,4 +44,9 @@ export const queryKeys = {
         movies: (query: string, page: number) => [...queryKeys.search.all, 'movies', query, page] as const,
         series: (query: string, page: number) => [...queryKeys.search.all, 'series', query, page] as const,
     },
+    person: {
+        all: ['person'] as const,
+        detail: (id: number) => [...queryKeys.person.all, id, 'detail'] as const,
+        knownFor: (id: number) => [...queryKeys.person.all, id, 'known-for'] as const,
+    },
 };
