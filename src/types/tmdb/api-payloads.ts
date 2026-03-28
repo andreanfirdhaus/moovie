@@ -7,7 +7,7 @@ export interface GetListPayload {
     with_origin_country?: string;
     with_watch_monetization_types?: string;
     watch_region?: string;
-    with_watch_providers?: number;
+    with_watch_providers?: number | string;
     without_genres?: string;
     'vote_average.gte'?: number;
     'vote_count.gte'?: number;
