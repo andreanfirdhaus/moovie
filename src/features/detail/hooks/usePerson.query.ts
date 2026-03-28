@@ -21,12 +21,17 @@ export const usePersonKnownFor = (personId?: number) =>
             const cast = res.data.cast || [];
             const seen = new Set();
             return cast
-                .filter((item: any) => {
+                .filter((item) => {
                     if (seen.has(item.id)) return false;
                     seen.add(item.id);
-                    return !!item.poster_path;
+                    return true;
                 })
-                .sort((a: any, b: any) => b.popularity - a.popularity)
+                .sort((a, b) => {
+                    const scoreA = a.vote_count * a.vote_average + a.popularity;
+                    const scoreB = b.vote_count * b.vote_average + b.popularity;
+                    return scoreB - scoreA;
+                })
+                .filter((item) => !!item.poster_path)
                 .slice(0, 10);
         },
         enabled: !!personId,
