@@ -67,7 +67,7 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
                         className='relative w-full max-w-5xl mx-4'
                         onClick={(e) => e.stopPropagation()}>
                         <div
-                            className='relative bg-black rounded-lg md:rounded-2xl border border-white/15 shadow-2xl overflow-hidden'
+                            className='relative bg-surface-1 rounded-lg md:rounded-2xl border border-white/15 shadow-2xl overflow-hidden'
                             style={{ paddingBottom: '56.25%' }}>
                             {isLoading ?
                                 <div className='absolute inset-0 flex items-center justify-center'>
