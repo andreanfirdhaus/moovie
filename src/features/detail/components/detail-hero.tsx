@@ -45,28 +45,30 @@ export default function DetailHero({ detail, onTrailerClick, onWatchNow, isLoadi
                 </div>
 
                 <div className='md:max-w-4xl'>
-                    <h1 className='text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] xl:leading-[1.2] font-bold text-zinc-100 mb-2 text-balance'>
-                        {getMediaTitle(detail)} {getYear(detail) && ` (${getYear(detail)})`}
+                    <h1 className='text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] xl:leading-[1.2] font-bold text-zinc-100 mb-1 text-balance'>
+                        {getMediaTitle(detail)}
+                        {getYear(detail) && ` (${getYear(detail)})`}
                     </h1>
 
                     {detail.tagline && (
-                        <blockquote className='md:text-lg font-medium italic text-zinc-300 max-w-xl text-pretty'>
+                        <blockquote className='md:text-lg font-medium italic text-zinc-500 max-w-xl text-pretty mb-3'>
                             &quot;{detail.tagline}&quot;
                         </blockquote>
                     )}
 
-                    <div className='flex items-center gap-2 my-3'>
+                    <div className='flex items-center gap-3 my-3'>
                         {detail.vote_average > 1 && <RatingCircle rating={detail.vote_average} />}
 
-                        <div className='flex flex-col gap-0.5'>
-                            <span className='font-medium text-base text-zinc-100'>{getGenresText(detail.genres)}</span>
+                        <div className='flex flex-col gap-1'>
+                            <span className='text-[15px] font-medium text-zinc-300 tracking-normal'>
+                                {getGenresText(detail.genres)}
+                            </span>
 
-                            <span className='text-[15px] font-medium text-zinc-400'>
+                            <span className='text-sm font-medium text-zinc-500'>
                                 {detail.runtime && (
                                     <>
                                         {`${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`}
                                         {detail.status && ` • ${detail.status}`}
-
                                         {getUpcomingReleaseDate(detail.status, detail.release_date)}
                                     </>
                                 )}
@@ -81,7 +83,7 @@ export default function DetailHero({ detail, onTrailerClick, onWatchNow, isLoadi
                         </div>
                     </div>
 
-                    <p className='text-base font-medium text-zinc-400 mb-6 text-balance leading-relaxed line-clamp-4 md:line-clamp-3 lg:line-clamp-4 xl:line-clamp-none'>
+                    <p className='text-[15px] sm:text-base font-medium text-zinc-400 mb-6 text-balance leading-relaxed line-clamp-4 md:line-clamp-3 lg:line-clamp-4 xl:line-clamp-none'>
                         {detail.overview}
                     </p>
 
