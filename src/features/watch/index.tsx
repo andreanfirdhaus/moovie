@@ -194,7 +194,7 @@ export default function WatchPage() {
                     {playerArea}
 
                     {hasSidePanel && (
-                        <aside className='w-full lg:flex-shrink-0 lg:w-80 xl:w-96 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto'>
+                        <aside className='w-full lg:flex-shrink-0 lg:w-80 xl:w-96 lg:overflow-y-auto scrollbar-hide'>
                             {showTmdbEpisodePanel && tmdbSeasons && (
                                 <TmdbEpisodePanel
                                     seasons={tmdbSeasons}
