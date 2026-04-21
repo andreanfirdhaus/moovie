@@ -1,6 +1,6 @@
-import type { ServerStatus } from './hooks/useStreamResolver';
-import type { StreamSeason } from '@/types/stream';
 import type { Seasons } from '@/types/tmdb/media-detail';
+
+export type ServerStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 export interface PageState {
     id: string;
@@ -8,8 +8,6 @@ export interface PageState {
     title: string;
     year: string;
     type: string;
-    playerUrl?: string;
-    seasons?: StreamSeason[];
     tmdbSeasons?: Seasons[];
 }
 
