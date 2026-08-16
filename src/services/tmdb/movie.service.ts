@@ -21,3 +21,6 @@ export const getUpcomingMovies = (page = 1, payload?: GetListPayload) =>
 
 export const getDiscoverMovies = (page = 1, payload?: GetListPayload) =>
     apiClient.get('/discover/movie', { params: { page, ...payload } });
+
+export const getMovieImages = (movieId: number, payload?: Record<string, unknown>) =>
+    apiClient.get(`/movie/${movieId}/images`, { params: payload });

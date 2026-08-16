@@ -49,4 +49,8 @@ export const queryKeys = {
         detail: (id: number) => [...queryKeys.person.all, id, 'detail'] as const,
         knownFor: (id: number) => [...queryKeys.person.all, id, 'known-for'] as const,
     },
+    images: {
+        all: ['images'] as const,
+        movie: (id: number) => [...queryKeys.images.all, 'movie', id] as const,
+    },
 };

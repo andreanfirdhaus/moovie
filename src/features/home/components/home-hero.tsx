@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
-import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getBackdropUrl, getMediaTitle, getGenresText } from '@/utils/media';
 import { getDetailUrl } from '@/utils/url';
 import { Button } from '@/components/ui/button';
+import useMovieImages from '../hooks/useMovieImages.query';
+import { TMDB_IMG_500 } from '@/config/images';
 import { getYear } from '@/utils/date';
 
 interface HomeHeroProps {
     movies: any[];
+}
+
+interface MovieTitleLogoProps {
+    movie: any;
 }
 
 const SwiperParams = {
@@ -20,6 +26,27 @@ const SwiperParams = {
     loop: true,
     speed: 900,
     allowTouchMove: false,
+};
+
+export const MovieTitleLogo = ({ movie }: MovieTitleLogoProps) => {
+    const { data } = useMovieImages(movie?.id);
+
+    const logos = data?.logos || [];
+    const chosen = logos.find((logo: any) => logo.iso_639_1 === 'en') || logos[0];
+
+    const logoUrl = chosen ? TMDB_IMG_500 + chosen.file_path : null;
+
+    const title = getMediaTitle(movie);
+
+    return (
+        <img
+            src={logoUrl}
+            alt={title}
+            className='h-auto w-auto max-h-12 md:max-h-16 lg:max-h-20 xl:max-h-24 object-contain'
+            loading='lazy'
+            draggable={false}
+        />
+    );
 };
 
 export const HomeHero = ({ movies }: HomeHeroProps) => {
@@ -58,17 +85,28 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     size='sm'
                                     variant='ghost'
                                     rounded='full'
-                                    leftIcon={<TrendingUp size={12} />}
-                                    className='mb-2 sm:mb-2.5 pointer-events-none bg-black/40 border-white/20 text-white/80 backdrop-blur-sm text-xs'>
+                                    leftIcon={<TrendingUp size={14} />}
+                                    className='pointer-events-none border border-[#F5C518] bg-[#F5C518] text-black text-xs font-bold backdrop-blur-sm hover:bg-[#F5C518] hover:text-black'>
                                     Trending this week
                                 </Button>
 
-                                <h1 className='text-2xl md:text-4xl lg:text-[44px] lg:leading-tight font-bold text-zinc-100 max-w-3xl text-balance sm:text-pretty mb-0.1 sm:mb-1.5'>
-                                    {getMediaTitle(movie)} {getYear(movie) && ` (${getYear(movie)})`}
-                                </h1>
+                                <div className='my-2 sm:my-3 md:my-4'>
+                                    <MovieTitleLogo movie={movie} />
+                                </div>
 
-                                <p className='text-[15px] md:text-lg font-medium sm:font-semibold text-zinc-200 max-w-xs sm:max-w-lg text-pretty mb-4 sm:mb-2'>
-                                    {getGenresText(movie.genres || [])}
+                                <p className='flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] font-medium text-zinc-400 sm:font-semibold mb-4'>
+                                    {movie.vote_average > 0 && (
+                                        <span className='inline-flex items-center gap-1.5 text-yellow-400'>
+                                            <Star size={18} className='fill-yellow-400' />
+                                            {movie.vote_average.toFixed(1)}
+                                        </span>
+                                    )}
+
+                                    {getYear(movie) && <span>{getYear(movie)}</span>}
+
+                                    {movie.vote_average > 0 && getYear(movie) && <span>•</span>}
+
+                                    {movie.genres?.length > 0 && <span>{getGenresText(movie.genres || [])}</span>}
                                 </p>
 
                                 <p className='hidden text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
@@ -79,8 +117,8 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     as={Link}
                                     to={getDetailUrl(movie)}
                                     variant='ghost'
-                                    className='bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white backdrop-blur-sm'>
-                                    More Info
+                                    className='border border-white/80 bg-white/90 text-black backdrop-blur-sm hover:border-white hover:bg-white hover:text-black'>
+                                    Watch Now
                                 </Button>
                             </div>
                         </div>
