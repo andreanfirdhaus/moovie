@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { motion } from 'framer-motion';
-import { Popcorn } from 'lucide-react';
+import { Popcorn, Star } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -10,6 +11,7 @@ interface CardProps {
     title: string;
     subtitle?: string;
     subtitleAs?: 'time' | 'p';
+    rating?: any;
 
     titleClassName?: string;
     subtitleClassName?: string;
@@ -20,6 +22,7 @@ export default function Card({
     title,
     subtitle,
     subtitleAs = 'p',
+    rating,
     titleClassName,
     subtitleClassName,
 }: CardProps) {
@@ -29,7 +32,7 @@ export default function Card({
                 <motion.div
                     whileHover={{ scale: 1.06 }}
                     transition={SPRING}
-                    className={`w-full h-full relative  ${poster ? 'after:absolute after:inset-0 after:bg-surface-2/20 after:mix-blend-normal' : ''}`}>
+                    className={`w-full h-full relative ${poster ? 'after:absolute after:inset-0 after:bg-surface-2/20 after:mix-blend-normal' : ''}`}>
                     {poster ?
                         <LazyLoadImage
                             src={poster}
@@ -45,6 +48,13 @@ export default function Card({
                         </div>
                     }
                 </motion.div>
+
+                {typeof rating === 'number' && rating > 0 && (
+                    <div className='absolute bottom-2 left-2 z-10 inline-flex items-center gap-1 rounded-md bg-black/60 px-2 py-1 text-yellow-400 backdrop-blur-lg'>
+                        <Star size={13} className='fill-yellow-400' />
+                        <span className='text-xs font-semibold'>{rating.toFixed(1)}</span>
+                    </div>
+                )}
             </figure>
 
             <div className='mt-1.5 sm:mt-2'>
@@ -52,10 +62,12 @@ export default function Card({
 
                 {subtitle &&
                     (subtitleAs === 'time' ?
-                        <time dateTime={subtitle} className={`text-zinc-400 text-sm font-medium ${subtitleClassName}`}>
+                        <time
+                            dateTime={subtitle}
+                            className={`text-zinc-400 text-[13px] font-medium ${subtitleClassName}`}>
                             {subtitle}
                         </time>
-                    :   <p className={`text-zinc-400 text-sm font-medium line-clamp-1 ${subtitleClassName}`}>
+                    :   <p className={`text-zinc-400 text-[13px] font-medium line-clamp-1 ${subtitleClassName}`}>
                             {subtitle}
                         </p>)}
             </div>

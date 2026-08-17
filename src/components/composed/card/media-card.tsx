@@ -12,12 +12,15 @@ interface MediaCardProps {
 }
 
 export function MediaCard({ type, titleClassName, subtitleClassName }: MediaCardProps) {
+    const rating = 'vote_average' in type ? type.vote_average : undefined;
+
     return (
         <Card
             poster={type.poster_path ? TMDB_IMG_300 + type.poster_path : undefined}
             title={getMediaTitle(type)}
             subtitle={getYear(type) || undefined}
             subtitleAs='time'
+            rating={rating}
             titleClassName={titleClassName}
             subtitleClassName={subtitleClassName}
         />

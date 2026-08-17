@@ -14,7 +14,7 @@ export function useDetail() {
 
     // data fetching
     const { data: detail, isLoading: isLoadingDetail } = useMediaDetail(type, numericId);
-    const { data: credits = [], isLoading: isLoadingCredits } = useMediaCredits(type, numericId);
+    const { data: credits, isLoading: isLoadingCredits } = useMediaCredits(type, numericId);
     const { data: recommendations = [], isLoading: isLoadingRecommendations } = useMediaRecommendations(
         type,
         numericId
@@ -29,6 +29,7 @@ export function useDetail() {
 
     // derived state
     const isLoading = isLoadingDetail || isLoadingCredits || isLoadingRecommendations;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allSeasons = (detail as any)?.seasons || [];
 
     // handlers

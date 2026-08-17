@@ -52,5 +52,6 @@ export const queryKeys = {
     images: {
         all: ['images'] as const,
         movie: (id: number) => [...queryKeys.images.all, 'movie', id] as const,
+        tv: (id: number) => [...queryKeys.images.all, 'tv', id] as const,
     },
 };
