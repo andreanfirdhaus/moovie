@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,18 +33,20 @@ const SwiperParams = {
 export const MovieTitleLogo = ({ movie }: MovieTitleLogoProps) => {
     const { data } = useMovieImages(movie?.id);
 
-    const logos = data?.logos || [];
+    const logos = (data as any)?.logos || [];
     const chosen = logos.find((logo: any) => logo.iso_639_1 === 'en') || logos[0];
 
-    const logoUrl = chosen ? TMDB_IMG_500 + chosen.file_path : null;
+    const logoUrl = chosen ? TMDB_IMG_500 + chosen.file_path : undefined;
 
     const title = getMediaTitle(movie);
+
+    if (!logoUrl) return null;
 
     return (
         <img
             src={logoUrl}
             alt={title}
-            className='h-auto w-auto max-h-12 md:max-h-16 lg:max-h-20 xl:max-h-24 object-contain'
+            className='h-auto w-auto max-h-12 md:max-h-16 lg:max-h-20 xl:max-h-28 object-contain'
             loading='lazy'
             draggable={false}
         />
@@ -94,7 +98,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     <MovieTitleLogo movie={movie} />
                                 </div>
 
-                                <p className='flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] font-medium text-zinc-400 sm:font-semibold mb-4'>
+                                <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] font-medium text-zinc-400 sm:font-semibold mb-4'>
                                     {movie.vote_average > 0 && (
                                         <span className='inline-flex items-center gap-1.5 text-yellow-400'>
                                             <Star size={18} className='fill-yellow-400' />
@@ -102,12 +106,28 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                         </span>
                                     )}
 
-                                    {getYear(movie) && <span>{getYear(movie)}</span>}
+                                    {getYear(movie) && (
+                                        <>
+                                            {movie.vote_average > 0 && <span>·</span>}
+                                            <span>{getYear(movie)}</span>
+                                        </>
+                                    )}
 
-                                    {movie.vote_average > 0 && getYear(movie) && <span>•</span>}
+                                    {movie.genres?.length > 0 && (
+                                        <>
+                                            {(movie.vote_average > 0 || getYear(movie)) && <span>·</span>}
 
-                                    {movie.genres?.length > 0 && <span>{getGenresText(movie.genres || [])}</span>}
-                                </p>
+                                            <span>
+                                                {movie.genres.map((genre, index) => (
+                                                    <span key={genre.id}>
+                                                        {index > 0 && ', '}
+                                                        {genre.name}
+                                                    </span>
+                                                ))}
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
 
                                 <p className='hidden text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
                                     {movie.overview}
