@@ -53,9 +53,9 @@ export const getRatingColor = (voteAverage: number): string => {
     return 'stroke-red-500';
 };
 
-export const getGenresText = (genres: { id: number; name: string }[]): string => {
+export const getGenresText = (genres: { id: number; name: string }[]) => {
     if (!genres || genres.length === 0) return 'No genres available';
-    return genres.map((genre) => genre.name).join(', ');
+    return genres.map((genre) => genre.name);
 };
 
 export const getPopularityText = (popularity: number): string => {
