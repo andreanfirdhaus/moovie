@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getDetailUrl } from '@/utils/url';
 import { TrailerModal } from '@/components/composed/trailer-modal';
 import DetailHero from '@/features/detail/components/detail-hero';
@@ -7,6 +7,7 @@ import { useDetail } from '@/features/detail/hooks/useDetail';
 import { MediaCard } from '@/components/composed/card/media-card';
 import { CastCard } from '@/components/composed/card/cast-card';
 import { CastModal } from '@/components/composed/cast-modal';
+import { useDetailStreaming } from './hooks/useDetailStreaming';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
@@ -41,22 +42,9 @@ export default function DetailPage() {
         handleCloseCastModal,
     } = useDetail();
 
-    const navigate = useNavigate();
-    const title = detail?.title || detail?.name || '';
-    const year = detail?.release_date?.slice(0, 4) || detail?.first_air_date?.slice(0, 4) || '';
+    const streaming = useDetailStreaming(type, detail?.id?.toString(), allSeasons);
 
-    const handleWatchNow = () => {
-        navigate(`/${type}/watch/${id}`, {
-            state: {
-                title,
-                year,
-                type,
-                id,
-                tmdbId: detail?.id?.toString(),
-                ...(type === 'tv' && allSeasons.length > 0 ? { tmdbSeasons: allSeasons } : {}),
-            },
-        });
-    };
+    const handleWatchNow = () => streaming.setIsPlaying(true);
 
     if (isLoading) return <Loading />;
 
@@ -83,7 +71,11 @@ export default function DetailPage() {
                 detail={detail}
                 onTrailerClick={handleTrailerClick}
                 onWatchNow={handleWatchNow}
-                isLoadingWatch={false}
+                {...streaming}
+                onServerChange={streaming.setActiveServerId}
+                onSeasonChange={streaming.handleSeasonChange}
+                onEpisodeChange={streaming.setActiveEpisode}
+                seasons={allSeasons}
             />
 
             {selectedMovie && (
@@ -125,7 +117,7 @@ export default function DetailPage() {
                         )}
 
                         {/* season */}
-                        {allSeasons?.length > 0 && (
+                        {allSeasons?.length > 0 && !(type === 'tv' && streaming.isPlaying) && (
                             <section>
                                 <header className='mb-2.5 sm:mb-3.5'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Seasons</h2>

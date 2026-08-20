@@ -4,7 +4,6 @@ import NotFound from './not-found';
 
 const Home = lazy(() => import('@/features/home'));
 const DetailPage = lazy(() => import('@/features/detail'));
-const WatchPage = lazy(() => import('@/features/watch'));
 const Search = lazy(() => import('@/features/search'));
 const DiscoverPage = lazy(() => import('./features/discover/components/discover-page'));
 
@@ -31,7 +30,6 @@ export const routes = [
 
             { path: '/search', element: <Search /> },
             { path: '/:type/:id', element: <DetailPage /> },
-            { path: '/:type/watch/:id', element: <WatchPage /> },
             { path: '*', element: <NotFound /> },
         ],
     },
