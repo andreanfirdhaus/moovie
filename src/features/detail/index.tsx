@@ -92,7 +92,7 @@ export default function DetailPage() {
             )}
 
             {/* grid layout */}
-            <div className='px-4 sm:px-6 lg:px-12 xl:px-24 pt-8 sm:pt-12 pb-8'>
+            <section className='px-4 sm:px-6 lg:px-12 xl:px-24 pt-8 pb-8'>
                 <div className='max-sm:space-y-10'>
                     <div className='md:col-span-3 space-y-12'>
                         {/* cast */}
@@ -165,7 +165,7 @@ export default function DetailPage() {
                         )}
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
     );
 }

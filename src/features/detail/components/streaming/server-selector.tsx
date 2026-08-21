@@ -5,7 +5,7 @@ import { cn } from '@/utils/cn';
 import type { ServerOption, ServerStatus } from '../../types/streaming';
 
 function StatusIcon({ status }: { status: ServerStatus }) {
-    if (status === 'loading') return <Loader2 size={12} className='animate-spin text-brand' />;
+    if (status === 'loading') return <Loader2 size={12} className='animate-spin text-primary' />;
     if (status === 'error') return <AlertCircle size={12} className='text-red-400' />;
     return null;
 }
@@ -16,7 +16,7 @@ function Trigger({ active }: { active: ServerOption }) {
         <DropdownTrigger asChild>
             <Button
                 aria-label={`Select streaming server, current server: ${active.label}`}
-                className='flex items-center gap-2 rounded-lg bg-surface-2 px-3 py-2.5 text-zinc-400 transition-colors duration-200 hover:bg-surface-3 hover:text-zinc-300'
+                className='flex items-center gap-2 rounded-lg bg-surface-raised px-3 py-2.5 text-zinc-400 transition-colors duration-200 hover:bg-surface-hover hover:text-zinc-300'
                 variant='ghost'
                 rightIcon={<ChevronDown size={12} className={isOpen ? 'rotate-180' : ''} />}>
                 <Server size={16} />
@@ -46,12 +46,12 @@ export default function ServerSelector({
                         key={server.id}
                         className={cn(
                             'flex items-center gap-2',
-                            server.id === activeServerId && 'bg-brand/15 text-brand-light'
+                            server.id === activeServerId && 'bg-primary/15 text-primary-hover'
                         )}
                         onSelect={() => onSelect(server.id)}>
                         <StatusIcon status={server.status} />
                         <span className='flex-1'>{server.label}</span>
-                        {server.id === activeServerId && <span className='size-1.5 rounded-full bg-brand' />}
+                        {server.id === activeServerId && <span className='size-1.5 rounded-full bg-primary' />}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

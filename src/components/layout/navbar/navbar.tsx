@@ -68,7 +68,7 @@ export default function Navbar() {
                                                     className='transition-transform duration-[250ms] group-hover:rotate-180'
                                                 />
                                             }
-                                            className='mx-2 text-[15px] capitalize text-zinc-200 hover:text-zinc-100 hover:no-underline'>
+                                            className='mx-2 text-sm capitalize text-zinc-200 hover:text-zinc-100 hover:no-underline'>
                                             {item.page}
                                         </Button>
 
@@ -77,12 +77,12 @@ export default function Navbar() {
                                                 <motion.div
                                                     {...dropdownVariants}
                                                     className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
-                                                    <div className='rounded-lg bg-surface-2 shadow-xl overflow-hidden'>
+                                                    <div className='rounded-lg bg-surface shadow-xl overflow-hidden'>
                                                         {item.categories.map((cat) => (
                                                             <Link
                                                                 key={cat.value}
                                                                 to={`/${item.mediaType}/${cat.value}`}
-                                                                className='block px-3.5 py-2.5 text-sm text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 transition-colors'>
+                                                                className='block px-3.5 py-2.5 text-sm text-zinc-400 hover:bg-surface-raised hover:text-zinc-200 transition-colors'>
                                                                 {cat.label}
                                                             </Link>
                                                         ))}
@@ -94,7 +94,7 @@ export default function Navbar() {
                                 :   <li key={i}>
                                         <NavLink
                                             to={item.link!}
-                                            className='flex items-center gap-2 p-2 mx-2 text-[15px] font-medium capitalize text-zinc-200 hover:text-zinc-100 transition-colors'>
+                                            className='mx-2 flex items-center gap-2 p-2 text-sm font-medium capitalize text-zinc-200 transition-colors hover:text-zinc-100'>
                                             {item.page}
                                         </NavLink>
                                     </li>
@@ -128,7 +128,7 @@ export default function Navbar() {
 
                         {/* desktop search results */}
                         {desktop.isOpen && desktop.query.trim() && (
-                            <div className='absolute top-full mt-2 w-full bg-surface-2 rounded-xl shadow-xl max-h-96 overflow-y-auto'>
+                            <div className='absolute top-full mt-2 w-full bg-surface rounded-xl shadow-xl max-h-96 overflow-y-auto'>
                                 <SearchResults
                                     results={desktop.results}
                                     isLoading={desktop.isLoading}
@@ -229,7 +229,7 @@ export default function Navbar() {
                                     onChange={(e) => mobile.setQuery(e.target.value)}
                                     placeholder='Find movies and tv shows'
                                     autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-surface-2 border border-zinc-800 text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm'
+                                    className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm'
                                 />
                                 <button
                                     type='button'
@@ -245,7 +245,7 @@ export default function Navbar() {
                         </form>
 
                         {mobile.query.trim() && (
-                            <div className='mt-4 bg-surface-2 rounded-2xl border border-zinc-800 max-h-[60vh] overflow-y-auto'>
+                            <div className='mt-4 bg-surface rounded-2xl max-h-[60vh] overflow-y-auto'>
                                 <SearchResults
                                     results={mobile.results}
                                     isLoading={mobile.isLoading}

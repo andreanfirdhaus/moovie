@@ -107,9 +107,9 @@ export default function DiscoverView({
                     {/* mobile filter toggle */}
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface-2 hover:bg-surface-3 text-zinc-300 hover:text-zinc-100 border border-zinc-800 rounded-full text-sm font-medium transition-colors'>
+                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface text-zinc-300 hover:bg-surface-raised hover:text-zinc-100 rounded-full text-sm font-medium transition-colors'>
                         {activeFilterCount > 0 ?
-                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-brand text-white text-[10px] font-bold'>
+                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold'>
                                 {activeFilterCount}
                             </span>
                         :   <Funnel size={16} />}
@@ -138,11 +138,11 @@ export default function DiscoverView({
                             <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
                                 {Array.from({ length: 10 }).map((_, i) => (
                                     <div key={i} className='mx-0.5 animate-pulse'>
-                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-[4px] sm:rounded-[8px] bg-surface-2' />
+                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised' />
 
                                         <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
-                                            <div className='h-3.5 bg-surface-4 rounded w-4/5' />
-                                            <div className='h-3 bg-surface-3 rounded w-1/3' />
+                                            <div className='h-3.5 bg-surface-strong rounded w-4/5' />
+                                            <div className='h-3 bg-surface-hover rounded w-1/3' />
                                         </div>
                                     </div>
                                 ))}

@@ -82,17 +82,16 @@ export default function TmdbEpisodePanel({
                                 key={episode.id}
                                 onClick={() => onEpisodeClick(episode.episode_number)}
                                 className={`group min-w-0 shrink-0 basis-full text-left sm:basis-[calc(50%-0.75rem)] lg:basis-[calc(20%-1.2rem)] ${episode.episode_number === activeEpisode ? 'text-zinc-100' : 'text-zinc-400'}`}>
-                                <div
-                                    className={`relative aspect-video overflow-hidden rounded-lg border-2 bg-zinc-900 ${episode.episode_number === activeEpisode ? 'border-brand' : 'border-transparent group-hover:border-zinc-600'}`}>
+                                <div className='relative aspect-video overflow-hidden rounded-lg bg-surface-raised'>
                                     {episode.still_path ?
                                         <img
                                             src={TMDB_IMG_300 + episode.still_path}
                                             alt={episode.name}
                                             className='h-full w-full object-cover transition-transform duration-200 group-hover:scale-105'
                                         />
-                                    :   <div className='h-full w-full bg-surface-3' />}
+                                    :   <div className='h-full w-full bg-surface-hover' />}
 
-                                    <div className='absolute inset-x-0 top-0 flex items-center justify-between gap-2 bg-gradient-to-b from-black/80 to-transparent px-2.5 py-2 text-[11px] font-semibold text-white'>
+                                    <div className='absolute inset-x-0 top-0 flex items-center justify-between gap-2 bg-gradient-to-b from-black/80 to-transparent px-2.5 py-2 text-xs font-semibold text-white'>
                                         <span className='rounded bg-black/75 px-1.5 py-1'>
                                             S{episode.season_number} · E{episode.episode_number}
                                         </span>
@@ -102,17 +101,17 @@ export default function TmdbEpisodePanel({
                                     </div>
 
                                     {episode.runtime && (
-                                        <span className='absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-medium text-white'>
+                                        <span className='absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium text-white'>
                                             {episode.runtime}m
                                         </span>
                                     )}
                                 </div>
 
                                 <p
-                                    className={`mt-2 truncate text-sm font-semibold ${episode.episode_number === activeEpisode ? 'text-brand-light' : 'text-zinc-100'}`}>
+                                    className={`mt-2 truncate text-sm font-semibold ${episode.episode_number === activeEpisode ? 'text-primary-hover' : 'text-zinc-100'}`}>
                                     {episode.name}
                                 </p>
-                                <p className='mt-0.5 line-clamp-2 text-[12.5px] leading-5 text-zinc-500'>
+                                <p className='mt-0.5 line-clamp-2 text-xs leading-5 text-zinc-500'>
                                     {episode.overview || 'No description available.'}
                                 </p>
                             </button>

@@ -52,17 +52,17 @@ export function CastModal({ isOpen, onClose, personId }: CastModalProps) {
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={{ duration: 0.2, ease: 'easeOut' }}
                         onClick={(e) => e.stopPropagation()}
-                        className='relative w-full max-w-4xl max-h-[85vh] overflow-y-auto scrollbar-hide bg-surface-1 rounded-xl border border-zinc-800 shadow-2xl'>
+                        className='relative w-full max-w-4xl max-h-[85vh] overflow-y-auto scrollbar-hide bg-surface rounded-xl shadow-2xl'>
                         {/* close */}
                         <button
                             onClick={onClose}
-                            className='absolute top-4 right-4 z-10 p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors'>
+                            className='absolute top-4 right-4 z-10 p-1.5 rounded-full bg-surface-raised hover:bg-surface-hover text-zinc-400 hover:text-zinc-100 transition-colors'>
                             <X size={16} />
                         </button>
 
                         {isLoadingPerson ?
                             <div className='flex items-center justify-center h-64'>
-                                <LoaderCircle className='animate-spin text-brand mx-auto mb-2' size={48} />
+                                <LoaderCircle className='animate-spin text-primary mx-auto mb-2' size={48} />
                             </div>
                         : person ?
                             <div className='p-6 sm:p-8'>
@@ -123,12 +123,12 @@ export function CastModal({ isOpen, onClose, personId }: CastModalProps) {
                                             <div className='flex gap-1.5'>
                                                 <button
                                                     onClick={() => knownForSwiperRef.current?.slidePrev()}
-                                                    className='p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors'>
+                                                    className='p-1.5 rounded-full bg-surface-raised hover:bg-surface-hover text-zinc-400 hover:text-zinc-100 transition-colors'>
                                                     <ChevronLeft size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => knownForSwiperRef.current?.slideNext()}
-                                                    className='p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors'>
+                                                    className='p-1.5 rounded-full bg-surface-raised hover:bg-surface-hover text-zinc-400 hover:text-zinc-100 transition-colors'>
                                                     <ChevronRight size={16} />
                                                 </button>
                                             </div>

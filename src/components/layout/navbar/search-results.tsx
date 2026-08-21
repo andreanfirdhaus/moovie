@@ -48,7 +48,7 @@ export function SearchResults({
                 <button
                     key={result.id}
                     onClick={() => onResultClick(result)}
-                    className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-3 transition-colors text-left'>
+                    className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-raised transition-colors text-left'>
                     <LazyLoadImage
                         src={getPosterUrl(result)}
                         alt={getMediaTitle(result)}
@@ -56,8 +56,8 @@ export function SearchResults({
                         effect='blur'
                     />
                     <div className='flex-1 min-w-0'>
-                        <p className='text-zinc-100 font-medium text-[15px] truncate'>{getMediaTitle(result)}</p>
-                        <p className='text-zinc-400 text-[13px]'>
+                        <p className='truncate text-sm font-medium text-zinc-100'>{getMediaTitle(result)}</p>
+                        <p className='text-xs text-zinc-400'>
                             {result.media_type === 'movie' ? 'Movies' : 'TV Series'}
                             {(result.release_date || result.first_air_date) && (
                                 <span className='ml-1'>
@@ -73,7 +73,7 @@ export function SearchResults({
                 <Link
                     to={viewAllLink!}
                     onClick={onViewAll}
-                    className='block px-4 py-3 text-center text-brand hover:bg-surface-3 text-sm font-medium'>
+                    className='block px-4 py-3 text-center text-primary hover:bg-surface-hover text-sm font-medium'>
                     View all {results.length} results
                 </Link>
             )}

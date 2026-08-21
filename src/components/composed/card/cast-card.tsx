@@ -16,7 +16,7 @@ export function CastCard({ cast }: CastCardProps) {
     return (
         <div className='w-full min-w-0 text-center group'>
             {/* Avatar */}
-            <figure className='relative mx-auto size-[88px] overflow-hidden rounded-full bg-surface-2 ring-1 ring-white/10 sm:size-[104px] md:size-[120px]'>
+            <figure className='relative mx-auto size-[88px] overflow-hidden rounded-full bg-surface-raised sm:size-[104px] md:size-[120px]'>
                 {cast.profile_path ?
                     <LazyLoadImage
                         src={TMDB_IMG_300 + cast.profile_path}
@@ -35,12 +35,10 @@ export function CastCard({ cast }: CastCardProps) {
             </figure>
 
             {/* Actor */}
-            <p className='mt-2 truncate text-[13px] font-semibold leading-5 text-zinc-100 sm:text-sm'>{name}</p>
+            <p className='mt-2 truncate text-sm font-semibold leading-5 text-zinc-100'>{name}</p>
 
             {/* Character */}
-            {cast.character && (
-                <p className='truncate text-[11px] leading-4 text-zinc-400 sm:text-xs'>{cast.character}</p>
-            )}
+            {cast.character && <p className='truncate text-xs leading-4 text-zinc-400'>{cast.character}</p>}
         </div>
     );
 }

@@ -72,10 +72,10 @@ export function PopularSection() {
                                 key={index}
                                 className='w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] flex-shrink-0 animate-pulse'>
                                 <div className='mx-0.5'>
-                                    <div className='w-full aspect-[2/3] bg-surface-2 rounded-[6px] sm:rounded-[8px]' />
+                                    <div className='w-full aspect-[2/3] bg-surface-raised rounded-md' />
                                     <div className='mt-1.5 sm:mt-2 space-y-1.5'>
-                                        <div className='h-[15px] bg-surface-4 rounded w-4/5' />
-                                        <div className='h-[14px] bg-surface-3 rounded w-1/3' />
+                                        <div className='h-[15px] bg-surface-strong rounded w-4/5' />
+                                        <div className='h-[14px] bg-surface-hover rounded w-1/3' />
                                     </div>
                                 </div>
                             </div>

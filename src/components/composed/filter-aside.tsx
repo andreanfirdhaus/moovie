@@ -43,7 +43,7 @@ export default function FilterAside({
                 {hasActiveFilters && (
                     <button
                         onClick={onClearFilters}
-                        className='flex items-center gap-1 text-xs text-brand-light hover:text-brand-light/80 transition-colors font-medium'>
+                        className='flex items-center gap-1 text-xs text-primary-hover hover:text-primary-hover/80 transition-colors font-medium'>
                         <RotateCcw size={12} />
                         <span>Clear all</span>
                     </button>
@@ -84,12 +84,12 @@ export default function FilterAside({
 
             {/* desktop */}
             <aside className='hidden lg:block w-56 xl:w-64 flex-shrink-0'>
-                <div className='sticky top-28 bg-surface-2 backdrop-blur-sm rounded-xl p-5'>{asideContent}</div>
+                <div className='sticky top-28 bg-surface-raised backdrop-blur-sm rounded-xl p-5'>{asideContent}</div>
             </aside>
 
             {/* mobile*/}
             <aside
-                className={`fixed top-0 left-0 h-full w-72 bg-surface-2 z-40 flex flex-col p-6 transition-transform duration-300 ease-in-out lg:hidden 
+                className={`fixed top-0 left-0 h-full w-72 bg-surface-raised z-40 flex flex-col p-6 transition-transform duration-300 ease-in-out lg:hidden
                     ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 {asideContent}
             </aside>

@@ -21,7 +21,7 @@ export default function EmbedControls({
                     min={1}
                     value={activeSeason}
                     onChange={(event) => onSeasonChange(Math.max(1, Number(event.target.value)))}
-                    className='w-16 rounded-lg border border-zinc-700 bg-surface-3 px-2 py-2 text-center text-zinc-100 outline-none focus:border-brand'
+                    className='w-16 rounded-lg bg-surface-hover px-2 py-2 text-center text-zinc-100 outline-none'
                 />
             </label>
             <label className='flex items-center gap-2 text-sm text-zinc-400'>
@@ -31,7 +31,7 @@ export default function EmbedControls({
                     min={1}
                     value={activeEpisode}
                     onChange={(event) => onEpisodeChange(Math.max(1, Number(event.target.value)))}
-                    className='w-16 rounded-lg border border-zinc-700 bg-surface-3 px-2 py-2 text-center text-zinc-100 outline-none focus:border-brand'
+                    className='w-16 rounded-lg bg-surface-hover px-2 py-2 text-center text-zinc-100 outline-none'
                 />
             </label>
         </div>

@@ -90,7 +90,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     variant='ghost'
                                     rounded='full'
                                     leftIcon={<TrendingUp size={14} />}
-                                    className='pointer-events-none border border-[#F5C518] bg-[#F5C518] text-black text-xs font-bold backdrop-blur-sm hover:bg-[#F5C518] hover:text-black'>
+                                    className='pointer-events-none bg-yellow-400 text-black text-xs font-bold backdrop-blur-sm hover:bg-yellow-400 hover:text-black'>
                                     Trending this week
                                 </Button>
 
@@ -98,7 +98,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     <MovieTitleLogo movie={movie} />
                                 </div>
 
-                                <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] font-medium text-zinc-400 sm:font-semibold mb-4'>
+                                <div className='mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-zinc-400 sm:font-semibold'>
                                     {movie.vote_average > 0 && (
                                         <span className='inline-flex items-center gap-1.5 text-yellow-400'>
                                             <Star size={18} className='fill-yellow-400' />
@@ -137,7 +137,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     as={Link}
                                     to={getDetailUrl(movie)}
                                     variant='ghost'
-                                    className='border border-white/80 bg-white/90 text-black backdrop-blur-sm hover:border-white hover:bg-white hover:text-black'>
+                                    className='bg-white/90 text-black backdrop-blur-sm hover:bg-white hover:text-black'>
                                     Watch Now
                                 </Button>
                             </div>
@@ -152,7 +152,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                     size='icon'
                     onClick={() => swiperRef.current?.slidePrev()}
                     aria-label='Previous slide'
-                    className='size-8 p-1.5 bg-white/20 hover:bg-white/35 backdrop-blur-sm border-none'>
+                    className='size-8 p-1.5 bg-white/20 hover:bg-white/35 backdrop-blur-sm'>
                     <ChevronLeft size={20} strokeWidth={2.5} />
                 </Button>
 
@@ -160,7 +160,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                     size='icon'
                     onClick={() => swiperRef.current?.slideNext()}
                     aria-label='Next slide'
-                    className='size-8 p-1.5 bg-white/20 hover:bg-white/35 backdrop-blur-sm border-none'>
+                    className='size-8 p-1.5 bg-white/20 hover:bg-white/35 backdrop-blur-sm'>
                     <ChevronRight size={20} strokeWidth={2.5} />
                 </Button>
             </div>

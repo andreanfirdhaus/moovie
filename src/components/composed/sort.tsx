@@ -90,11 +90,11 @@ export default function SortDropdown({
                             className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors 
                                 ${
                                     isSelected ?
-                                        'bg-brand/15 text-brand-light font-medium'
-                                    :   'text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 font-medium'
+                                        'bg-primary/15 text-primary-hover font-medium'
+                                    :   'text-zinc-400 hover:bg-surface-hover hover:text-zinc-200 font-medium'
                                 }`}>
                             <span>{option.label}</span>
-                            {isSelected && <Check size={14} className='text-brand-light flex-shrink-0' />}
+                            {isSelected && <Check size={14} className='text-primary-hover flex-shrink-0' />}
                         </button>
                     );
                 })}
@@ -114,11 +114,11 @@ export default function SortDropdown({
                             onSelect={() => onChange(option.value)}
                             className={`${
                                 isSelected ?
-                                    'bg-brand/15 text-brand-light font-medium hover:bg-brand/20 hover:text-brand-light focus:bg-brand/20 focus:text-brand-light'
+                                    'bg-primary/15 text-primary-hover font-medium hover:bg-primary/20 hover:text-primary-hover focus:bg-primary/20 focus:text-primary-hover'
                                 :   ''
                             }`}>
                             <span>{option.label}</span>
-                            {isSelected && <Check size={14} className='text-brand-light shrink-0' />}
+                            {isSelected && <Check size={14} className='text-primary-hover shrink-0' />}
                         </DropdownItem>
                     );
                 })}

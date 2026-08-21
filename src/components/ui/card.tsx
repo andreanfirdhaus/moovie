@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Popcorn, Star } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Badge } from '@/components/ui/badge';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const SPRING = { type: 'spring', stiffness: 260, damping: 20 } as const;
@@ -28,11 +29,11 @@ export default function Card({
 }: CardProps) {
     return (
         <div className='mx-0.5'>
-            <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-[6px] sm:rounded-[8px] bg-surface-2'>
+            <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised'>
                 <motion.div
                     whileHover={{ scale: 1.06 }}
                     transition={SPRING}
-                    className={`w-full h-full relative ${poster ? 'after:absolute after:inset-0 after:bg-surface-2/20 after:mix-blend-normal' : ''}`}>
+                    className={`w-full h-full relative ${poster ? 'after:absolute after:inset-0 after:bg-surface-raised/20 after:mix-blend-normal' : ''}`}>
                     {poster ?
                         <LazyLoadImage
                             src={poster}
@@ -43,31 +44,29 @@ export default function Card({
                             delayTime={300}
                             className='w-full h-full object-cover'
                         />
-                    :   <div className='w-full h-full flex items-center justify-center bg-surface-2'>
+                    :   <div className='w-full h-full flex items-center justify-center bg-surface-raised'>
                             <Popcorn className='text-zinc-500 size-10' />
                         </div>
                     }
                 </motion.div>
 
                 {typeof rating === 'number' && rating > 0 && (
-                    <div className='absolute bottom-2 left-2 z-10 inline-flex items-center gap-1 rounded-md bg-black/60 px-2 py-1 text-yellow-400 backdrop-blur-lg'>
+                    <Badge variant='rating' className='absolute bottom-2 left-2 z-10 backdrop-blur-lg'>
                         <Star size={13} className='fill-yellow-400' />
                         <span className='text-xs font-semibold'>{rating.toFixed(1)}</span>
-                    </div>
+                    </Badge>
                 )}
             </figure>
 
             <div className='mt-1.5 sm:mt-2'>
-                <p className={`text-zinc-100 font-medium text-[15px] truncate ${titleClassName}`}>{title}</p>
+                <p className={`truncate text-sm font-medium text-zinc-100 ${titleClassName}`}>{title}</p>
 
                 {subtitle &&
                     (subtitleAs === 'time' ?
-                        <time
-                            dateTime={subtitle}
-                            className={`text-zinc-400 text-[13px] font-medium ${subtitleClassName}`}>
+                        <time dateTime={subtitle} className={`text-xs font-medium text-zinc-400 ${subtitleClassName}`}>
                             {subtitle}
                         </time>
-                    :   <p className={`text-zinc-400 text-[13px] font-medium line-clamp-1 ${subtitleClassName}`}>
+                    :   <p className={`line-clamp-1 text-xs font-medium text-zinc-400 ${subtitleClassName}`}>
                             {subtitle}
                         </p>)}
             </div>

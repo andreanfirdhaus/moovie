@@ -4,27 +4,27 @@ import { ComponentPropsWithRef, ElementType, ReactNode, forwardRef } from 'react
 
 const buttonVariants = {
     variant: {
-        primary: 'bg-brand/80 hover:bg-brand border border-brand text-white',
-        secondary: 'bg-surface-4 text-zinc-100 border border-zinc-700 hover:bg-surface-4/80',
-        ghost: 'bg-surface-2 text-zinc-300 hover:bg-surface-3 hover:text-zinc-100 border border-zinc-800',
+        primary: 'bg-primary/80 hover:bg-primary text-white',
+        secondary: 'bg-surface-strong text-zinc-100 hover:bg-surface-hover',
+        ghost: 'bg-surface text-zinc-300 hover:bg-surface-raised hover:text-zinc-100',
         outline:
-            'bg-transparent border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-zinc-100 hover:bg-surface-2',
-        danger: 'bg-red-950 text-red-400 border border-red-900 hover:bg-red-900 hover:text-red-300',
+            'bg-transparent border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-zinc-100 hover:bg-surface',
+        danger: 'bg-red-950 text-red-400 hover:bg-red-900 hover:text-red-300',
         link: 'bg-transparent text-zinc-200 underline-offset-4 hover:underline hover:text-zinc-100 p-0 h-auto',
     },
     active: {
-        primary: 'bg-brand border-brand text-white',
-        secondary: 'bg-surface-4 text-zinc-100 border-zinc-700',
-        ghost: 'bg-surface-3 text-zinc-100 border-zinc-700 border-zinc-100',
-        outline: 'bg-surface-3 text-zinc-100 border-zinc-700 border-zinc-100',
-        danger: 'bg-red-500 text-white border-red-500',
+        primary: 'bg-primary text-white',
+        secondary: 'bg-surface-strong text-zinc-100',
+        ghost: 'bg-surface-raised text-zinc-100',
+        outline: 'bg-surface-raised text-zinc-100',
+        danger: 'bg-red-500 text-white',
         link: 'text-zinc-100 underline',
     },
     size: {
-        sm: 'px-3 py-1.5 text-xs',
-        md: 'px-5 py-2.5 text-sm',
-        lg: 'px-7 py-3.5 text-base',
-        icon: 'p-2.5 aspect-square',
+        sm: 'min-h-8 px-3 text-xs',
+        md: 'min-h-10 px-5 text-sm',
+        lg: 'min-h-12 px-7 text-base',
+        icon: 'size-10 p-2.5',
     },
     rounded: {
         full: 'rounded-full',
@@ -59,9 +59,9 @@ type ButtonProps<T extends ElementType = 'button'> = AsProp<T> &
 
 const BASE =
     'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap ' +
-    'transition-all duration-300 cursor-pointer select-none ' +
+    'transition-colors duration-200 cursor-pointer select-none ' +
     'disabled:pointer-events-none disabled:opacity-50 ' +
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent';
+    'focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2';
 
 export const Button = forwardRef(
     <T extends ElementType = 'button'>(

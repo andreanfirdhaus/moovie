@@ -142,7 +142,7 @@ export function DropdownMenu({
                     exit={exit}
                     transition={transition}
                     className={cn(
-                        'absolute z-50 mt-2 min-w-[8rem] overflow-hidden rounded-xl border border-zinc-800 bg-surface-2 text-zinc-200 shadow-xl shadow-black/30 outline-none',
+                        'absolute z-50 mt-2 min-w-[8rem] overflow-hidden rounded-xl bg-surface text-zinc-200 shadow-xl shadow-black/30',
                         alignmentClasses[align],
                         className
                     )}
@@ -178,7 +178,7 @@ export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
                 ref={ref}
                 onClick={handleClick}
                 className={cn(
-                    'relative flex cursor-pointer select-none items-center px-3 py-2.5 text-sm text-zinc-400 outline-none transition-colors hover:bg-surface-3 hover:text-zinc-200 focus:bg-surface-3 focus:text-zinc-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+                    'relative flex cursor-pointer select-none items-center px-3 py-2.5 text-sm text-zinc-400 transition-colors hover:bg-surface-raised hover:text-zinc-200 focus:bg-surface-raised focus:text-zinc-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
                     className
                 )}
                 {...props}>

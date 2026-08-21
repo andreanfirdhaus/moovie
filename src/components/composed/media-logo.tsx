@@ -19,8 +19,7 @@ export default function MediaLogo({ logoUrl, title, year, className }: MediaLogo
     }
 
     return (
-        <h1
-            className={`text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] xl:leading-[1.2] font-bold text-zinc-100 mb-1 text-balance ${className || ''}`}>
+        <h1 className={`mb-1 text-2xl font-bold text-zinc-100 text-balance sm:text-3xl lg:text-4xl ${className || ''}`}>
             {title}
             {year ? ` (${year})` : null}
         </h1>

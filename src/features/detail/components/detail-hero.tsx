@@ -81,7 +81,7 @@ export default function DetailHero({
                             </div>
 
                             <div className='mt-3'>
-                                <div className='flex flex-wrap items-center text-[17px] font-medium text-zinc-300'>
+                                <div className='flex flex-wrap items-center text-base font-medium text-zinc-300'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
                                             {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
@@ -178,7 +178,7 @@ export default function DetailHero({
                                 </div>
 
                                 {/* Genres */}
-                                <div className='mb-4 flex flex-wrap items-center text-[17px] font-medium text-zinc-300'>
+                                <div className='mb-4 flex flex-wrap items-center text-base font-medium text-zinc-300'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
                                             {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
@@ -268,7 +268,7 @@ export default function DetailHero({
 
                 {/* Director (from credits) */}
                 {creator && (
-                    <div className='text-[15px] text-zinc-300 mb-3 inline-flex items-center gap-2'>
+                    <div className='mb-3 inline-flex items-center gap-2 text-sm text-zinc-300'>
                         <span className='text-zinc-400 font-normal'>
                             {mediaType === 'movie' ? 'Director:' : 'Creator:'}
                         </span>
@@ -278,7 +278,7 @@ export default function DetailHero({
 
                 {/* Tagline */}
                 {detail.tagline && (
-                    <blockquote className='text-[15px] font-medium italic text-zinc-500 max-w-xl text-pretty mb-3'>
+                    <blockquote className='mb-3 max-w-xl text-sm font-medium italic text-zinc-500 text-pretty'>
                         &quot;{detail.tagline}&quot;
                     </blockquote>
                 )}
