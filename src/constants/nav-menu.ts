@@ -26,4 +26,9 @@ export const menu: NavMenuItem[] = [
             { value: 'toprated', label: 'Top Rated', sortBy: SORT_BY.RATING_DESC },
         ],
     },
+    {
+        page: 'Discover',
+        hasDropdown: false,
+        link: '/discover',
+    },
 ];

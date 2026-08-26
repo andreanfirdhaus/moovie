@@ -48,7 +48,7 @@ export function SearchResults({
                 <button
                     key={result.id}
                     onClick={() => onResultClick(result)}
-                    className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-raised transition-colors text-left'>
+                    className='w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-hover transition-colors text-lef'>
                     <LazyLoadImage
                         src={getPosterUrl(result)}
                         alt={getMediaTitle(result)}
@@ -73,7 +73,7 @@ export function SearchResults({
                 <Link
                     to={viewAllLink!}
                     onClick={onViewAll}
-                    className='block px-4 py-3 text-center text-primary hover:bg-surface-hover text-sm font-medium'>
+                    className='block px-4 py-3 text-center text-primary-hover hover:bg-surface-hover text-sm font-medium border-t border-zinc-800'>
                     View all {results.length} results
                 </Link>
             )}

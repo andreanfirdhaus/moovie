@@ -99,7 +99,7 @@ export default function DiscoverView({
 
     return (
         <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12'>
-            <div className='px-4 sm:px-6 lg:px-12 xl:px-24'>
+            <div className='px-4 sm:px-6'>
                 {/* header*/}
                 <header className='mb-4 flex items-center justify-between'>
                     <h1 className='text-xl font-semibold text-zinc-100'>{displayTitle}</h1>

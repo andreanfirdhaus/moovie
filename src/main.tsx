@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Analytics } from '@vercel/analytics/react';
 import { queryClient } from '@/config/query-client';
 import { routes } from './routes';
+import { AuthProvider } from '@/features/auth/context';
 import './main.css';
 
 const router = createBrowserRouter(routes);
@@ -14,7 +15,9 @@ if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
         <React.StrictMode>
             <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router} />
+                <AuthProvider>
+                    <RouterProvider router={router} />
+                </AuthProvider>
                 <ReactQueryDevtools initialIsOpen={false} />
                 <Analytics />
             </QueryClientProvider>

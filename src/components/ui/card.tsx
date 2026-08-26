@@ -29,7 +29,7 @@ export default function Card({
 }: CardProps) {
     return (
         <div className='mx-0.5'>
-            <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised'>
+            <figure className='relative w-full aspect-[2/3] overflow-hidden rounded-lg md:rounded-xl bg-surface-raised'>
                 <motion.div
                     whileHover={{ scale: 1.06 }}
                     transition={SPRING}

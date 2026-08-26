@@ -91,7 +91,7 @@ export default function SortDropdown({
                                 ${
                                     isSelected ?
                                         'bg-primary/15 text-primary-hover font-medium'
-                                    :   'text-zinc-400 hover:bg-surface-hover hover:text-zinc-200 font-medium'
+                                    :   'text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 font-medium'
                                 }`}>
                             <span>{option.label}</span>
                             {isSelected && <Check size={14} className='text-primary-hover flex-shrink-0' />}

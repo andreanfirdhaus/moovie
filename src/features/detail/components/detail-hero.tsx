@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Play, Bookmark, Heart, Star } from 'lucide-react';
+import { Play, Star } from 'lucide-react';
 import { TMDB_IMG_1280, TMDB_IMG_500 } from '@/config/images';
 import { getMediaTitle, getMediaType } from '@/utils/media';
 import { getYear } from '@/utils/date';
@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import ServerSelector from './streaming/server-selector';
 import EmbedControls from './streaming/embed-controls';
 import TmdbEpisodePanel from './streaming/tmdb-episode-panel';
+import MediaActions from '@/features/library/components/media-actions';
 import type { ServerOption } from '../types/streaming';
 import type { TmdbEpisode } from '@/types/tmdb/media-episode';
 
@@ -68,20 +69,20 @@ export default function DetailHero({
     return (
         <section>
             <figure
-                className={`relative w-full ${isPlaying ? 'mb-8 sm:mb-10 px-4 pt-28 sm:px-6 lg:px-12 xl:px-24' : 'mb-2 h-[380px] md:h-[480px] lg:h-[524px]'}`}>
+                className={`relative w-full ${isPlaying ? 'mb-8 sm:mb-10 px-4 sm:px-6 pt-20 lg:pt-28' : 'mb-2 h-[420px] md:h-[500px] lg:h-[560px]'}`}>
                 {isPlaying && playerUrl ?
                     <div>
                         <div className='min-w-0 flex-1'>
                             <IFrame playerUrl={playerUrl} />
 
                             <div className='mt-4 flex items-center justify-between gap-4'>
-                                <h1 className='min-w-0 flex-1 truncate text-base font-semibold leading-tight text-zinc-100 sm:text-lg md:text-xl lg:text-2xl xl:text-3xl'>
+                                <h1 className='min-w-0 flex-1 truncate font-semibold leading-tight text-zinc-100 text-lg sm:text-xl lg:text-2xl xl:text-3xl'>
                                     {getMediaTitle(detail)}
                                 </h1>
                             </div>
 
                             <div className='mt-3'>
-                                <div className='flex flex-wrap items-center text-base font-medium text-zinc-300'>
+                                <div className='flex flex-wrap items-center text-sm md:text-base font-medium text-zinc-300'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
                                             {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
@@ -91,30 +92,14 @@ export default function DetailHero({
                                 </div>
 
                                 <div className='mt-4 flex flex-wrap items-center gap-3'>
-                                    <Button
-                                        aria-label='Add to watchlist'
-                                        variant='ghost'
-                                        rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
-                                        <Bookmark size={16} />
-                                        <span className='text-sm font-medium'>Watchlist</span>
-                                    </Button>
-
-                                    <Button
-                                        aria-label='Add to favorite'
-                                        variant='ghost'
-                                        rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
-                                        <Heart size={16} />
-                                        <span className='text-sm font-medium'>Favorite</span>
-                                    </Button>
+                                    <MediaActions detail={detail} />
 
                                     <Button
                                         aria-label='Play trailer'
                                         onClick={() => onTrailerClick(detail.id, mediaType)}
                                         variant='ghost'
                                         rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
+                                        className='bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'>
                                         <Play size={16} />
                                         <span className='text-sm font-medium'>Trailer</span>
                                     </Button>
@@ -170,7 +155,7 @@ export default function DetailHero({
                         </Button>
 
                         {/* Overlay container */}
-                        <div className='absolute bottom-8 left-0 right-0 z-20 px-4 sm:px-6 lg:px-12 xl:px-24'>
+                        <div className='absolute bottom-4 md:bottom-6 left-0 right-0 z-20 px-4 sm:px-6'>
                             <div className='md:max-w-4xl'>
                                 {/* Logo */}
                                 <div className='mb-4'>
@@ -178,7 +163,7 @@ export default function DetailHero({
                                 </div>
 
                                 {/* Genres */}
-                                <div className='mb-4 flex flex-wrap items-center text-base font-medium text-zinc-300'>
+                                <div className='mb-4 flex flex-wrap items-center text-[15px] md:text-base font-medium text-zinc-300'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
                                             {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
@@ -188,31 +173,15 @@ export default function DetailHero({
                                 </div>
 
                                 {/* Rectangle icon buttons */}
-                                <div className='flex flex-wrap items-center gap-3'>
-                                    <Button
-                                        aria-label='Add to watchlist'
-                                        variant='ghost'
-                                        rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
-                                        <Bookmark size={16} />
-                                        <span className='text-sm font-medium'>Watchlist</span>
-                                    </Button>
-
-                                    <Button
-                                        aria-label='Add to favorite'
-                                        variant='ghost'
-                                        rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
-                                        <Heart size={16} />
-                                        <span className='text-sm font-medium'>Favorite</span>
-                                    </Button>
+                                <div className='flex flex-wrap items-center gap-2'>
+                                    <MediaActions detail={detail} />
 
                                     <Button
                                         aria-label='Play trailer'
                                         onClick={() => onTrailerClick(detail.id, mediaType)}
                                         variant='ghost'
                                         rounded='lg'
-                                        className='px-3 py-2.5 text-zinc-400'>
+                                        className='bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'>
                                         <Play size={16} />
                                         <span className='text-sm font-medium'>Trailer</span>
                                     </Button>
@@ -223,7 +192,7 @@ export default function DetailHero({
                 }
             </figure>
 
-            <div className='px-4 sm:px-6 lg:px-12 xl:px-24 md:max-w-5xl'>
+            <div className='px-4 sm:px-6 md:max-w-5xl'>
                 {/* info: rating, runtime, year */}
                 <div className='flex items-center gap-2 text-sm text-zinc-300 mb-3'>
                     {typeof detail.vote_average === 'number' && (

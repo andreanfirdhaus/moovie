@@ -6,7 +6,6 @@ import Loading from '@/components/ui/spinner';
 import { useDetail } from '@/features/detail/hooks/useDetail';
 import { MediaCard } from '@/components/composed/card/media-card';
 import { CastCard } from '@/components/composed/card/cast-card';
-import { CastModal } from '@/components/composed/cast-modal';
 import { useDetailStreaming } from './hooks/useDetailStreaming';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -34,12 +33,9 @@ export default function DetailPage() {
         isLoading,
         isTrailerOpen,
         selectedMovie,
-        selectedPersonId,
-        isCastModalOpen,
         handleTrailerClick,
         handleCloseTrailer,
         handleCastClick,
-        handleCloseCastModal,
     } = useDetail();
 
     const streaming = useDetailStreaming(type, detail?.id?.toString(), allSeasons);
@@ -87,24 +83,20 @@ export default function DetailPage() {
                 />
             )}
 
-            {selectedPersonId && (
-                <CastModal isOpen={isCastModalOpen} onClose={handleCloseCastModal} personId={selectedPersonId} />
-            )}
-
             {/* grid layout */}
-            <section className='px-4 sm:px-6 lg:px-12 xl:px-24 pt-8 pb-8'>
+            <section className='px-4 sm:px-6 pt-8 pb-8'>
                 <div className='max-sm:space-y-10'>
                     <div className='md:col-span-3 space-y-12'>
                         {/* cast */}
                         {credits?.cast?.length > 0 && (
                             <section>
-                                <header className='mb-2.5 sm:mb-3.5'>
+                                <header className='mb-4'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Cast</h2>
                                 </header>
 
                                 <Swiper {...SwiperParams} freeMode={true} modules={[FreeMode]}>
                                     {credits?.cast?.map((cast) => (
-                                        <SwiperSlide key={cast.id} className='!w-[112px] sm:!w-[140px] md:!w-[170px]'>
+                                        <SwiperSlide key={cast.id} className='!w-[112px] sm:!w-[140px]'>
                                             <button
                                                 className='w-full text-left'
                                                 onClick={() => handleCastClick(cast.id)}>
@@ -119,7 +111,7 @@ export default function DetailPage() {
                         {/* season */}
                         {allSeasons?.length > 0 && !(type === 'tv' && streaming.isPlaying) && (
                             <section>
-                                <header className='mb-2.5 sm:mb-3.5'>
+                                <header className='mb-4'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Seasons</h2>
                                 </header>
 
@@ -131,7 +123,7 @@ export default function DetailPage() {
                                     {allSeasons.map((seasons) => (
                                         <SwiperSlide
                                             key={seasons.id}
-                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[200px]'>
+                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px]'>
                                             <MediaCard type={seasons} />
                                         </SwiperSlide>
                                     ))}
@@ -142,7 +134,7 @@ export default function DetailPage() {
                         {/* recommendation */}
                         {recommendations?.length > 0 && (
                             <section>
-                                <header className='mb-2.5 sm:mb-3.5'>
+                                <header className='mb-4'>
                                     <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Recommendation</h2>
                                 </header>
 
@@ -154,7 +146,7 @@ export default function DetailPage() {
                                     {recommendations.map((recommendation) => (
                                         <SwiperSlide
                                             key={recommendation.id}
-                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[200px]'>
+                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px]'>
                                             <Link to={getDetailUrl(recommendation)}>
                                                 <MediaCard type={recommendation} />
                                             </Link>

@@ -16,7 +16,7 @@ function Trigger({ active }: { active: ServerOption }) {
         <DropdownTrigger asChild>
             <Button
                 aria-label={`Select streaming server, current server: ${active.label}`}
-                className='flex items-center gap-2 rounded-lg bg-surface-raised px-3 py-2.5 text-zinc-400 transition-colors duration-200 hover:bg-surface-hover hover:text-zinc-300'
+                className='flex items-center gap-2 rounded-lg bg-surface-strong px-3.5 py-3 text-zinc-200 transition-colors duration-200 hover:bg-surface-hover hover:text-zinc-100'
                 variant='ghost'
                 rightIcon={<ChevronDown size={12} className={isOpen ? 'rotate-180' : ''} />}>
                 <Server size={16} />

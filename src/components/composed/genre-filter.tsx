@@ -45,7 +45,7 @@ export default function GenreFilter({
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                                 isSelected ?
                                     'bg-primary text-white shadow-lg shadow-primary/20'
-                                :   'bg-surface-hover text-zinc-300 hover:bg-surface-strong hover:text-zinc-200'
+                                :   'bg-surface-strong text-zinc-300 hover:bg-surface-hover hover:text-zinc-100'
                             }`}>
                             {genre.name}
                         </button>
@@ -67,8 +67,8 @@ export default function GenreFilter({
                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 
                                 ${
                                     isSelected ?
-                                        'bg-primary text-zinc-200 shadow-lg shadow-primary/20'
-                                    :   'bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-200'
+                                        'bg-primary text-white shadow-lg shadow-primary/20'
+                                    :   'bg-surface-strong text-zinc-300 hover:bg-surface-hover hover:text-zinc-100'
                                 }`}>
                             {genre.name}
                         </button>

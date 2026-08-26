@@ -53,10 +53,10 @@ export default function SearchView({
 
     return (
         <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
-            <div className='max-w-9xl mx-auto lg:mx-16'>
-                <header className='mb-4'>
-                    <h1 className='text-2xl font-semibold text-zinc-100 mb-2'>Search Results for {searchQuery}</h1>
-                </header>
+            <header className='mb-4 flex items-center justify-between'>
+                <h1 className='text-lg sm:text-xl font-semibold text-zinc-100'>
+                    Search Results for &quot;{searchQuery}&quot;
+                </h1>
 
                 <FilterTabs
                     filterOptions={[
@@ -67,24 +67,24 @@ export default function SearchView({
                     activeFilter={activeFilter}
                     onFilterChange={setActiveFilter}
                 />
+            </header>
 
-                {isLoading ?
-                    <Loading />
-                :   <>
-                        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
-                            {filteredResults.map((result: any) => (
-                                <Link key={result.id} to={getDetailUrl(result)}>
-                                    <MediaCard type={result} />
-                                </Link>
-                            ))}
-                        </div>
+            {isLoading ?
+                <Loading />
+            :   <>
+                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
+                        {filteredResults.map((result: any) => (
+                            <Link key={result.id} to={getDetailUrl(result)}>
+                                <MediaCard type={result} />
+                            </Link>
+                        ))}
+                    </div>
 
-                        {activeFilter === 'all' && (
-                            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
-                        )}
-                    </>
-                }
-            </div>
+                    {activeFilter === 'all' && (
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+                    )}
+                </>
+            }
         </main>
     );
 }

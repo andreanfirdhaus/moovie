@@ -27,7 +27,7 @@ const SwiperParams = {
     fadeEffect: { crossFade: true },
     loop: true,
     speed: 900,
-    allowTouchMove: false,
+    allowTouchMove: true,
 };
 
 export const MovieTitleLogo = ({ movie }: MovieTitleLogoProps) => {
@@ -46,7 +46,7 @@ export const MovieTitleLogo = ({ movie }: MovieTitleLogoProps) => {
         <img
             src={logoUrl}
             alt={title}
-            className='h-auto w-auto max-h-12 md:max-h-16 lg:max-h-20 xl:max-h-28 object-contain'
+            className='h-auto w-auto max-h-16 lg:max-h-20 xl:max-h-28 object-contain'
             loading='lazy'
             draggable={false}
         />
@@ -59,7 +59,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
     const totalSlides = Math.min(movies.length, 7);
 
     return (
-        <section className='relative h-[456px] md:min-h-[680px]'>
+        <section className='relative h-[85svh] min-h-[600px] max-h-[760px] md:min-h-screen'>
             <Swiper
                 key={movies.length}
                 {...SwiperParams}
@@ -83,8 +83,8 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                             />
                             <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
 
-                            <div className='absolute bottom-20 md:bottom-28 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-24'>
-                                <Button
+                            <div className='absolute bottom-20 md:bottom-32 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-20'>
+                                {/* <Button
                                     as='span'
                                     size='sm'
                                     variant='ghost'
@@ -92,13 +92,13 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     leftIcon={<TrendingUp size={14} />}
                                     className='pointer-events-none bg-yellow-400 text-black text-xs font-bold backdrop-blur-sm hover:bg-yellow-400 hover:text-black'>
                                     Trending this week
-                                </Button>
+                                </Button> */}
 
-                                <div className='my-2 sm:my-3 md:my-4'>
+                                <div className='my-3 md:my-4'>
                                     <MovieTitleLogo movie={movie} />
                                 </div>
 
-                                <div className='mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-zinc-400 sm:font-semibold'>
+                                <div className='mb-2 md:mb-4 flex flex-wrap items-center gap-x-1 md:gap-x-2 gap-y-1 text-sm font-medium text-zinc-400 sm:font-semibold'>
                                     {movie.vote_average > 0 && (
                                         <span className='inline-flex items-center gap-1.5 text-yellow-400'>
                                             <Star size={18} className='fill-yellow-400' />
@@ -129,7 +129,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     )}
                                 </div>
 
-                                <p className='hidden text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
+                                <p className='text-sm md:text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
                                     {movie.overview}
                                 </p>
 
@@ -137,7 +137,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     as={Link}
                                     to={getDetailUrl(movie)}
                                     variant='ghost'
-                                    className='bg-white/90 text-black backdrop-blur-sm hover:bg-white hover:text-black'>
+                                    className='bg-white/90 text-black backdrop-blur-sm py-3 sm:py-3.5 hover:bg-white hover:text-black'>
                                     Watch Now
                                 </Button>
                             </div>
@@ -147,7 +147,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
             </Swiper>
 
             {/* navigation icon */}
-            <div className='absolute bottom-6 right-6 flex gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 md:px-2 xl:px-8 md:justify-between'>
+            <div className='hidden md:flex absolute bottom-6 right-6 gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 md:px-2 xl:px-6 md:justify-between'>
                 <Button
                     size='icon'
                     onClick={() => swiperRef.current?.slidePrev()}
@@ -166,7 +166,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
             </div>
 
             {/* indicator bars */}
-            <div className='hidden sm:flex absolute sm:bottom-4 md:bottom-16 z-10 items-center gap-1.5 sm:left-1/2 sm:-translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 lg:right-12 xl:right-24'>
+            <div className='flex absolute bottom-6 left-6 sm:bottom-4 md:bottom-16 lg:bottom-24 z-10 items-center gap-1.5 sm:left-1/2 sm:-translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 lg:right-12 xl:right-20'>
                 {Array.from({ length: totalSlides }).map((_, i) => {
                     const isActive = i === activeIndex;
                     return (

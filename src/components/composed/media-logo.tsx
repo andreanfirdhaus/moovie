@@ -11,7 +11,7 @@ export default function MediaLogo({ logoUrl, title, year, className }: MediaLogo
             <img
                 src={logoUrl}
                 alt={title || ''}
-                className={`h-auto w-auto max-h-12 md:max-h-16 lg:max-h-20 xl:max-h-28 object-contain ${className || ''}`}
+                className={`h-auto w-auto max-h-16 lg:max-h-20 xl:max-h-28 object-contain ${className || ''}`}
                 loading='lazy'
                 draggable={false}
             />

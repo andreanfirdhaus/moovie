@@ -15,7 +15,6 @@ export function CastCard({ cast }: CastCardProps) {
 
     return (
         <div className='w-full min-w-0 text-center group'>
-            {/* Avatar */}
             <figure className='relative mx-auto size-[88px] overflow-hidden rounded-full bg-surface-raised sm:size-[104px] md:size-[120px]'>
                 {cast.profile_path ?
                     <LazyLoadImage
@@ -34,11 +33,13 @@ export function CastCard({ cast }: CastCardProps) {
                 <div className='pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20' />
             </figure>
 
-            {/* Actor */}
-            <p className='mt-2 truncate text-sm font-semibold leading-5 text-zinc-100'>{name}</p>
+            <p className='mt-2 truncate text-sm font-medium text-zinc-100'>{name}</p>
 
-            {/* Character */}
-            {cast.character && <p className='truncate text-xs leading-4 text-zinc-400'>{cast.character}</p>}
+            {cast.character && (
+                <p className='truncate text-xs text-zinc-400'>
+                    {cast.character.replace(/\s*\(voice\)\s*/gi, '').trim()}
+                </p>
+            )}
         </div>
     );
 }

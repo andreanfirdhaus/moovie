@@ -1,11 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Search, X, Loader2, ChevronDown } from 'lucide-react';
+import { Menu, Search, X, Loader2, ChevronDown, UserRound, LogOut, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { menu } from '@/constants/nav-menu';
 import { Button } from '@/components/ui/button';
 import { useNavSearch } from '@/components/layout/navbar/useNavSearch';
 import { SearchResults } from './search-results';
+import { useAuth } from '@/features/auth/context';
 
 const dropdownVariants = {
     initial: { opacity: 0, y: -4, scale: 0.98 },
@@ -16,9 +17,20 @@ const dropdownVariants = {
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isDesktopSearchOpen, setIsDesktopSearchOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
+    const { user, profile, signOut } = useAuth();
+    const accountRef = useRef<HTMLDivElement>(null);
+    const displayName =
+        profile?.username ||
+        user?.user_metadata?.username ||
+        user?.user_metadata?.full_name ||
+        user?.email?.split('@')[0] ||
+        'Account';
+    const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || '/assets/avatar.png';
 
     const searchRef = useRef<HTMLDivElement>(null);
 
@@ -30,6 +42,7 @@ export default function Navbar() {
             if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
                 desktop.setIsOpen(false);
             }
+            if (accountRef.current && !accountRef.current.contains(e.target as Node)) setIsAccountOpen(false);
         };
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
@@ -40,11 +53,16 @@ export default function Navbar() {
         setMobileActiveDropdown(null);
     };
 
+    const supabaseSignOut = async () => {
+        await signOut();
+        setIsAccountOpen(false);
+    };
+
     return (
         <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 lg:px-12 xl:px-24 py-5 md:py-6'>
+            <nav className='relative px-4 sm:px-6 py-6'>
                 <div className='flex items-center justify-between space-x-4'>
-                    <div className='flex items-center space-x-6'>
+                    <div className='flex items-center space-x-16'>
                         <Link to='/' aria-label='Moovie home'>
                             <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
                         </Link>
@@ -68,7 +86,7 @@ export default function Navbar() {
                                                     className='transition-transform duration-[250ms] group-hover:rotate-180'
                                                 />
                                             }
-                                            className='mx-2 text-sm capitalize text-zinc-200 hover:text-zinc-100 hover:no-underline'>
+                                            className='mx-2 text-sm capitalize text-zinc-300 hover:text-zinc-100 hover:no-underline hover:bg-white/5 px-3 py-2'>
                                             {item.page}
                                         </Button>
 
@@ -82,7 +100,7 @@ export default function Navbar() {
                                                             <Link
                                                                 key={cat.value}
                                                                 to={`/${item.mediaType}/${cat.value}`}
-                                                                className='block px-3.5 py-2.5 text-sm text-zinc-400 hover:bg-surface-raised hover:text-zinc-200 transition-colors'>
+                                                                className='block px-3.5 py-2.5 text-sm text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 transition-colors'>
                                                                 {cat.label}
                                                             </Link>
                                                         ))}
@@ -102,45 +120,132 @@ export default function Navbar() {
                         </ul>
                     </div>
 
-                    {/* desktop search input */}
-                    <div
-                        className='relative hidden md:flex items-center w-full sm:max-w-[256px] lg:max-w-xs'
-                        ref={searchRef}>
-                        <form onSubmit={desktop.handleSubmit} className='relative w-full'>
-                            <button
-                                type='button'
-                                aria-label='Toggle search'
-                                className='absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors'
-                                onClick={() => desktop.setIsOpen(!desktop.isOpen)}>
-                                {desktop.isLoading ?
-                                    <Loader2 size={22} className='animate-spin' />
-                                :   <Search size={20} />}
-                            </button>
-                            <input
-                                type='text'
-                                value={desktop.query}
-                                onChange={(e) => desktop.setQuery(e.target.value)}
-                                onFocus={() => desktop.setIsOpen(true)}
-                                placeholder='Search...'
-                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium placeholder:text-zinc-500 bg-transparent border border-zinc-200/25 focus:outline-none text-zinc-100 text-sm rounded-full'
-                            />
-                        </form>
+                    <div className='flex items-center gap-4'>
+                        <button
+                            type='button'
+                            onClick={() => setIsDesktopSearchOpen(true)}
+                            className='hidden md:flex items-center justify-center text-zinc-300 transition-colors hover:text-zinc-100'
+                            aria-label='Open search'>
+                            {desktop.isLoading ?
+                                <Loader2 size={22} className='animate-spin' />
+                            :   <Search size={22} />}
+                        </button>
 
-                        {/* desktop search results */}
-                        {desktop.isOpen && desktop.query.trim() && (
-                            <div className='absolute top-full mt-2 w-full bg-surface rounded-xl shadow-xl max-h-96 overflow-y-auto'>
-                                <SearchResults
-                                    results={desktop.results}
-                                    isLoading={desktop.isLoading}
-                                    query={desktop.query}
-                                    onResultClick={desktop.handleResultClick}
-                                    maxResults={8}
-                                    viewAllLink={`/search?query=${encodeURIComponent(desktop.query)}`}
-                                    onViewAll={desktop.reset}
-                                />
-                            </div>
-                        )}
+                        <div ref={accountRef} className='relative hidden md:block'>
+                            {user ?
+                                <Button
+                                    variant='outline'
+                                    rounded='full'
+                                    onClick={() => setIsAccountOpen((open) => !open)}
+                                    aria-expanded={isAccountOpen}
+                                    className='h-12 px-1.5 pr-3 text-sm text-zinc-100 border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
+                                    <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5'>
+                                        <img src={avatarUrl} alt='' className='size-full object-cover' />
+                                    </span>
+
+                                    <span className='max-w-28 truncate'>{displayName}</span>
+
+                                    <ChevronDown
+                                        size={16}
+                                        strokeWidth={2}
+                                        className={`transition-transform ${isAccountOpen ? 'rotate-180' : ''}`}
+                                    />
+                                </Button>
+                            :   <Button
+                                    as={Link}
+                                    to='/login'
+                                    variant='outline'
+                                    rounded='full'
+                                    leftIcon={
+                                        <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                                            <UserRound size={18} strokeWidth={1.8} />
+                                        </span>
+                                    }
+                                    rightIcon={<ChevronDown size={16} strokeWidth={2} />}
+                                    className='h-12 px-1.5 pr-3 text-sm text-zinc-100 border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
+                                    Account
+                                </Button>
+                            }
+
+                            {user && isAccountOpen && (
+                                <div className='absolute right-0 top-full mt-2 w-48 rounded-lg bg-surface p-2 shadow-xl'>
+                                    <Link
+                                        to='/profile'
+                                        onClick={() => setIsAccountOpen(false)}
+                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-zinc-300 hover:bg-surface-raised hover:text-zinc-100'>
+                                        <UserRound size={16} />
+                                        Profile
+                                    </Link>
+
+                                    <Link
+                                        to='/profile#settings'
+                                        onClick={() => setIsAccountOpen(false)}
+                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-zinc-300 hover:bg-surface-raised hover:text-zinc-100'>
+                                        <Settings size={16} />
+                                        Account settings
+                                    </Link>
+
+                                    <button
+                                        onClick={() => void supabaseSignOut()}
+                                        className='flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-red-400 hover:bg-red-950/50'>
+                                        <LogOut size={16} />
+                                        Sign out
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
+                    {isDesktopSearchOpen && (
+                        <div
+                            className='hidden md:flex fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex-col pt-28 px-4'
+                            onMouseDown={(e) => {
+                                if (e.target === e.currentTarget) {
+                                    setIsDesktopSearchOpen(false);
+                                    desktop.reset();
+                                }
+                            }}>
+                            <div ref={searchRef} className='w-full max-w-xl mx-auto'>
+                                <form onSubmit={desktop.handleSubmit}>
+                                    <div className='relative'>
+                                        <input
+                                            type='text'
+                                            value={desktop.query}
+                                            onChange={(e) => desktop.setQuery(e.target.value)}
+                                            placeholder='Find movies and tv shows'
+                                            autoFocus
+                                            className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm shadow-lg shadow-black/40'
+                                        />
+
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                setIsDesktopSearchOpen(false);
+                                                desktop.reset();
+                                            }}
+                                            className='absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-100 transition-colors'
+                                            aria-label='Close search'>
+                                            <X size={22} />
+                                        </button>
+                                    </div>
+                                </form>
+
+                                {desktop.query.trim() && (
+                                    <div className='mt-4 bg-surface-raised rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
+                                        <SearchResults
+                                            results={desktop.results}
+                                            isLoading={desktop.isLoading}
+                                            query={desktop.query}
+                                            onResultClick={desktop.handleResultClick}
+                                            maxResults={8}
+                                            viewAllLink={`/search?query=${encodeURIComponent(desktop.query)}`}
+                                            onViewAll={desktop.reset}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
                     {/* mobile icon */}
                     <div className='flex md:hidden items-center gap-5'>
@@ -150,6 +255,7 @@ export default function Navbar() {
                             aria-label='Search'>
                             <Search size={22} />
                         </button>
+
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className='text-zinc-300'
@@ -165,6 +271,26 @@ export default function Navbar() {
                 {isMobileMenuOpen && (
                     <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-40 overflow-hidden'>
                         <ul className='flex flex-col items-center justify-center h-dvh space-y-2'>
+                            <li>
+                                <Link
+                                    to={user ? '/profile' : '/login'}
+                                    onClick={closeMobileMenu}
+                                    className='flex items-center gap-3 rounded-full border border-zinc-700/80 bg-black/20 px-1.5 py-1.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-600 hover:bg-zinc-800/70'>
+                                    {user ?
+                                        <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-zinc-700/80'>
+                                            <img src={avatarUrl} alt='' className='size-full object-cover' />
+                                        </span>
+                                    :   <span className='flex size-8 items-center justify-center rounded-full border border-zinc-700/80 bg-zinc-900/60'>
+                                            <UserRound size={16} strokeWidth={1.8} />
+                                        </span>
+                                    }
+
+                                    <span className='max-w-32 truncate'>{user ? displayName : 'Account'}</span>
+
+                                    <ChevronDown size={15} strokeWidth={2} className='mr-2' />
+                                </Link>
+                            </li>
+
                             {menu.map((item, i) =>
                                 item.hasDropdown && item.categories ?
                                     <li key={i}>
@@ -182,6 +308,7 @@ export default function Navbar() {
                                                 className={`transition-transform duration-200 ${mobileActiveDropdown === item.page ? 'rotate-180' : ''}`}
                                             />
                                         </button>
+
                                         <AnimatePresence>
                                             {mobileActiveDropdown === item.page && (
                                                 <motion.div
@@ -229,7 +356,7 @@ export default function Navbar() {
                                     onChange={(e) => mobile.setQuery(e.target.value)}
                                     placeholder='Find movies and tv shows'
                                     autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm'
+                                    className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm shadow-lg shadow-black/40'
                                 />
                                 <button
                                     type='button'
@@ -245,7 +372,7 @@ export default function Navbar() {
                         </form>
 
                         {mobile.query.trim() && (
-                            <div className='mt-4 bg-surface rounded-2xl max-h-[60vh] overflow-y-auto'>
+                            <div className='mt-4 bg-surface-raised rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
                                 <SearchResults
                                     results={mobile.results}
                                     isLoading={mobile.isLoading}

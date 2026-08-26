@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     useMediaDetail,
     useMediaCredits,
@@ -9,6 +9,7 @@ import {
 import { parseDetailId } from '@/utils/url';
 
 export function useDetail() {
+    const navigate = useNavigate();
     const { type, id } = useParams();
     const numericId = id ? parseDetailId(id) : undefined;
 
@@ -24,12 +25,9 @@ export function useDetail() {
     // localstate
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState<{ id: number; type: string } | null>(null);
-    const [selectedPersonId, setSelectedPersonId] = useState<number | null>(null);
-    const [isCastModalOpen, setIsCastModalOpen] = useState(false);
 
     // derived state
     const isLoading = isLoadingDetail || isLoadingCredits || isLoadingRecommendations;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allSeasons = (detail as any)?.seasons || [];
 
     // handlers
@@ -44,13 +42,7 @@ export function useDetail() {
     };
 
     const handleCastClick = (personId: number) => {
-        setSelectedPersonId(personId);
-        setIsCastModalOpen(true);
-    };
-
-    const handleCloseCastModal = () => {
-        setIsCastModalOpen(false);
-        setTimeout(() => setSelectedPersonId(null), 300);
+        navigate(`/person/${personId}`);
     };
 
     return {
@@ -67,12 +59,9 @@ export function useDetail() {
         isLoading,
         isTrailerOpen,
         selectedMovie,
-        selectedPersonId,
-        isCastModalOpen,
         // handlers
         handleTrailerClick,
         handleCloseTrailer,
         handleCastClick,
-        handleCloseCastModal,
     };
 }

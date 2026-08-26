@@ -4,9 +4,9 @@ import { ComponentPropsWithRef, ElementType, ReactNode, forwardRef } from 'react
 
 const buttonVariants = {
     variant: {
-        primary: 'bg-primary/80 hover:bg-primary text-white',
+        primary: 'bg-primary hover:bg-primary text-white',
         secondary: 'bg-surface-strong text-zinc-100 hover:bg-surface-hover',
-        ghost: 'bg-surface text-zinc-300 hover:bg-surface-raised hover:text-zinc-100',
+        ghost: 'bg-transparent text-zinc-300 hover:bg-surface-raised hover:text-zinc-100',
         outline:
             'bg-transparent border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-zinc-100 hover:bg-surface',
         danger: 'bg-red-950 text-red-400 hover:bg-red-900 hover:text-red-300',

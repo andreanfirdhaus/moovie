@@ -26,7 +26,6 @@ const SwiperParams = {
     breakpoints: {
         320: { spaceBetween: 8 },
         640: { spaceBetween: 16 },
-        1024: { spaceBetween: 18.5 },
     },
 };
 
@@ -46,18 +45,22 @@ export function PopularSection() {
     const { items, isLoading } = dataMap[activeFilter];
 
     return (
-        <section className='py-8 sm:py-12 lg:mx-4 px-4 sm:px-6 lg:px-8 xl:px-20'>
-            <header className='mb-4 md:mb-5'>
-                <h2 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-4'>What&apos;s Popular</h2>
+        <section className='py-8 sm:py-12 px-4 sm:px-6'>
+            <header className='flex justify-between items-center mb-4'>
+                <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>What&apos;s Popular</h2>
 
-                <div className='flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+                <div className='inline-flex items-center gap-1 rounded-full bg-surface-raised p-1'>
                     {filters.map((index) => (
                         <Button
                             key={index.value}
-                            as={Button}
-                            variant={activeFilter === index.value ? 'secondary' : 'ghost'}
                             onClick={() => setActiveFilter(index.value)}
-                            className='px-4 py-2'>
+                            size='sm'
+                            rounded='full'
+                            className={
+                                activeFilter === index.value ?
+                                    'bg-[#242424] hover:bg-[#242424] text-white font-semibold px-4 py-2'
+                                :   'bg-transparent text-zinc-400 hover:bg-[#242424] hover:text-zinc-200 px-4 py-2'
+                            }>
                             {index.label}
                         </Button>
                     ))}
@@ -84,7 +87,7 @@ export function PopularSection() {
                 : items.length > 0 ?
                     <Swiper {...SwiperParams} freeMode={true} modules={[FreeMode]} className='mySwiper py-2.5'>
                         {items.map((item) => (
-                            <SwiperSlide key={item.id} className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[200px]'>
+                            <SwiperSlide key={item.id} className='!w-[140px] sm:!w-[160px] md:!w-[180px]'>
                                 <Link to={getDetailUrl(item)}>
                                     <MediaCard type={item} />
                                 </Link>

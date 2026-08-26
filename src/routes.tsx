@@ -1,6 +1,10 @@
 import { lazy } from 'react';
 import Layout from '@/layout';
+import AuthLayout from './components/layout/auth-layout';
 import NotFound from './not-found';
+import AuthPage from './features/auth';
+import ProfilePage from './features/profile';
+import PersonDetailPage from './features/person';
 
 const Home = lazy(() => import('@/features/home'));
 const DetailPage = lazy(() => import('@/features/detail'));
@@ -8,6 +12,15 @@ const Search = lazy(() => import('@/features/search'));
 const DiscoverPage = lazy(() => import('./features/discover/components/discover-page'));
 
 export const routes = [
+    {
+        element: <AuthLayout />,
+        children: [
+            { path: '/login', element: <AuthPage mode='login' /> },
+            { path: '/register', element: <AuthPage mode='register' /> },
+            { path: '/forgot-password', element: <AuthPage mode='forgot' /> },
+            { path: '/reset-password', element: <AuthPage mode='reset' /> },
+        ],
+    },
     {
         path: '/',
         element: <Layout />,
@@ -29,6 +42,8 @@ export const routes = [
             { path: '/tv/toprated', element: <DiscoverPage key='tv-toprated' mediaType='tv' category='toprated' /> },
 
             { path: '/search', element: <Search /> },
+            { path: '/profile', element: <ProfilePage /> },
+            { path: '/person/:id', element: <PersonDetailPage /> },
             { path: '/:type/:id', element: <DetailPage /> },
             { path: '*', element: <NotFound /> },
         ],
