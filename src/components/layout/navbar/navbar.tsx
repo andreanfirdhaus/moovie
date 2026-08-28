@@ -6,6 +6,7 @@ import { menu } from '@/constants/nav-menu';
 import { Button } from '@/components/ui/button';
 import { useNavSearch } from '@/components/layout/navbar/useNavSearch';
 import { SearchResults } from './search-results';
+import { CountryDropdown } from './country-dropdown';
 import { useAuth } from '@/features/auth/context';
 
 const dropdownVariants = {
@@ -120,7 +121,7 @@ export default function Navbar() {
                         </ul>
                     </div>
 
-                    <div className='flex items-center gap-4'>
+                    <div className='flex items-center gap-3'>
                         <button
                             type='button'
                             onClick={() => setIsDesktopSearchOpen(true)}
@@ -130,6 +131,10 @@ export default function Navbar() {
                                 <Loader2 size={22} className='animate-spin' />
                             :   <Search size={22} />}
                         </button>
+
+                        <div className='hidden md:block'>
+                            <CountryDropdown />
+                        </div>
 
                         <div ref={accountRef} className='relative hidden md:block'>
                             {user ?
@@ -248,7 +253,9 @@ export default function Navbar() {
                     )}
 
                     {/* mobile icon */}
-                    <div className='flex md:hidden items-center gap-5'>
+                    <div className='flex md:hidden items-center gap-3'>
+                        <CountryDropdown />
+
                         <button
                             onClick={() => setIsMobileSearchOpen(true)}
                             className='text-foreground-secondary hover:text-foreground transition-colors'

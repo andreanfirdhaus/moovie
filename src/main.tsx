@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { queryClient } from '@/config/query-client';
 import { routes } from './routes';
 import { AuthProvider } from '@/features/auth/context';
+import { CountryProvider } from '@/context/country-context';
 import './main.css';
 
 const router = createBrowserRouter(routes);
@@ -16,7 +17,9 @@ if (rootElement) {
         <React.StrictMode>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
-                    <RouterProvider router={router} />
+                    <CountryProvider>
+                        <RouterProvider router={router} />
+                    </CountryProvider>
                 </AuthProvider>
                 <ReactQueryDevtools initialIsOpen={false} />
                 <Analytics />
