@@ -18,7 +18,7 @@ export const menu: NavMenuItem[] = [
         ],
     },
     {
-        page: 'Tv Shows',
+        page: 'Tv Series',
         hasDropdown: true,
         mediaType: 'tv',
         categories: [

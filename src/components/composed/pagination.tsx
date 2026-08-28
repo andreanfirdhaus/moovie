@@ -65,7 +65,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                 {pageNumbers.map((page, index) => {
                     if (page === '...') {
                         return (
-                            <span key={`ellipsis-${index}`} className='px-2 py-2 text-zinc-500'>
+                            <span key={`ellipsis-${index}`} className='px-2 py-2 text-foreground-disabled'>
                                 ...
                             </span>
                         );

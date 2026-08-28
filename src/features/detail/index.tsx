@@ -47,7 +47,7 @@ export default function DetailPage() {
     if (!type || !id) {
         return (
             <div className='flex items-center justify-center h-dvh'>
-                <p className='text-zinc-400 text-lg'>Invalid movie/series ID</p>
+                <p className='text-foreground-muted text-lg'>Invalid movie/series ID</p>
             </div>
         );
     }
@@ -55,7 +55,7 @@ export default function DetailPage() {
     if (!detail) {
         return (
             <div className='flex items-center justify-center h-dvh'>
-                <p className='text-zinc-400 text-lg'>No detail available</p>
+                <p className='text-foreground-muted text-lg'>No detail available</p>
             </div>
         );
     }
@@ -91,7 +91,7 @@ export default function DetailPage() {
                         {credits?.cast?.length > 0 && (
                             <section>
                                 <header className='mb-4'>
-                                    <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Cast</h2>
+                                    <h2 className='text-lg sm:text-xl font-semibold text-foreground'>Cast</h2>
                                 </header>
 
                                 <Swiper {...SwiperParams} freeMode={true} modules={[FreeMode]}>
@@ -112,7 +112,7 @@ export default function DetailPage() {
                         {allSeasons?.length > 0 && !(type === 'tv' && streaming.isPlaying) && (
                             <section>
                                 <header className='mb-4'>
-                                    <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Seasons</h2>
+                                    <h2 className='text-lg sm:text-xl font-semibold text-foreground'>Seasons</h2>
                                 </header>
 
                                 <Swiper
@@ -135,7 +135,7 @@ export default function DetailPage() {
                         {recommendations?.length > 0 && (
                             <section>
                                 <header className='mb-4'>
-                                    <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>Recommendation</h2>
+                                    <h2 className='text-lg sm:text-xl font-semibold text-foreground'>Recommendation</h2>
                                 </header>
 
                                 <Swiper

@@ -16,7 +16,7 @@ interface FilterTabsProps {
 
 export default function FilterTabs({ filterOptions, activeFilter, onFilterChange }: FilterTabsProps) {
     return (
-        <div className='flex flex-wrap gap-1 rounded-full bg-surface-raised p-1'>
+        <div className='flex flex-wrap gap-1 rounded-full bg-surface-base border border-border-subtle p-1'>
             {filterOptions.map((item) => (
                 <Button
                     key={item.value}
@@ -26,8 +26,8 @@ export default function FilterTabs({ filterOptions, activeFilter, onFilterChange
                     rounded='full'
                     className={
                         activeFilter === item.value ?
-                            'bg-[#242424] hover:bg-[#242424] text-white font-semibold px-4 py-2'
-                        :   'bg-transparent text-zinc-400 hover:bg-[#242424] hover:text-zinc-200 px-4 py-2'
+                            'bg-surface-elevated hover:bg-surface-elevated text-foreground font-semibold px-4 py-2'
+                        :   'bg-transparent text-foreground-muted hover:bg-surface-raised hover:text-foreground px-4 py-2'
                     }>
                     {item.label} {item.count > 0 && `(${item.count})`}
                 </Button>

@@ -60,7 +60,7 @@ export default function Navbar() {
 
     return (
         <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 py-6'>
+            <nav className='relative px-4 sm:px-6 py-4'>
                 <div className='flex items-center justify-between space-x-4'>
                     <div className='flex items-center space-x-16'>
                         <Link to='/' aria-label='Moovie home'>
@@ -86,7 +86,7 @@ export default function Navbar() {
                                                     className='transition-transform duration-[250ms] group-hover:rotate-180'
                                                 />
                                             }
-                                            className='mx-2 text-sm capitalize text-zinc-300 hover:text-zinc-100 hover:no-underline hover:bg-white/5 px-3 py-2'>
+                                            className='mx-2 text-sm capitalize text-foreground-secondary hover:text-foreground hover:no-underline hover:bg-surface-hover px-3 py-2'>
                                             {item.page}
                                         </Button>
 
@@ -95,12 +95,12 @@ export default function Navbar() {
                                                 <motion.div
                                                     {...dropdownVariants}
                                                     className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
-                                                    <div className='rounded-lg bg-surface shadow-xl overflow-hidden'>
+                                                    <div className='rounded-lg bg-surface-overlay border border-border shadow-md overflow-hidden'>
                                                         {item.categories.map((cat) => (
                                                             <Link
                                                                 key={cat.value}
                                                                 to={`/${item.mediaType}/${cat.value}`}
-                                                                className='block px-3.5 py-2.5 text-sm text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 transition-colors'>
+                                                                className='block px-3.5 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground transition-colors'>
                                                                 {cat.label}
                                                             </Link>
                                                         ))}
@@ -112,7 +112,7 @@ export default function Navbar() {
                                 :   <li key={i}>
                                         <NavLink
                                             to={item.link!}
-                                            className='mx-2 flex items-center gap-2 p-2 text-sm font-medium capitalize text-zinc-200 transition-colors hover:text-zinc-100'>
+                                            className='mx-2 flex items-center gap-2 p-2 text-sm font-medium capitalize text-foreground-secondary transition-colors hover:text-foreground'>
                                             {item.page}
                                         </NavLink>
                                     </li>
@@ -124,7 +124,7 @@ export default function Navbar() {
                         <button
                             type='button'
                             onClick={() => setIsDesktopSearchOpen(true)}
-                            className='hidden md:flex items-center justify-center text-zinc-300 transition-colors hover:text-zinc-100'
+                            className='hidden md:flex items-center justify-center text-foreground-secondary transition-colors hover:text-foreground'
                             aria-label='Open search'>
                             {desktop.isLoading ?
                                 <Loader2 size={22} className='animate-spin' />
@@ -138,7 +138,7 @@ export default function Navbar() {
                                     rounded='full'
                                     onClick={() => setIsAccountOpen((open) => !open)}
                                     aria-expanded={isAccountOpen}
-                                    className='h-12 px-1.5 pr-3 text-sm text-zinc-100 border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
+                                    className='h-12 px-1.5 pr-3 text-sm text-foreground border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
                                     <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5'>
                                         <img src={avatarUrl} alt='' className='size-full object-cover' />
                                     </span>
@@ -162,17 +162,17 @@ export default function Navbar() {
                                         </span>
                                     }
                                     rightIcon={<ChevronDown size={16} strokeWidth={2} />}
-                                    className='h-12 px-1.5 pr-3 text-sm text-zinc-100 border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
+                                    className='h-12 px-1.5 pr-3 text-sm text-foreground border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
                                     Account
                                 </Button>
                             }
 
                             {user && isAccountOpen && (
-                                <div className='absolute right-0 top-full mt-2 w-48 rounded-lg bg-surface p-2 shadow-xl'>
+                                <div className='absolute right-0 top-full mt-2 w-48 rounded-lg bg-surface-overlay border border-border p-2 shadow-md'>
                                     <Link
                                         to='/profile'
                                         onClick={() => setIsAccountOpen(false)}
-                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-zinc-300 hover:bg-surface-raised hover:text-zinc-100'>
+                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground'>
                                         <UserRound size={16} />
                                         Profile
                                     </Link>
@@ -180,14 +180,14 @@ export default function Navbar() {
                                     <Link
                                         to='/profile#settings'
                                         onClick={() => setIsAccountOpen(false)}
-                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-zinc-300 hover:bg-surface-raised hover:text-zinc-100'>
+                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground'>
                                         <Settings size={16} />
                                         Account settings
                                     </Link>
 
                                     <button
                                         onClick={() => void supabaseSignOut()}
-                                        className='flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-red-400 hover:bg-red-950/50'>
+                                        className='flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-danger-text hover:bg-danger-surface'>
                                         <LogOut size={16} />
                                         Sign out
                                     </button>
@@ -214,7 +214,7 @@ export default function Navbar() {
                                             onChange={(e) => desktop.setQuery(e.target.value)}
                                             placeholder='Find movies and tv shows'
                                             autoFocus
-                                            className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm shadow-lg shadow-black/40'
+                                            className='w-full pl-5 pr-12 py-4 bg-surface-base border border-border text-foreground placeholder:text-foreground-disabled rounded-full focus:outline-none focus:border-primary-accent text-sm placeholder:text-sm shadow-lg shadow-black/40'
                                         />
 
                                         <button
@@ -223,7 +223,7 @@ export default function Navbar() {
                                                 setIsDesktopSearchOpen(false);
                                                 desktop.reset();
                                             }}
-                                            className='absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-100 transition-colors'
+                                            className='absolute right-4 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-foreground transition-colors'
                                             aria-label='Close search'>
                                             <X size={22} />
                                         </button>
@@ -231,7 +231,7 @@ export default function Navbar() {
                                 </form>
 
                                 {desktop.query.trim() && (
-                                    <div className='mt-4 bg-surface-raised rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
+                                    <div className='mt-4 bg-surface-overlay border border-border rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
                                         <SearchResults
                                             results={desktop.results}
                                             isLoading={desktop.isLoading}
@@ -251,14 +251,14 @@ export default function Navbar() {
                     <div className='flex md:hidden items-center gap-5'>
                         <button
                             onClick={() => setIsMobileSearchOpen(true)}
-                            className='text-zinc-300'
+                            className='text-foreground-secondary hover:text-foreground transition-colors'
                             aria-label='Search'>
                             <Search size={22} />
                         </button>
 
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className='text-zinc-300'
+                            className='text-foreground-secondary hover:text-foreground transition-colors'
                             aria-label='Toggle menu'>
                             {isMobileMenuOpen ?
                                 <X size={22} className='relative z-50' />
@@ -275,12 +275,12 @@ export default function Navbar() {
                                 <Link
                                     to={user ? '/profile' : '/login'}
                                     onClick={closeMobileMenu}
-                                    className='flex items-center gap-3 rounded-full border border-zinc-700/80 bg-black/20 px-1.5 py-1.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-600 hover:bg-zinc-800/70'>
+                                    className='flex items-center gap-3 rounded-full border border-border bg-surface-elevated px-1.5 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-border-hover hover:bg-surface-hover'>
                                     {user ?
-                                        <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-zinc-700/80'>
+                                        <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-border-subtle'>
                                             <img src={avatarUrl} alt='' className='size-full object-cover' />
                                         </span>
-                                    :   <span className='flex size-8 items-center justify-center rounded-full border border-zinc-700/80 bg-zinc-900/60'>
+                                    :   <span className='flex size-8 items-center justify-center rounded-full border border-border-subtle bg-surface-raised'>
                                             <UserRound size={16} strokeWidth={1.8} />
                                         </span>
                                     }
@@ -300,7 +300,7 @@ export default function Navbar() {
                                                     mobileActiveDropdown === item.page ? null : item.page
                                                 )
                                             }
-                                            className='w-full text-center px-5 py-2 text-lg font-medium capitalize text-zinc-200 flex items-center justify-center gap-2'>
+                                            className='w-full text-center px-5 py-2 text-lg font-medium capitalize text-foreground-secondary flex items-center justify-center gap-2 hover:text-foreground transition-colors'>
                                             {item.page}
                                             <ChevronDown
                                                 size={18}
@@ -322,7 +322,7 @@ export default function Navbar() {
                                                             key={cat.value}
                                                             to={`/${item.mediaType}/${cat.value}`}
                                                             onClick={closeMobileMenu}
-                                                            className='block px-8 py-2 text-base font-medium text-center text-zinc-400 hover:text-zinc-100 transition-colors'>
+                                                            className='block px-8 py-2 text-base font-medium text-center text-foreground-muted hover:text-foreground transition-colors'>
                                                             {cat.label}
                                                         </Link>
                                                     ))}
@@ -334,7 +334,7 @@ export default function Navbar() {
                                         <NavLink
                                             to={item.link!}
                                             onClick={closeMobileMenu}
-                                            className='block px-5 py-2.5 text-lg font-medium capitalize text-zinc-200 transition-colors'>
+                                            className='block px-5 py-2.5 text-lg font-medium capitalize text-foreground-secondary hover:text-foreground transition-colors'>
                                             {item.page}
                                         </NavLink>
                                     </li>
@@ -356,7 +356,7 @@ export default function Navbar() {
                                     onChange={(e) => mobile.setQuery(e.target.value)}
                                     placeholder='Find movies and tv shows'
                                     autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-surface-raised text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm shadow-lg shadow-black/40'
+                                    className='w-full pl-5 pr-12 py-4 bg-surface-base border border-border text-foreground placeholder:text-foreground-disabled rounded-full focus:outline-none focus:border-primary-accent text-sm placeholder:text-sm shadow-lg shadow-black/40'
                                 />
                                 <button
                                     type='button'
@@ -364,7 +364,7 @@ export default function Navbar() {
                                         setIsMobileSearchOpen(false);
                                         mobile.reset();
                                     }}
-                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-100 transition-colors'
+                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-foreground transition-colors'
                                     aria-label='Close search'>
                                     <X size={22} />
                                 </button>
@@ -372,7 +372,7 @@ export default function Navbar() {
                         </form>
 
                         {mobile.query.trim() && (
-                            <div className='mt-4 bg-surface-raised rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
+                            <div className='mt-4 bg-surface-overlay border border-border rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
                                 <SearchResults
                                     results={mobile.results}
                                     isLoading={mobile.isLoading}

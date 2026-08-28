@@ -12,7 +12,7 @@ function SeasonTrigger({ activeName }: { activeName: string }) {
             <Button
                 variant='ghost'
                 rounded='lg'
-                className='min-w-[140px] justify-between bg-surface-strong px-3.5 py-3 text-sm text-zinc-100 hover:bg-surface-hover'
+                className='min-w-[140px] justify-between bg-surface-raised border border-border-subtle px-3.5 py-3 text-sm text-foreground hover:bg-surface-hover'
                 rightIcon={<ChevronDown size={14} className={isOpen ? 'rotate-180' : ''} />}>
                 {activeName}
             </Button>
@@ -43,7 +43,7 @@ export default function TmdbEpisodePanel({
     return (
         <section className='w-full space-y-4'>
             <div className='flex items-center justify-between gap-4'>
-                <h2 className='text-lg font-semibold text-zinc-100 sm:text-xl'>Episodes</h2>
+                <h2 className='text-lg font-semibold text-foreground sm:text-xl'>Episodes</h2>
 
                 <Dropdown className='w-fit'>
                     <SeasonTrigger activeName={activeName} />
@@ -56,7 +56,7 @@ export default function TmdbEpisodePanel({
                                 onSelect={() => onSeasonChange(season.season_number)}
                                 className={
                                     season.season_number === activeSeason ?
-                                        'whitespace-nowrap bg-primary/15 text-primary-hover'
+                                        'whitespace-nowrap bg-primary-muted text-primary-accent'
                                     :   'whitespace-nowrap'
                                 }>
                                 {season.name}
@@ -68,7 +68,7 @@ export default function TmdbEpisodePanel({
 
             {isLoadingEpisodes ?
                 <div className='flex justify-center py-8'>
-                    <div className='size-6 animate-spin rounded-full border-2 border-zinc-800 border-t-zinc-300' />
+                    <div className='size-6 animate-spin rounded-full border-2 border-border-subtle border-t-primary-accent' />
                 </div>
             :   <div className='flex flex-wrap gap-x-4 md:gap-x-6 gap-y-8'>
                     {episodes.map((episode) => {
@@ -85,7 +85,7 @@ export default function TmdbEpisodePanel({
                             <button
                                 key={episode.id}
                                 onClick={() => onEpisodeClick(episode.episode_number)}
-                                className={`group min-w-0 shrink-0 text-left basis-[calc((100%-1rem)/2)] md:basis-[calc((100%-3rem)/3)] lg:basis-[calc((100%-6rem)/5)] ${episode.episode_number === activeEpisode ? 'text-zinc-100' : 'text-zinc-400'}`}>
+                                className={`group min-w-0 shrink-0 text-left basis-[calc((100%-1rem)/2)] md:basis-[calc((100%-3rem)/3)] lg:basis-[calc((100%-6rem)/5)] ${episode.episode_number === activeEpisode ? 'text-foreground' : 'text-foreground-muted'}`}>
                                 <div className='relative aspect-video overflow-hidden rounded-lg bg-surface-raised'>
                                     {episode.still_path ?
                                         <img
@@ -100,7 +100,7 @@ export default function TmdbEpisodePanel({
                                             S{episode.season_number} · E{episode.episode_number}
                                         </span>
 
-                                        <span className='hidden sm:block truncate rounded bg-black/75 px-1.5 py-1 text-zinc-200'>
+                                        <span className='hidden sm:block truncate rounded bg-black/75 px-1.5 py-1 text-foreground-secondary'>
                                             {releaseDate}
                                         </span>
                                     </div>
@@ -113,10 +113,10 @@ export default function TmdbEpisodePanel({
                                 </div>
 
                                 <p
-                                    className={`mt-2 truncate text-sm font-semibold ${episode.episode_number === activeEpisode ? 'text-primary-hover' : 'text-zinc-100'}`}>
+                                    className={`mt-2 truncate text-sm font-semibold ${episode.episode_number === activeEpisode ? 'text-primary-accent' : 'text-foreground'}`}>
                                     {episode.name}
                                 </p>
-                                <p className='mt-0.5 line-clamp-2 text-xs leading-5 text-zinc-500'>
+                                <p className='mt-0.5 line-clamp-2 text-xs leading-5 text-foreground-disabled'>
                                     {episode.overview || 'No description available.'}
                                 </p>
                             </button>

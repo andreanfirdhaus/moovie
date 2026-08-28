@@ -130,16 +130,16 @@ export default function ProfilePage() {
                             className='size-16 rounded-full object-cover'
                         />
                         <div>
-                            <p className='text-xs font-semibold uppercase tracking-[0.18em] text-primary-hover'>
+                            <p className='text-xs font-semibold uppercase tracking-[0.18em] text-primary-accent'>
                                 Your account
                             </p>
-                            <h1 className='mt-2 text-3xl font-bold text-zinc-100'>{displayName}</h1>
-                            <p className='mt-2 text-sm text-zinc-400'>{user.email}</p>
+                            <h1 className='mt-2 text-3xl font-bold text-foreground'>{displayName}</h1>
+                            <p className='mt-2 text-sm text-foreground-muted'>{user.email}</p>
                         </div>
                     </div>
                     <button
                         onClick={() => void signOut().then(() => navigate('/'))}
-                        className='inline-flex items-center gap-2 self-start text-sm text-zinc-400 hover:text-zinc-100 sm:self-auto'>
+                        className='inline-flex items-center gap-2 self-start text-sm text-foreground-muted hover:text-foreground sm:self-auto transition-colors'>
                         <LogOut size={16} /> Sign out
                     </button>
                 </header>
@@ -147,12 +147,12 @@ export default function ProfilePage() {
                 <div className='mt-8 flex gap-2' role='tablist' aria-label='Collection type'>
                     <button
                         onClick={() => setActiveKind('watchlist')}
-                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium ${activeKind === 'watchlist' ? 'bg-surface-strong text-zinc-100' : 'text-zinc-400 hover:bg-surface-raised'}`}>
+                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors ${activeKind === 'watchlist' ? 'bg-surface-elevated text-foreground' : 'text-foreground-muted hover:bg-surface-raised hover:text-foreground'}`}>
                         <Bookmark size={16} /> Watchlist
                     </button>
                     <button
                         onClick={() => setActiveKind('favorite')}
-                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium ${activeKind === 'favorite' ? 'bg-surface-strong text-zinc-100' : 'text-zinc-400 hover:bg-surface-raised'}`}>
+                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors ${activeKind === 'favorite' ? 'bg-surface-elevated text-foreground' : 'text-foreground-muted hover:bg-surface-raised hover:text-foreground'}`}>
                         <Heart size={16} /> Favorites
                     </button>
                 </div>
@@ -177,32 +177,36 @@ export default function ProfilePage() {
                             </Link>
                         ))}
                     </div>
-                :   <div className='mt-12 rounded-lg bg-surface-raised p-10 text-center'>
-                        <p className='text-lg font-semibold text-zinc-200'>Your {activeKind} is empty</p>
-                        <p className='mt-2 text-sm text-zinc-400'>
+                :   <div className='mt-12 rounded-lg bg-surface-raised border border-border-subtle p-10 text-center'>
+                        <p className='text-lg font-semibold text-foreground'>Your {activeKind} is empty</p>
+                        <p className='mt-2 text-sm text-foreground-muted'>
                             Save something while browsing and it will appear here.
                         </p>
                     </div>
                 }
 
                 <section id='settings' className='mt-16 max-w-2xl border-t border-border pt-8'>
-                    <p className='text-xs font-semibold uppercase tracking-[0.18em] text-primary-hover'>
+                    <p className='text-xs font-semibold uppercase tracking-[0.18em] text-primary-accent'>
                         Account settings
                     </p>
-                    <h2 className='mt-2 text-xl font-semibold text-zinc-100'>Manage your account</h2>
+                    <h2 className='mt-2 text-xl font-semibold text-foreground'>Manage your account</h2>
 
                     {accountError && (
-                        <p className='mt-4 rounded-md bg-red-950/60 p-3 text-sm text-red-300'>{accountError}</p>
+                        <p className='mt-4 rounded-md bg-danger-surface border border-danger-border p-3 text-sm text-danger-text'>
+                            {accountError}
+                        </p>
                     )}
                     {accountMessage && (
-                        <p className='mt-4 rounded-md bg-green-950/60 p-3 text-sm text-green-300'>{accountMessage}</p>
+                        <p className='mt-4 rounded-md bg-success-surface border border-success-border p-3 text-sm text-success-text'>
+                            {accountMessage}
+                        </p>
                     )}
 
                     <div className='mt-6 space-y-6'>
-                        <div className='rounded-lg bg-surface-raised p-5'>
-                            <h3 className='font-semibold text-zinc-100'>Profile photo</h3>
-                            <p className='mt-1 text-sm text-zinc-400'>Use a JPG, PNG, or WebP image.</p>
-                            <label className='mt-4 inline-flex cursor-pointer items-center gap-2 rounded-md bg-surface-strong px-4 py-2.5 text-sm font-medium text-zinc-100 hover:bg-surface-hover'>
+                        <div className='rounded-lg bg-surface-raised border border-border-subtle p-5'>
+                            <h3 className='font-semibold text-foreground'>Profile photo</h3>
+                            <p className='mt-1 text-sm text-foreground-muted'>Use a JPG, PNG, or WebP image.</p>
+                            <label className='mt-4 inline-flex cursor-pointer items-center gap-2 rounded-md bg-surface-elevated border border-border-subtle px-4 py-2.5 text-sm font-medium text-foreground hover:bg-surface-hover transition-colors'>
                                 <Camera size={16} /> Change avatar
                                 <input
                                     type='file'
@@ -217,8 +221,8 @@ export default function ProfilePage() {
                                 event.preventDefault();
                                 void saveName();
                             }}
-                            className='rounded-lg bg-surface-raised p-5'>
-                            <h3 className='font-semibold text-zinc-100'>Username and display name</h3>
+                            className='rounded-lg bg-surface-raised border border-border-subtle p-5'>
+                            <h3 className='font-semibold text-foreground'>Username and display name</h3>
                             <input
                                 required
                                 minLength={3}
@@ -227,13 +231,13 @@ export default function ProfilePage() {
                                 value={username}
                                 onChange={(event) => setUsername(event.target.value)}
                                 placeholder='Username'
-                                className='mt-4 w-full rounded-md bg-surface px-4 py-3 text-sm text-zinc-100 outline-none ring-1 ring-border focus:ring-primary'
+                                className='mt-4 w-full rounded-md bg-surface-base border border-border px-4 py-3 text-sm text-foreground placeholder:text-foreground-disabled outline-none focus:border-primary-accent transition-colors'
                             />
                             <input
                                 value={fullName}
                                 onChange={(event) => setFullName(event.target.value)}
                                 placeholder='Your name'
-                                className='mt-4 w-full rounded-md bg-surface px-4 py-3 text-sm text-zinc-100 outline-none ring-1 ring-border focus:ring-primary'
+                                className='mt-4 w-full rounded-md bg-surface-base border border-border px-4 py-3 text-sm text-foreground placeholder:text-foreground-disabled outline-none focus:border-primary-accent transition-colors'
                             />
                             <Button
                                 type='submit'
@@ -244,14 +248,16 @@ export default function ProfilePage() {
                                 <Save size={16} /> Save name
                             </Button>
                         </form>
-                        <form onSubmit={(event) => void saveEmail(event)} className='rounded-lg bg-surface-raised p-5'>
-                            <h3 className='font-semibold text-zinc-100'>Email address</h3>
+                        <form
+                            onSubmit={(event) => void saveEmail(event)}
+                            className='rounded-lg bg-surface-raised border border-border-subtle p-5'>
+                            <h3 className='font-semibold text-foreground'>Email address</h3>
                             <input
                                 required
                                 type='email'
                                 value={newEmail}
                                 onChange={(event) => setNewEmail(event.target.value)}
-                                className='mt-4 w-full rounded-md bg-surface px-4 py-3 text-sm text-zinc-100 outline-none ring-1 ring-border focus:ring-primary'
+                                className='mt-4 w-full rounded-md bg-surface-base border border-border px-4 py-3 text-sm text-foreground placeholder:text-foreground-disabled outline-none focus:border-primary-accent transition-colors'
                             />
                             <Button
                                 type='submit'
@@ -264,8 +270,8 @@ export default function ProfilePage() {
                         </form>
                         <form
                             onSubmit={(event) => void savePassword(event)}
-                            className='rounded-lg bg-surface-raised p-5'>
-                            <h3 className='font-semibold text-zinc-100'>Password</h3>
+                            className='rounded-lg bg-surface-raised border border-border-subtle p-5'>
+                            <h3 className='font-semibold text-foreground'>Password</h3>
                             <input
                                 required
                                 minLength={6}
@@ -273,7 +279,7 @@ export default function ProfilePage() {
                                 value={newPassword}
                                 onChange={(event) => setNewPassword(event.target.value)}
                                 placeholder='New password'
-                                className='mt-4 w-full rounded-md bg-surface px-4 py-3 text-sm text-zinc-100 outline-none ring-1 ring-border focus:ring-primary'
+                                className='mt-4 w-full rounded-md bg-surface-base border border-border px-4 py-3 text-sm text-foreground placeholder:text-foreground-disabled outline-none focus:border-primary-accent transition-colors'
                             />
                             <Button
                                 type='submit'
@@ -284,9 +290,9 @@ export default function ProfilePage() {
                                 Update password
                             </Button>
                         </form>
-                        <div className='rounded-lg bg-red-950/30 p-5'>
-                            <h3 className='font-semibold text-red-300'>Delete account</h3>
-                            <p className='mt-1 text-sm text-red-200/70'>
+                        <div className='rounded-lg bg-danger-surface border border-danger-border p-5'>
+                            <h3 className='font-semibold text-danger-text'>Delete account</h3>
+                            <p className='mt-1 text-sm text-danger-text/80'>
                                 Your account and saved media will be permanently removed.
                             </p>
                             <Button

@@ -48,9 +48,9 @@ export const getRatingPercentage = (voteAverage: number): number => {
 
 export const getRatingColor = (voteAverage: number): string => {
     const percentage = voteAverage * 10;
-    if (percentage >= 70) return 'stroke-green-500';
-    if (percentage >= 50) return 'stroke-yellow-500';
-    return 'stroke-red-500';
+    if (percentage >= 70) return 'stroke-success-text';
+    if (percentage >= 50) return 'stroke-warning-text';
+    return 'stroke-danger-text';
 };
 
 export const getGenresText = (genres: { id: number; name: string }[]) => {

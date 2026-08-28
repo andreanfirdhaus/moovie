@@ -2,12 +2,12 @@ import { cn } from '@/utils/cn';
 import type { ReactNode } from 'react';
 
 const badgeVariants = {
-    default: 'bg-surface-raised text-zinc-300',
-    primary: 'bg-primary/15 text-primary-hover',
-    rating: 'bg-black/60 text-yellow-400',
-    danger: 'bg-red-950 text-red-400',
-    success: 'bg-green-950 text-green-400',
-    warning: 'bg-yellow-950 text-yellow-400',
+    default: 'bg-surface-raised border border-border-subtle text-foreground-secondary',
+    primary: 'bg-primary-muted text-primary-accent',
+    rating: 'bg-black/75 text-warning-text',
+    danger: 'bg-danger-surface border border-danger-border text-danger-text',
+    success: 'bg-success-surface border border-success-border text-success-text',
+    warning: 'bg-warning-surface border border-warning-border text-warning-text',
 } as const;
 
 type BadgeVariant = keyof typeof badgeVariants;

@@ -37,8 +37,8 @@ export default function MediaActions({ detail }: { detail: MediaDetail }) {
                 rounded='lg'
                 className={
                     saved.includes('watchlist') ?
-                        'bg-primary/20 text-primary-hover px-3.5 py-3'
-                    :   'bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'
+                        'bg-primary-muted text-primary-accent border border-primary-accent/30 px-3.5 py-3'
+                    :   'bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground px-3.5 py-3'
                 }>
                 <Bookmark size={16} fill={saved.includes('watchlist') ? 'currentColor' : 'none'} />
                 <span className='text-sm font-medium'>
@@ -53,8 +53,8 @@ export default function MediaActions({ detail }: { detail: MediaDetail }) {
                 rounded='lg'
                 className={
                     saved.includes('favorite') ?
-                        'bg-primary/20 text-primary-hover px-3.5 py-3'
-                    :   'bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'
+                        'bg-primary-muted text-primary-accent border border-primary-accent/30 px-3.5 py-3'
+                    :   'bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground px-3.5 py-3'
                 }>
                 <Heart size={16} fill={saved.includes('favorite') ? 'currentColor' : 'none'} />
                 <span className='text-sm font-medium'>{saved.includes('favorite') ? 'Favorited' : 'Favorite'}</span>

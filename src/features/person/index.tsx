@@ -20,7 +20,7 @@ export default function PersonDetailPage() {
     if (!personId) {
         return (
             <div className='flex items-center justify-center h-dvh'>
-                <p className='text-zinc-400 text-lg'>Invalid person ID</p>
+                <p className='text-foreground-muted text-lg'>Invalid person ID</p>
             </div>
         );
     }
@@ -36,7 +36,7 @@ export default function PersonDetailPage() {
     if (!person) {
         return (
             <div className='flex items-center justify-center h-dvh'>
-                <p className='text-zinc-400 text-lg'>No data available.</p>
+                <p className='text-foreground-muted text-lg'>No data available.</p>
             </div>
         );
     }
@@ -56,12 +56,12 @@ export default function PersonDetailPage() {
                     )}
 
                     <div className='min-w-0'>
-                        <h1 className='text-xl sm:text-2xl font-bold text-zinc-100'>{person.name}</h1>
+                        <h1 className='text-xl sm:text-2xl font-bold text-foreground'>{person.name}</h1>
 
                         {person.birthday && (
-                            <p className='mt-1 text-sm font-medium text-zinc-400'>
+                            <p className='mt-1 text-sm font-medium text-foreground-muted'>
                                 Born:{' '}
-                                <span className='text-zinc-200'>
+                                <span className='text-foreground-secondary'>
                                     {new Date(person.birthday).toLocaleDateString('en-US', {
                                         day: 'numeric',
                                         month: 'long',
@@ -69,7 +69,7 @@ export default function PersonDetailPage() {
                                     })}
                                 </span>
                                 {person.place_of_birth && (
-                                    <span className='text-zinc-400'> · {person.place_of_birth}</span>
+                                    <span className='text-foreground-muted'> · {person.place_of_birth}</span>
                                 )}
                             </p>
                         )}
@@ -80,18 +80,18 @@ export default function PersonDetailPage() {
             {/* biography */}
             {hasBiography && (
                 <section>
-                    <h2 className='text-lg sm:text-xl font-semibold text-zinc-100 mb-2.5 sm:mb-3.5'>Biography</h2>
+                    <h2 className='text-lg sm:text-xl font-semibold text-foreground mb-2.5 sm:mb-3.5'>Biography</h2>
 
                     <div className='max-w-4xl'>
                         <p
-                            className={`text-sm sm:text-[15px] text-zinc-400 leading-relaxed font-medium ${!isBiographyExpanded ? 'line-clamp-4' : ''}`}>
+                            className={`text-sm sm:text-[15px] text-foreground-muted leading-relaxed font-medium ${!isBiographyExpanded ? 'line-clamp-4' : ''}`}>
                             {person.biography}
                         </p>
 
                         <button
                             type='button'
                             onClick={() => setIsBiographyExpanded((prev) => !prev)}
-                            className='mt-2 text-sm font-semibold text-zinc-200 hover:text-white transition-colors'>
+                            className='mt-2 text-sm font-semibold text-primary-accent hover:underline transition-colors'>
                             {isBiographyExpanded ? 'Show less' : 'Read more'}
                         </button>
                     </div>
@@ -102,7 +102,7 @@ export default function PersonDetailPage() {
             {!isLoadingKnownFor && movies.length > 0 && (
                 <section>
                     <header className='mb-2.5 sm:mb-3.5'>
-                        <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'> Movies</h2>
+                        <h2 className='text-lg sm:text-xl font-semibold text-foreground'> Movies</h2>
                     </header>
 
                     <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-4'>
@@ -119,7 +119,7 @@ export default function PersonDetailPage() {
             {!isLoadingKnownFor && tvSeries.length > 0 && (
                 <section>
                     <header className='mb-2.5 sm:mb-3.5'>
-                        <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>TV Series</h2>
+                        <h2 className='text-lg sm:text-xl font-semibold text-foreground'>TV Series</h2>
                     </header>
 
                     <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-4'>

@@ -76,7 +76,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
     return (
         <main className='min-h-screen bg-background'>
             <header className='absolute top-[3.5px] md:top-3 left-0 z-40 w-full'>
-                <div className='relative px-4 sm:px-6 py-5 md:py-6'>
+                <div className='relative px-4 sm:px-6 py-4'>
                     <Link to='/' aria-label='Moovie home'>
                         <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
                     </Link>
@@ -101,9 +101,9 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                 {/* right */}
                 <div className='flex items-center bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-12 lg:py-10 xl:px-24'>
                     <div className='w-full'>
-                        <h2 className='text-2xl font-semibold text-zinc-100'>{title}</h2>
+                        <h2 className='text-2xl font-semibold text-foreground'>{title}</h2>
 
-                        <p className='mt-2 text-sm text-zinc-400'>
+                        <p className='mt-2 text-sm text-foreground-muted'>
                             {mode === 'forgot' ?
                                 'Enter your email and we will send a secure recovery link.'
                             : mode === 'reset' ?
@@ -112,16 +112,20 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                         </p>
 
                         {!isSupabaseConfigured && (
-                            <div className='mt-6 flex gap-2 rounded-lg bg-yellow-950/50 p-3 text-xs text-yellow-300'>
+                            <div className='mt-6 flex gap-2 rounded-lg bg-warning-surface border border-warning-border p-3 text-xs text-warning-text'>
                                 <CircleAlert size={16} className='shrink-0' />
                                 Add Supabase environment variables to enable accounts.
                             </div>
                         )}
 
-                        {error && <div className='mt-6 rounded-lg bg-red-950/60 p-3 text-sm text-red-300'>{error}</div>}
+                        {error && (
+                            <div className='mt-6 rounded-lg bg-danger-surface border border-danger-border p-3 text-sm text-danger-text'>
+                                {error}
+                            </div>
+                        )}
 
                         {message && (
-                            <div className='mt-6 flex gap-2 rounded-lg bg-green-950/60 p-3 text-sm text-green-300'>
+                            <div className='mt-6 flex gap-2 rounded-lg bg-success-surface border border-success-border p-3 text-sm text-success-text'>
                                 <CheckCircle2 size={16} />
                                 {message}
                             </div>
@@ -144,12 +148,12 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         onChange={(event) => setUsername(event.target.value)}
                                         placeholder=' '
                                         autoComplete='username'
-                                        className='peer w-full rounded-xl bg-surface px-5 py-3.5 text-sm text-zinc-100 outline-none ring-1 ring-inset ring-border  transition-all duration-300 focus:ring-primary'
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
 
                                     <label
                                         htmlFor='username'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-zinc-300 transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
+                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
                                         Username
                                     </label>
                                 </div>
@@ -167,12 +171,12 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         onChange={(event) => setEmail(event.target.value)}
                                         placeholder=' '
                                         autoComplete='email'
-                                        className='peer w-full rounded-xl bg-surface px-5 py-3.5 text-sm text-zinc-100 outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary'
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
 
                                     <label
                                         htmlFor='email'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-zinc-300 transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
+                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
                                         Email
                                     </label>
                                 </div>
@@ -191,12 +195,12 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         onChange={(event) => setPassword(event.target.value)}
                                         placeholder=' '
                                         autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
-                                        className='peer w-full rounded-xl bg-surface px-5 py-3.5 text-sm text-zinc-100 outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary'
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
 
                                     <label
                                         htmlFor='password'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-zinc-300 transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
+                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
                                         Password
                                     </label>
                                 </div>
@@ -207,7 +211,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                 <div className='flex justify-end'>
                                     <Link
                                         to='/forgot-password'
-                                        className='text-sm text-zinc-400 transition-colors hover:text-zinc-100'>
+                                        className='text-sm text-foreground-muted transition-colors hover:text-foreground'>
                                         Forgot password?
                                     </Link>
                                 </div>
@@ -229,7 +233,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                         {/* google auth */}
                         {(mode === 'login' || mode === 'register') && (
                             <>
-                                <div className='my-6 flex items-center gap-3 text-sm text-zinc-500'>
+                                <div className='my-6 flex items-center gap-3 text-sm text-foreground-disabled'>
                                     <span className='h-px flex-1 bg-border' />
                                     <span>Or</span>
                                     <span className='h-px flex-1 bg-border' />
@@ -239,7 +243,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                     type='button'
                                     variant='outline'
                                     rounded='full'
-                                    className='w-full border-zinc-100 hover:border-none bg-transparent text-zinc-100 transition-colors hover:bg-zinc-100 hover:text-black'
+                                    className='w-full border-border text-foreground hover:border-border-hover hover:bg-surface-raised transition-colors'
                                     isLoading={isGoogleSubmitting}
                                     onClick={() => void continueWithGoogle()}>
                                     <span className='flex size-5 items-center justify-center'>
@@ -273,22 +277,22 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
 
                                 {/* footer (login & register) */}
                                 {mode === 'login' && (
-                                    <div className='mt-6 text-center text-sm text-zinc-400'>
+                                    <div className='mt-6 text-center text-sm text-foreground-muted'>
                                         Don&apos;t have an account?{' '}
                                         <Link
                                             to='/register'
-                                            className='font-medium text-zinc-100 transition-colors hover:text-zinc-400'>
+                                            className='font-medium text-foreground transition-colors hover:text-foreground-muted'>
                                             Sign up
                                         </Link>
                                     </div>
                                 )}
 
                                 {mode === 'register' && (
-                                    <div className='mt-6 text-center text-sm text-zinc-400'>
+                                    <div className='mt-6 text-center text-sm text-foreground-muted'>
                                         Already have an account?{' '}
                                         <Link
                                             to='/login'
-                                            className='font-medium text-zinc-100 transition-colors hover:text-zinc-400'>
+                                            className='font-medium text-foreground transition-colors hover:text-foreground-muted'>
                                             Sign in
                                         </Link>
                                     </div>

@@ -28,7 +28,14 @@ export default function RatingCircle({
     return (
         <div className='relative shrink-0' style={{ width: dimensions, height: dimensions }}>
             <svg className='absolute inset-0 -rotate-90' viewBox='0 0 48 48'>
-                <circle cx='24' cy='24' r={radius} className='stroke-zinc-800' strokeWidth={strokeWidth} fill='none' />
+                <circle
+                    cx='24'
+                    cy='24'
+                    r={radius}
+                    className='stroke-border-subtle'
+                    strokeWidth={strokeWidth}
+                    fill='none'
+                />
             </svg>
 
             <svg className='absolute inset-0 -rotate-90' viewBox='0 0 48 48'>
@@ -56,7 +63,7 @@ export default function RatingCircle({
             {showPercentage && (
                 <div className='absolute inset-0 flex items-center justify-center'>
                     <motion.span
-                        className='text-sm font-bold text-zinc-100'
+                        className='text-sm font-bold text-foreground'
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5, delay: animationDelay + 0.6 }}>

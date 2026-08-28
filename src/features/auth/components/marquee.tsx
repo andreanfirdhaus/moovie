@@ -77,7 +77,7 @@ export function Marquee({ movies }: MarqueeProps) {
                                             aria-label={`View ${movie.title || movie.name}`}
                                             className='pointer-events-auto group relative z-10 block shrink-0 cursor-pointer'>
                                             <div
-                                                className='relative overflow-hidden rounded-lg bg-zinc-900 shadow-2xl'
+                                                className='relative overflow-hidden rounded-lg bg-surface-raised shadow-2xl'
                                                 style={{
                                                     width: `${BACKDROP_WIDTH}px`,
                                                     height: `${BACKDROP_HEIGHT}px`,
@@ -91,7 +91,7 @@ export function Marquee({ movies }: MarqueeProps) {
                                                 />
 
                                                 <div className='pointer-events-none absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-transparent' />
-                                                <div className='pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-border transition-all duration-300 group-hover:ring-primary' />
+                                                <div className='pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-border transition-all duration-300 group-hover:ring-primary-accent' />
                                             </div>
                                         </Link>
                                     ))}

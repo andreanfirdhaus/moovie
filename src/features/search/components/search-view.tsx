@@ -44,9 +44,9 @@ export default function SearchView({
     if (!isLoading && filteredResults.length === 0) {
         return (
             <div className='flex flex-col items-center justify-center h-dvh'>
-                <Film size={56} className='text-zinc-400 mb-4' />
-                <h2 className='text-xl font-semibold text-zinc-100 mb-2'>No results found</h2>
-                <p className='text-zinc-400 text-center'>{emptyMessage}</p>
+                <Film size={56} className='text-foreground-muted mb-4' />
+                <h2 className='text-xl font-semibold text-foreground mb-2'>No results found</h2>
+                <p className='text-foreground-muted text-center'>{emptyMessage}</p>
             </div>
         );
     }
@@ -54,7 +54,7 @@ export default function SearchView({
     return (
         <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8'>
             <header className='mb-4 flex items-center justify-between'>
-                <h1 className='text-lg sm:text-xl font-semibold text-zinc-100'>
+                <h1 className='text-lg sm:text-xl font-semibold text-foreground'>
                     Search Results for &quot;{searchQuery}&quot;
                 </h1>
 

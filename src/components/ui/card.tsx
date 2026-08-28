@@ -45,28 +45,31 @@ export default function Card({
                             className='w-full h-full object-cover'
                         />
                     :   <div className='w-full h-full flex items-center justify-center bg-surface-raised'>
-                            <Popcorn className='text-zinc-500 size-10' />
+                            <Popcorn className='text-foreground-muted size-10' />
                         </div>
                     }
                 </motion.div>
 
                 {typeof rating === 'number' && rating > 0 && (
                     <Badge variant='rating' className='absolute bottom-2 left-2 z-10 backdrop-blur-lg'>
-                        <Star size={13} className='fill-yellow-400' />
+                        <Star size={13} className='fill-warning-text text-warning-text' />
                         <span className='text-xs font-semibold'>{rating.toFixed(1)}</span>
                     </Badge>
                 )}
             </figure>
 
             <div className='mt-1.5 sm:mt-2'>
-                <p className={`truncate text-sm font-medium text-zinc-100 ${titleClassName}`}>{title}</p>
+                <p className={`truncate text-sm font-medium text-foreground ${titleClassName || ''}`}>{title}</p>
 
                 {subtitle &&
                     (subtitleAs === 'time' ?
-                        <time dateTime={subtitle} className={`text-xs font-medium text-zinc-400 ${subtitleClassName}`}>
+                        <time
+                            dateTime={subtitle}
+                            className={`text-xs font-medium text-foreground-muted ${subtitleClassName || ''}`}>
                             {subtitle}
                         </time>
-                    :   <p className={`line-clamp-1 text-xs font-medium text-zinc-400 ${subtitleClassName}`}>
+                    :   <p
+                            className={`line-clamp-1 text-xs font-medium text-foreground-muted ${subtitleClassName || ''}`}>
                             {subtitle}
                         </p>)}
             </div>

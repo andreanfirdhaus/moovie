@@ -90,11 +90,11 @@ export default function SortDropdown({
                             className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors 
                                 ${
                                     isSelected ?
-                                        'bg-primary/15 text-primary-hover font-medium'
-                                    :   'text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 font-medium'
+                                        'bg-primary-muted text-primary-accent font-medium'
+                                    :   'text-foreground-secondary hover:bg-surface-hover hover:text-foreground font-medium'
                                 }`}>
                             <span>{option.label}</span>
-                            {isSelected && <Check size={14} className='text-primary-hover flex-shrink-0' />}
+                            {isSelected && <Check size={14} className='text-primary-accent flex-shrink-0' />}
                         </button>
                     );
                 })}
@@ -114,11 +114,11 @@ export default function SortDropdown({
                             onSelect={() => onChange(option.value)}
                             className={`${
                                 isSelected ?
-                                    'bg-primary/15 text-primary-hover font-medium hover:bg-primary/20 hover:text-primary-hover focus:bg-primary/20 focus:text-primary-hover'
+                                    'bg-primary-muted text-primary-accent font-medium hover:bg-primary-muted hover:text-primary-accent focus:bg-primary-muted focus:text-primary-accent'
                                 :   ''
                             }`}>
                             <span>{option.label}</span>
-                            {isSelected && <Check size={14} className='text-primary-hover shrink-0' />}
+                            {isSelected && <Check size={14} className='text-primary-accent shrink-0' />}
                         </DropdownItem>
                     );
                 })}

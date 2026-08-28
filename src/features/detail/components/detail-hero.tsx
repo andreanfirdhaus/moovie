@@ -76,16 +76,16 @@ export default function DetailHero({
                             <IFrame playerUrl={playerUrl} />
 
                             <div className='mt-4 flex items-center justify-between gap-4'>
-                                <h1 className='min-w-0 flex-1 truncate font-semibold leading-tight text-zinc-100 text-lg sm:text-xl lg:text-2xl xl:text-3xl'>
+                                <h1 className='min-w-0 flex-1 truncate font-semibold leading-tight text-foreground text-lg sm:text-xl lg:text-2xl xl:text-3xl'>
                                     {getMediaTitle(detail)}
                                 </h1>
                             </div>
 
                             <div className='mt-3'>
-                                <div className='flex flex-wrap items-center text-sm md:text-base font-medium text-zinc-300'>
+                                <div className='flex flex-wrap items-center text-sm md:text-base font-medium text-foreground-secondary'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
-                                            {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
+                                            {index > 0 && <span className='mx-2 text-foreground-disabled'>·</span>}
                                             {genre.name}
                                         </span>
                                     ))}
@@ -99,7 +99,7 @@ export default function DetailHero({
                                         onClick={() => onTrailerClick(detail.id, mediaType)}
                                         variant='ghost'
                                         rounded='lg'
-                                        className='bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'>
+                                        className='bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground px-3.5 py-3'>
                                         <Play size={16} />
                                         <span className='text-sm font-medium'>Trailer</span>
                                     </Button>
@@ -163,10 +163,10 @@ export default function DetailHero({
                                 </div>
 
                                 {/* Genres */}
-                                <div className='mb-4 flex flex-wrap items-center text-[15px] md:text-base font-medium text-zinc-300'>
+                                <div className='mb-4 flex flex-wrap items-center text-[15px] md:text-base font-medium text-foreground-secondary'>
                                     {detail.genres?.map((genre, index) => (
                                         <span key={genre.id} className='inline-flex items-center'>
-                                            {index > 0 && <span className='mx-2 text-zinc-500'>·</span>}
+                                            {index > 0 && <span className='mx-2 text-foreground-disabled'>·</span>}
                                             {genre.name}
                                         </span>
                                     ))}
@@ -181,7 +181,7 @@ export default function DetailHero({
                                         onClick={() => onTrailerClick(detail.id, mediaType)}
                                         variant='ghost'
                                         rounded='lg'
-                                        className='bg-surface-raised text-zinc-300 hover:bg-surface-hover hover:text-zinc-100 px-3.5 py-3'>
+                                        className='bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground px-3.5 py-3'>
                                         <Play size={16} />
                                         <span className='text-sm font-medium'>Trailer</span>
                                     </Button>
@@ -194,10 +194,10 @@ export default function DetailHero({
 
             <div className='px-4 sm:px-6 md:max-w-5xl'>
                 {/* info: rating, runtime, year */}
-                <div className='flex items-center gap-2 text-sm text-zinc-300 mb-3'>
+                <div className='flex items-center gap-2 text-sm text-foreground-secondary mb-3'>
                     {typeof detail.vote_average === 'number' && (
-                        <div className='inline-flex items-center gap-2 text-yellow-400'>
-                            <Star size={16} className='fill-yellow-400' />
+                        <div className='inline-flex items-center gap-2 text-warning-text'>
+                            <Star size={16} className='fill-warning-text' />
                             <span className='font-medium leading-none'>{detail.vote_average.toFixed(1)}</span>
                         </div>
                     )}
@@ -237,23 +237,25 @@ export default function DetailHero({
 
                 {/* Director (from credits) */}
                 {creator && (
-                    <div className='mb-3 inline-flex items-center gap-2 text-sm text-zinc-300'>
-                        <span className='text-zinc-400 font-normal'>
+                    <div className='mb-3 inline-flex items-center gap-2 text-sm text-foreground-secondary'>
+                        <span className='text-foreground-muted font-normal'>
                             {mediaType === 'movie' ? 'Director:' : 'Creator:'}
                         </span>
-                        <p className='font-medium text-zinc-400'>{creator}</p>
+                        <p className='font-medium text-foreground-muted'>{creator}</p>
                     </div>
                 )}
 
                 {/* Tagline */}
                 {detail.tagline && (
-                    <blockquote className='mb-3 max-w-xl text-sm font-medium italic text-zinc-500 text-pretty'>
+                    <blockquote className='mb-3 max-w-xl text-sm font-medium italic text-foreground-disabled text-pretty'>
                         &quot;{detail.tagline}&quot;
                     </blockquote>
                 )}
 
                 {/* Overview */}
-                <p className='text-base font-medium text-zinc-400 mb-6 text-pretty leading-7'>{detail.overview}</p>
+                <p className='text-base font-medium text-foreground-muted mb-4 text-pretty leading-7'>
+                    {detail.overview}
+                </p>
 
                 {/* Production logos */}
                 {detail.production_companies?.length > 0 && (

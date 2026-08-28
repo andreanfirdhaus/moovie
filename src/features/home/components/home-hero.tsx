@@ -84,24 +84,24 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                             <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
 
                             <div className='absolute bottom-20 md:bottom-32 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-20'>
-                                {/* <Button
+                                <Button
                                     as='span'
                                     size='sm'
                                     variant='ghost'
                                     rounded='full'
                                     leftIcon={<TrendingUp size={14} />}
-                                    className='pointer-events-none bg-yellow-400 text-black text-xs font-bold backdrop-blur-sm hover:bg-yellow-400 hover:text-black'>
+                                    className='pointer-events-none bg-warning-surface text-warning-text border border-warning-border text-xs mb-1 font-bold backdrop-blur-sm'>
                                     Trending this week
-                                </Button> */}
+                                </Button>
 
                                 <div className='my-3 md:my-4'>
                                     <MovieTitleLogo movie={movie} />
                                 </div>
 
-                                <div className='mb-2 md:mb-4 flex flex-wrap items-center gap-x-1 md:gap-x-2 gap-y-1 text-sm font-medium text-zinc-400 sm:font-semibold'>
+                                <div className='mb-2 md:mb-4 flex flex-wrap items-center gap-x-1 md:gap-x-2 gap-y-1 text-sm font-medium text-foreground-muted sm:font-semibold'>
                                     {movie.vote_average > 0 && (
-                                        <span className='inline-flex items-center gap-1.5 text-yellow-400'>
-                                            <Star size={18} className='fill-yellow-400' />
+                                        <span className='inline-flex items-center gap-1.5 text-warning-text'>
+                                            <Star size={18} className='fill-warning-text' />
                                             {movie.vote_average.toFixed(1)}
                                         </span>
                                     )}
@@ -129,7 +129,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                     )}
                                 </div>
 
-                                <p className='text-sm md:text-base font-medium text-zinc-400 mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
+                                <p className='text-sm md:text-base font-medium text-foreground-muted mb-4 md:mb-6 line-clamp-2 sm:line-clamp-2 max-w-xl md:max-w-2xl text-pretty'>
                                     {movie.overview}
                                 </p>
 
@@ -147,7 +147,7 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
             </Swiper>
 
             {/* navigation icon */}
-            <div className='hidden md:flex absolute bottom-6 right-6 gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 md:px-2 xl:px-6 md:justify-between'>
+            <div className='hidden md:flex md:justify-between absolute bottom-6 right-6 gap-2 z-10 md:bottom-auto md:right-0 md:left-0 md:top-1/2 md:-translate-y-1/2 px-4 sm:px-6'>
                 <Button
                     size='icon'
                     onClick={() => swiperRef.current?.slidePrev()}

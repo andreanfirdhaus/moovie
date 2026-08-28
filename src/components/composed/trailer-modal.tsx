@@ -67,11 +67,11 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
                         className='relative w-full max-w-5xl mx-4'
                         onClick={(e) => e.stopPropagation()}>
                         <div
-                            className='relative bg-surface rounded-lg md:rounded-2xl shadow-2xl overflow-hidden'
+                            className='relative bg-surface-overlay border border-border rounded-lg md:rounded-2xl shadow-lg overflow-hidden'
                             style={{ paddingBottom: '56.25%' }}>
                             {isLoading ?
                                 <div className='absolute inset-0 flex items-center justify-center'>
-                                    <div className='text-white'>Loading trailer...</div>
+                                    <div className='text-foreground-muted font-medium'>Loading trailer...</div>
                                 </div>
                             : trailerKey ?
                                 <iframe
@@ -82,7 +82,7 @@ export const TrailerModal = ({ isOpen, onClose, movieId, mediaType }: TrailerMod
                                     allowFullScreen
                                 />
                             :   <div className='absolute inset-0 flex items-center justify-center'>
-                                    <div className='text-white'>No trailer available</div>
+                                    <div className='text-foreground-muted font-medium'>No trailer available</div>
                                 </div>
                             }
                         </div>

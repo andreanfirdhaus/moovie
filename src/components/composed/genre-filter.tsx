@@ -23,8 +23,8 @@ export default function GenreFilter({
     if (isLoading) {
         return (
             <div className='flex items-center gap-2 py-2'>
-                <Loader2 className='animate-spin text-zinc-400' size={16} />
-                <span className='text-sm text-zinc-400'>Loading genres...</span>
+                <Loader2 className='animate-spin text-primary' size={16} />
+                <span className='text-sm text-foreground-muted'>Loading genres...</span>
             </div>
         );
     }
@@ -45,7 +45,7 @@ export default function GenreFilter({
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                                 isSelected ?
                                     'bg-primary text-white shadow-lg shadow-primary/20'
-                                :   'bg-surface-strong text-zinc-300 hover:bg-surface-hover hover:text-zinc-100'
+                                :   'bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground'
                             }`}>
                             {genre.name}
                         </button>
@@ -56,7 +56,7 @@ export default function GenreFilter({
     }
 
     return (
-        <div className='flex flex-wrap md:flex-wrap gap-2 overflow-x-auto md:overflow-x-visible pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent md:scrollbar-none'>
+        <div className='flex flex-wrap md:flex-wrap gap-2 overflow-x-auto md:overflow-x-visible pb-2 scrollbar-thin scrollbar-thumb-surface-active scrollbar-track-transparent md:scrollbar-none'>
             <div className='flex md:flex-wrap gap-2 md:w-full'>
                 {genres.map((genre) => {
                     const isSelected = selectedGenres.includes(genre.id);
@@ -68,7 +68,7 @@ export default function GenreFilter({
                                 ${
                                     isSelected ?
                                         'bg-primary text-white shadow-lg shadow-primary/20'
-                                    :   'bg-surface-strong text-zinc-300 hover:bg-surface-hover hover:text-zinc-100'
+                                    :   'bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground'
                                 }`}>
                             {genre.name}
                         </button>

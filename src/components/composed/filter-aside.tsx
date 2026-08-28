@@ -43,30 +43,32 @@ export default function FilterAside({
                 {hasActiveFilters && (
                     <button
                         onClick={onClearFilters}
-                        className='flex items-center gap-1 text-xs text-primary-hover hover:text-primary-hover/80 transition-colors font-medium'>
+                        className='flex items-center gap-1 text-xs text-primary-accent hover:text-primary-hover transition-colors font-medium'>
                         <RotateCcw size={12} />
                         <span>Clear all</span>
                     </button>
                 )}
 
                 {/* only visible on mobile */}
-                <button onClick={onClose} className='lg:hidden text-zinc-400 hover:text-zinc-200 transition-colors'>
+                <button
+                    onClick={onClose}
+                    className='lg:hidden text-foreground-muted hover:text-foreground transition-colors'>
                     <X size={18} />
                 </button>
             </div>
 
             {/* sort */}
             <section className='mb-6' aria-labelledby='sort-heading'>
-                <h2 className='text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3'>Sort by</h2>
+                <h2 className='text-xs font-semibold text-foreground-muted uppercase tracking-wider mb-3'>Sort by</h2>
                 <SortDropdown value={sortBy} onChange={onSortChange} mediaType={mediaType} variant='list' />
             </section>
 
             {/* divider */}
-            <hr className='border-t border-zinc-800 mb-6' />
+            <hr className='border-t border-border-subtle mb-6' />
 
             {/* genre */}
             <section aria-labelledby='genre-heading'>
-                <h2 className='text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3'>Genre</h2>
+                <h2 className='text-xs font-semibold text-foreground-muted uppercase tracking-wider mb-3'>Genre</h2>
                 <GenreFilter
                     genres={genres}
                     selectedGenres={selectedGenres}
@@ -84,12 +86,14 @@ export default function FilterAside({
 
             {/* desktop */}
             <aside className='hidden lg:block w-56 xl:w-64 flex-shrink-0'>
-                <div className='sticky top-28 bg-surface-raised backdrop-blur-sm rounded-xl p-5'>{asideContent}</div>
+                <div className='sticky top-28 bg-surface-raised border border-border-subtle backdrop-blur-sm rounded-xl p-5'>
+                    {asideContent}
+                </div>
             </aside>
 
             {/* mobile*/}
             <aside
-                className={`fixed top-0 left-0 h-full w-72 bg-surface-raised z-40 flex flex-col p-6 transition-transform duration-300 ease-in-out lg:hidden
+                className={`fixed top-0 left-0 h-full w-72 bg-surface-raised border-r border-border-subtle z-40 flex flex-col p-6 transition-transform duration-300 ease-in-out lg:hidden
                     ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 {asideContent}
             </aside>

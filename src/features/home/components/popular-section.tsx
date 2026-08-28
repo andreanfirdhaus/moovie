@@ -47,9 +47,9 @@ export function PopularSection() {
     return (
         <section className='py-8 sm:py-12 px-4 sm:px-6'>
             <header className='flex justify-between items-center mb-4'>
-                <h2 className='text-lg sm:text-xl font-semibold text-zinc-100'>What&apos;s Popular</h2>
+                <h2 className='text-lg sm:text-xl font-semibold text-foreground'>What&apos;s Popular</h2>
 
-                <div className='inline-flex items-center gap-1 rounded-full bg-surface-raised p-1'>
+                <div className='inline-flex items-center gap-1 rounded-full bg-surface-base border border-border-subtle p-1'>
                     {filters.map((index) => (
                         <Button
                             key={index.value}
@@ -58,8 +58,8 @@ export function PopularSection() {
                             rounded='full'
                             className={
                                 activeFilter === index.value ?
-                                    'bg-[#242424] hover:bg-[#242424] text-white font-semibold px-4 py-2'
-                                :   'bg-transparent text-zinc-400 hover:bg-[#242424] hover:text-zinc-200 px-4 py-2'
+                                    'bg-surface-elevated hover:bg-surface-elevated text-foreground font-semibold px-4 py-2'
+                                :   'bg-transparent text-foreground-muted hover:bg-surface-raised hover:text-foreground px-4 py-2'
                             }>
                             {index.label}
                         </Button>
@@ -77,7 +77,7 @@ export function PopularSection() {
                                 <div className='mx-0.5'>
                                     <div className='w-full aspect-[2/3] bg-surface-raised rounded-md' />
                                     <div className='mt-1.5 sm:mt-2 space-y-1.5'>
-                                        <div className='h-[15px] bg-surface-strong rounded w-4/5' />
+                                        <div className='h-[15px] bg-surface-elevated/70 rounded w-4/5' />
                                         <div className='h-[14px] bg-surface-hover rounded w-1/3' />
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ export function PopularSection() {
                         ))}
                     </Swiper>
                 :   <div className='px-4 sm:px-6 lg:px-8 py-12 text-center'>
-                        <p className='text-zinc-400'>No content available.</p>
+                        <p className='text-foreground-muted'>No content available.</p>
                     </div>
                 }
             </div>

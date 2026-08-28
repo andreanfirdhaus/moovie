@@ -102,12 +102,12 @@ export default function DiscoverView({
             <div className='px-4 sm:px-6'>
                 {/* header*/}
                 <header className='mb-4 flex items-center justify-between'>
-                    <h1 className='text-xl font-semibold text-zinc-100'>{displayTitle}</h1>
+                    <h1 className='text-xl font-semibold text-foreground'>{displayTitle}</h1>
 
                     {/* mobile filter toggle */}
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface text-zinc-300 hover:bg-surface-raised hover:text-zinc-100 rounded-full text-sm font-medium transition-colors'>
+                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground rounded-full text-sm font-medium transition-colors'>
                         {activeFilterCount > 0 ?
                             <span className='flex items-center justify-center w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold'>
                                 {activeFilterCount}
@@ -141,7 +141,7 @@ export default function DiscoverView({
                                         <div className='relative w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised' />
 
                                         <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
-                                            <div className='h-3.5 bg-surface-strong rounded w-4/5' />
+                                            <div className='h-3.5 bg-surface-elevated/70 rounded w-4/5' />
                                             <div className='h-3 bg-surface-hover rounded w-1/3' />
                                         </div>
                                     </div>
@@ -164,11 +164,11 @@ export default function DiscoverView({
                                 />
                             </>
                         :   <div className='flex flex-col items-center justify-center py-20'>
-                                <div className='text-6xl mb-4 text-zinc-400'>
+                                <div className='text-6xl mb-4 text-foreground-muted'>
                                     <Film size={56} />
                                 </div>
-                                <h2 className='text-xl font-semibold text-zinc-100 mb-2'>No results found</h2>
-                                <p className='text-zinc-400 text-center max-w-md'>
+                                <h2 className='text-xl font-semibold text-foreground mb-2'>No results found</h2>
+                                <p className='text-foreground-muted text-center max-w-md'>
                                     Try adjusting your filters or sort options.
                                 </p>
                             </div>

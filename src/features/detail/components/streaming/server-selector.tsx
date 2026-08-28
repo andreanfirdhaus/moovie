@@ -6,7 +6,7 @@ import type { ServerOption, ServerStatus } from '../../types/streaming';
 
 function StatusIcon({ status }: { status: ServerStatus }) {
     if (status === 'loading') return <Loader2 size={12} className='animate-spin text-primary' />;
-    if (status === 'error') return <AlertCircle size={12} className='text-red-400' />;
+    if (status === 'error') return <AlertCircle size={12} className='text-danger-text' />;
     return null;
 }
 
@@ -16,7 +16,7 @@ function Trigger({ active }: { active: ServerOption }) {
         <DropdownTrigger asChild>
             <Button
                 aria-label={`Select streaming server, current server: ${active.label}`}
-                className='flex items-center gap-2 rounded-lg bg-surface-strong px-3.5 py-3 text-zinc-200 transition-colors duration-200 hover:bg-surface-hover hover:text-zinc-100'
+                className='flex items-center gap-2 rounded-lg bg-surface-raised border border-border-subtle px-3.5 py-3 text-foreground-secondary transition-colors duration-200 hover:bg-surface-hover hover:text-foreground'
                 variant='ghost'
                 rightIcon={<ChevronDown size={12} className={isOpen ? 'rotate-180' : ''} />}>
                 <Server size={16} />
@@ -46,12 +46,12 @@ export default function ServerSelector({
                         key={server.id}
                         className={cn(
                             'flex items-center gap-2',
-                            server.id === activeServerId && 'bg-primary/15 text-primary-hover'
+                            server.id === activeServerId && 'bg-primary-muted text-primary-accent'
                         )}
                         onSelect={() => onSelect(server.id)}>
                         <StatusIcon status={server.status} />
                         <span className='flex-1'>{server.label}</span>
-                        {server.id === activeServerId && <span className='size-1.5 rounded-full bg-primary' />}
+                        {server.id === activeServerId && <span className='size-1.5 rounded-full bg-primary-accent' />}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

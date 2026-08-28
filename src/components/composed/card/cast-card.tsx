@@ -26,17 +26,17 @@ export function CastCard({ cast }: CastCardProps) {
                         draggable={false}
                     />
                 :   <div className='flex size-full items-center justify-center'>
-                        <Popcorn className='size-7 text-zinc-500' />
+                        <Popcorn className='size-7 text-foreground-muted' />
                     </div>
                 }
 
                 <div className='pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20' />
             </figure>
 
-            <p className='mt-2 truncate text-sm font-medium text-zinc-100'>{name}</p>
+            <p className='mt-2 truncate text-sm font-medium text-foreground'>{name}</p>
 
             {cast.character && (
-                <p className='truncate text-xs text-zinc-400'>
+                <p className='truncate text-xs text-foreground-muted'>
                     {cast.character.replace(/\s*\(voice\)\s*/gi, '').trim()}
                 </p>
             )}
