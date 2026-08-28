@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
-import { ChevronLeft, ChevronRight, Star, TrendingUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Flame, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getBackdropUrl, getMediaTitle, getMediaType } from '@/utils/media';
 import { getDetailUrl } from '@/utils/url';
@@ -88,15 +88,26 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                             <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
 
                             <div className='absolute bottom-20 md:bottom-32 left-0 right-0 px-4 sm:px-6 lg:px-12 xl:px-20'>
-                                <Button
-                                    as='span'
-                                    size='sm'
-                                    variant='ghost'
-                                    rounded='full'
-                                    leftIcon={<TrendingUp size={14} />}
-                                    className='pointer-events-none bg-warning-surface text-warning-text border border-warning-border text-xs mb-1 font-bold backdrop-blur-sm'>
-                                    Trending this week
-                                </Button>
+                                <div className='flex items-center gap-2 mb-1'>
+                                    <Button
+                                        as='span'
+                                        size='sm'
+                                        variant='ghost'
+                                        rounded='full'
+                                        leftIcon={<Flame size={14} />}
+                                        className='pointer-events-none bg-warning-surface text-warning-text border border-warning-border text-xs font-bold backdrop-blur-sm'>
+                                        Trending Today
+                                    </Button>
+
+                                    <Button
+                                        as='span'
+                                        size='sm'
+                                        variant='ghost'
+                                        rounded='full'
+                                        className='pointer-events-none bg-white/10 text-foreground border border-white/20 text-xs font-semibold uppercase backdrop-blur-sm'>
+                                        {getMediaType(movie) === 'tv' ? 'TV Series' : 'Movie'}
+                                    </Button>
+                                </div>
 
                                 <div className='my-3 md:my-4'>
                                     <MediaTitleLogo movie={movie} />
