@@ -1,4 +1,13 @@
 export const queryKeys = {
+    trending: {
+        all: ['trending'] as const,
+        weekly: () => [...queryKeys.trending.all, 'home', 'week'] as const, // type movie & series
+        daily: () => [...queryKeys.trending.all, 'home', 'day'] as const, // type movie & series
+        moviesDay: () => [...queryKeys.trending.all, 'movies', 'day'] as const,
+        moviesWeek: () => [...queryKeys.trending.all, 'movies', 'week'] as const,
+        seriesDay: () => [...queryKeys.trending.all, 'series', 'day'] as const,
+        seriesWeek: () => [...queryKeys.trending.all, 'series', 'week'] as const,
+    },
     movies: {
         all: ['movies'] as const,
         popular: () => [...queryKeys.movies.all, 'popular'] as const,

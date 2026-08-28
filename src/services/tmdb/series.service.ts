@@ -13,3 +13,6 @@ export const getOnTheAir = (payload?: GetListPayload) => apiClient.get('/tv/on_t
 
 export const getDiscoverSeries = (page = 1, payload?: GetListPayload) =>
     apiClient.get('/discover/tv', { params: { page, ...payload } });
+
+export const getSeriesImages = (tvId: number, payload?: Record<string, unknown>) =>
+    apiClient.get(`/tv/${tvId}/images`, { params: payload });

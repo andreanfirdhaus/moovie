@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,10 +6,10 @@ import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import { ChevronLeft, ChevronRight, Star, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getBackdropUrl, getMediaTitle, getGenresText } from '@/utils/media';
+import { getBackdropUrl, getMediaTitle, getMediaType } from '@/utils/media';
 import { getDetailUrl } from '@/utils/url';
 import { Button } from '@/components/ui/button';
-import useMovieImages from '../hooks/useMovieImages.query';
+import { useMediaImages } from '../hooks/useMovieImages.query';
 import { TMDB_IMG_500 } from '@/config/images';
 import { getYear } from '@/utils/date';
 
@@ -18,7 +17,7 @@ interface HomeHeroProps {
     movies: any[];
 }
 
-interface MovieTitleLogoProps {
+interface MediaTitleLogoProps {
     movie: any;
 }
 
@@ -30,23 +29,28 @@ const SwiperParams = {
     allowTouchMove: true,
 };
 
-export const MovieTitleLogo = ({ movie }: MovieTitleLogoProps) => {
-    const { data } = useMovieImages(movie?.id);
+export const MediaTitleLogo = ({ movie }: MediaTitleLogoProps) => {
+    const mediaType = getMediaType(movie);
+    const { data } = useMediaImages(movie?.id, mediaType);
 
     const logos = (data as any)?.logos || [];
     const chosen = logos.find((logo: any) => logo.iso_639_1 === 'en') || logos[0];
-
     const logoUrl = chosen ? TMDB_IMG_500 + chosen.file_path : undefined;
-
     const title = getMediaTitle(movie);
 
-    if (!logoUrl) return null;
+    if (!logoUrl) {
+        return (
+            <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight drop-shadow-md max-w-2xl text-pretty'>
+                {title}
+            </h1>
+        );
+    }
 
     return (
         <img
             src={logoUrl}
             alt={title}
-            className='h-auto w-auto max-h-16 lg:max-h-20 xl:max-h-28 object-contain'
+            className='h-auto w-auto max-h-16 lg:max-h-20 xl:max-h-28 object-contain drop-shadow-md'
             loading='lazy'
             draggable={false}
         />
@@ -69,16 +73,16 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                 }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                 className='h-full w-full'>
-                {movies.slice(0, 7).map((movie) => (
-                    <SwiperSlide key={movie.id}>
+                {movies.slice(0, 7).map((movie, idx) => (
+                    <SwiperSlide key={movie.id || idx}>
                         <div className='relative h-full w-full'>
                             <img
                                 src={getBackdropUrl(movie)}
                                 alt={`${getMediaTitle(movie)} backdrop`}
                                 draggable='false'
-                                fetchPriority={movie === 0 ? 'high' : 'low'}
-                                loading={movie === 0 ? 'eager' : 'lazy'}
-                                decoding={movie === 0 ? 'sync' : 'async'}
+                                fetchPriority={idx === 0 ? 'high' : 'low'}
+                                loading={idx === 0 ? 'eager' : 'lazy'}
+                                decoding={idx === 0 ? 'sync' : 'async'}
                                 className='h-full w-full object-cover object-top'
                             />
                             <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
@@ -95,31 +99,31 @@ export const HomeHero = ({ movies }: HomeHeroProps) => {
                                 </Button>
 
                                 <div className='my-3 md:my-4'>
-                                    <MovieTitleLogo movie={movie} />
+                                    <MediaTitleLogo movie={movie} />
                                 </div>
 
                                 <div className='mb-2 md:mb-4 flex flex-wrap items-center gap-x-1 md:gap-x-2 gap-y-1 text-sm font-medium text-foreground-muted sm:font-semibold'>
-                                    {movie.vote_average > 0 && (
+                                    {Number(movie.vote_average) > 0 && (
                                         <span className='inline-flex items-center gap-1.5 text-warning-text'>
                                             <Star size={18} className='fill-warning-text' />
-                                            {movie.vote_average.toFixed(1)}
+                                            {Number(movie.vote_average).toFixed(1)}
                                         </span>
                                     )}
 
                                     {getYear(movie) && (
                                         <>
-                                            {movie.vote_average > 0 && <span>·</span>}
+                                            {Number(movie.vote_average) > 0 && <span>·</span>}
                                             <span>{getYear(movie)}</span>
                                         </>
                                     )}
 
                                     {movie.genres?.length > 0 && (
                                         <>
-                                            {(movie.vote_average > 0 || getYear(movie)) && <span>·</span>}
+                                            {(Number(movie.vote_average) > 0 || getYear(movie)) && <span>·</span>}
 
                                             <span>
-                                                {movie.genres.map((genre, index) => (
-                                                    <span key={genre.id}>
+                                                {movie.genres.map((genre: any, index: number) => (
+                                                    <span key={genre.id || index}>
                                                         {index > 0 && ', '}
                                                         {genre.name}
                                                     </span>
