@@ -11,7 +11,7 @@ export type {
     GetListPayload,
     DetailPayload,
 } from './tmdb';
-export type { NavMenuCategory, NavMenuItem, StreamCategoryItem } from './menu';
+export type { NavMenuItem, StreamCategoryItem } from './menu';
 export type {
     StreamSearchItem,
     StreamSearchResponse,

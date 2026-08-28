@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, Search, X, Loader2, ChevronDown, UserRound, LogOut, Settings } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { menu } from '@/constants/nav-menu';
 import { Button } from '@/components/ui/button';
 import { useNavSearch } from '@/components/layout/navbar/useNavSearch';
@@ -9,19 +8,10 @@ import { SearchResults } from './search-results';
 import { CountryDropdown } from './country-dropdown';
 import { useAuth } from '@/features/auth/context';
 
-const dropdownVariants = {
-    initial: { opacity: 0, y: -4, scale: 0.98 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -4, scale: 0.98 },
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const },
-};
-
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDesktopSearchOpen, setIsDesktopSearchOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     const { user, profile, signOut } = useAuth();
     const accountRef = useRef<HTMLDivElement>(null);
@@ -51,7 +41,6 @@ export default function Navbar() {
 
     const closeMobileMenu = () => {
         setIsMobileMenuOpen(false);
-        setMobileActiveDropdown(null);
     };
 
     const supabaseSignOut = async () => {
@@ -63,61 +52,27 @@ export default function Navbar() {
         <header className='absolute w-full top-0 z-20'>
             <nav className='relative px-4 sm:px-6 py-4'>
                 <div className='flex items-center justify-between space-x-4'>
-                    <div className='flex items-center space-x-16'>
+                    <div className='flex items-center space-x-12 lg:space-x-16'>
                         <Link to='/' aria-label='Moovie home'>
                             <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
                         </Link>
 
-                        <ul className='hidden md:flex items-center' aria-label='Main navigation'>
-                            {menu.map((item, i) =>
-                                item.hasDropdown && item.categories ?
-                                    <li
-                                        key={i}
-                                        className='relative group'
-                                        onMouseEnter={() => setActiveDropdown(item.page)}
-                                        onMouseLeave={() => setActiveDropdown(null)}>
-                                        <Button
-                                            variant='link'
-                                            size='sm'
-                                            rounded='md'
-                                            rightIcon={
-                                                <ChevronDown
-                                                    size={16}
-                                                    strokeWidth={2.5}
-                                                    className='transition-transform duration-[250ms] group-hover:rotate-180'
-                                                />
-                                            }
-                                            className='mx-2 text-sm capitalize text-foreground-secondary hover:text-foreground hover:no-underline hover:bg-surface-hover px-3 py-2'>
-                                            {item.page}
-                                        </Button>
-
-                                        <AnimatePresence>
-                                            {activeDropdown === item.page && (
-                                                <motion.div
-                                                    {...dropdownVariants}
-                                                    className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
-                                                    <div className='rounded-lg bg-surface-overlay border border-border shadow-md overflow-hidden'>
-                                                        {item.categories.map((cat) => (
-                                                            <Link
-                                                                key={cat.value}
-                                                                to={`/${item.mediaType}/${cat.value}`}
-                                                                className='block px-3.5 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground transition-colors'>
-                                                                {cat.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </li>
-                                :   <li key={i}>
-                                        <NavLink
-                                            to={item.link!}
-                                            className='mx-2 flex items-center gap-2 p-2 text-sm font-medium capitalize text-foreground-secondary transition-colors hover:text-foreground'>
-                                            {item.page}
-                                        </NavLink>
-                                    </li>
-                            )}
+                        <ul className='hidden md:flex items-center gap-1' aria-label='Main navigation'>
+                            {menu.map((item, i) => (
+                                <li key={i}>
+                                    <NavLink
+                                        to={item.link}
+                                        className={({ isActive }) =>
+                                            `mx-1 px-3 py-2 text-sm font-medium capitalize rounded-md transition-colors ${
+                                                isActive ?
+                                                    'text-foreground font-semibold bg-white/10'
+                                                :   'text-foreground-secondary hover:text-foreground hover:bg-surface-hover'
+                                            }`
+                                        }>
+                                        {item.page}
+                                    </NavLink>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
@@ -282,7 +237,7 @@ export default function Navbar() {
                                 <Link
                                     to={user ? '/profile' : '/login'}
                                     onClick={closeMobileMenu}
-                                    className='flex items-center gap-3 rounded-full border border-border bg-surface-elevated px-1.5 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-border-hover hover:bg-surface-hover'>
+                                    className='flex items-center gap-3 rounded-full border border-border bg-surface-elevated px-1.5 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-border-hover hover:bg-surface-hover mb-4'>
                                     {user ?
                                         <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-border-subtle'>
                                             <img src={avatarUrl} alt='' className='size-full object-cover' />
@@ -298,54 +253,22 @@ export default function Navbar() {
                                 </Link>
                             </li>
 
-                            {menu.map((item, i) =>
-                                item.hasDropdown && item.categories ?
-                                    <li key={i}>
-                                        <button
-                                            onClick={() =>
-                                                setMobileActiveDropdown(
-                                                    mobileActiveDropdown === item.page ? null : item.page
-                                                )
-                                            }
-                                            className='w-full text-center px-5 py-2 text-lg font-medium capitalize text-foreground-secondary flex items-center justify-center gap-2 hover:text-foreground transition-colors'>
-                                            {item.page}
-                                            <ChevronDown
-                                                size={18}
-                                                strokeWidth={2.5}
-                                                className={`transition-transform duration-200 ${mobileActiveDropdown === item.page ? 'rotate-180' : ''}`}
-                                            />
-                                        </button>
-
-                                        <AnimatePresence>
-                                            {mobileActiveDropdown === item.page && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: 'auto' }}
-                                                    exit={{ opacity: 0, height: 0 }}
-                                                    transition={{ duration: 0.3 }}
-                                                    className='space-y-1 overflow-hidden'>
-                                                    {item.categories.map((cat) => (
-                                                        <Link
-                                                            key={cat.value}
-                                                            to={`/${item.mediaType}/${cat.value}`}
-                                                            onClick={closeMobileMenu}
-                                                            className='block px-8 py-2 text-base font-medium text-center text-foreground-muted hover:text-foreground transition-colors'>
-                                                            {cat.label}
-                                                        </Link>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </li>
-                                :   <li key={i}>
-                                        <NavLink
-                                            to={item.link!}
-                                            onClick={closeMobileMenu}
-                                            className='block px-5 py-2.5 text-lg font-medium capitalize text-foreground-secondary hover:text-foreground transition-colors'>
-                                            {item.page}
-                                        </NavLink>
-                                    </li>
-                            )}
+                            {menu.map((item, i) => (
+                                <li key={i} className='w-full max-w-xs text-center'>
+                                    <NavLink
+                                        to={item.link}
+                                        onClick={closeMobileMenu}
+                                        className={({ isActive }) =>
+                                            `block px-5 py-2.5 text-lg font-medium capitalize rounded-lg transition-colors ${
+                                                isActive ?
+                                                    'text-foreground font-semibold bg-white/10'
+                                                :   'text-foreground-secondary hover:text-foreground hover:bg-white/5'
+                                            }`
+                                        }>
+                                        {item.page}
+                                    </NavLink>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 )}
