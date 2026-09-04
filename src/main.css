@@ -9,7 +9,7 @@
     }
 
     body {
-        font-family: 'Inter', sans-serif;
+       font-family: 'Twemoji Country Flags', 'Inter', sans-serif;
         background-color: theme('colors.background');
         color: theme('colors.foreground.DEFAULT');
     }
@@ -47,6 +47,10 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: theme('colors.border.strong');
+}
+
+.flag-emoji {
+    font-family: 'Twemoji Country Flags', 'Segoe UI Emoji', sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
