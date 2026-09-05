@@ -10,6 +10,9 @@ export const getTopRatedMovies = (page = 1, payload?: GetListPayload) =>
 export const getTrendingMovies = (payload?: GetListPayload) =>
     apiClient.get('/trending/movie/week', { params: payload });
 
+export const getTrendingMoviesDay = (payload?: GetListPayload) =>
+    apiClient.get('/trending/movie/day', { params: payload });
+
 export const getTrendingAll = (type: string, payload?: GetListPayload) =>
     apiClient.get(`/trending/all/${type}`, { params: payload });
 
