@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { getDetailUrl } from '@/utils/url';
-import { TrailerModal } from '@/components/composed/trailer-modal';
+import { TrailerModal } from '@/components/media/trailer-modal';
 import DetailHero from '@/features/detail/components/detail-hero';
-import Loading from '@/components/ui/spinner';
 import { useDetail } from '@/features/detail/hooks/useDetail';
-import { MediaCard } from '@/components/composed/card/media-card';
-import { CastCard } from '@/components/composed/card/cast-card';
+import { MediaCard } from '@/components/media/card/media-card';
+import { CastCard } from '@/components/media/card/cast-card';
 import { useDetailStreaming } from './hooks/useDetailStreaming';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,9 +16,33 @@ const SwiperParams = {
     grabCursor: true,
     breakpoints: {
         320: { spaceBetween: 8 },
-        640: { spaceBetween: 16 },
-        1024: { spaceBetween: 18.5 },
+        640: { spaceBetween: 12 },
     },
+};
+
+const MediaHeroSkeleton = () => {
+    return (
+        <section className='relative h-[420px] md:h-[500px] lg:h-[560px] w-full bg-surface-base overflow-hidden animate-pulse'>
+            <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/15 to-black' />
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+                <div className='size-12 sm:size-16 md:size-20 rounded-full bg-surface-raised/80' />
+            </div>
+            <div className='absolute bottom-4 md:bottom-6 left-0 right-0 px-4 sm:px-6 max-w-xl md:max-w-2xl'>
+                <div className='my-3 md:my-4 h-12 sm:h-16 md:h-24 lg:h-32 w-3/4 max-w-md rounded-xl bg-surface-raised/80' />
+                <div className='mb-2 md:mb-4 flex items-center gap-2'>
+                    <div className='h-4 w-12 rounded bg-surface-raised/80' />
+                    <span className='text-surface-raised/80'>·</span>
+                    <div className='h-4 w-10 rounded bg-surface-raised/80' />
+                    <span className='text-surface-raised/80'>·</span>
+                    <div className='h-4 w-32 rounded bg-surface-raised/80' />
+                </div>
+                <div className='flex space-x-2.5'>
+                    <div className='h-11 w-28 rounded-lg bg-surface-raised/80' />
+                    <div className='h-11 w-28 rounded-lg bg-surface-raised/80' />
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default function DetailPage() {
@@ -42,7 +65,7 @@ export default function DetailPage() {
 
     const handleWatchNow = () => streaming.setIsPlaying(true);
 
-    if (isLoading) return <Loading />;
+    if (isLoading) return <MediaHeroSkeleton />;
 
     if (!type || !id) {
         return (
@@ -62,7 +85,6 @@ export default function DetailPage() {
 
     return (
         <main>
-            {/* hero section */}
             <DetailHero
                 detail={detail}
                 onTrailerClick={handleTrailerClick}
@@ -123,7 +145,7 @@ export default function DetailPage() {
                                     {allSeasons.map((seasons) => (
                                         <SwiperSlide
                                             key={seasons.id}
-                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px]'>
+                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[196px]'>
                                             <MediaCard type={seasons} />
                                         </SwiperSlide>
                                     ))}
@@ -146,7 +168,7 @@ export default function DetailPage() {
                                     {recommendations.map((recommendation) => (
                                         <SwiperSlide
                                             key={recommendation.id}
-                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px]'>
+                                            className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[196px]'>
                                             <Link to={getDetailUrl(recommendation)}>
                                                 <MediaCard type={recommendation} />
                                             </Link>
