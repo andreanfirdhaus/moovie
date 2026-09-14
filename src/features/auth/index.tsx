@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CircleAlert, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from './context';
+import { useAuth } from '@/context/authContext';
 import { isSupabaseConfigured } from '@/config/supabase';
 import { useTrendingMovies } from '../home/hooks/useMovies.query';
 import { Marquee } from '@/features/auth/components/marquee';
@@ -75,7 +75,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
 
     return (
         <main className='min-h-screen bg-background'>
-            <header className='absolute top-[3.5px] md:top-3 left-0 z-40 w-full'>
+            <header className='absolute top-[12px] left-0 z-40 w-full'>
                 <div className='relative px-4 sm:px-6 py-4'>
                     <Link to='/' aria-label='Moovie home'>
                         <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
@@ -88,15 +88,6 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                 <div className='relative hidden min-h-screen overflow-hidden md:block'>
                     <Marquee movies={trendingMovies} />
                 </div>
-                {/* <div
-                    className="relative hidden md:flex min-h-screen flex-col justify-between overflow-hidden bg-cover bg-center px-4 py-6 sm:px-6 sm:py-8 lg:px-12 lg:py-10 xl:px-24"
-                    style={{
-                        backgroundImage:
-                            "url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1800&q=85')",
-                    }}
-                >
-                    <div className='absolute inset-0 bg-black/45' />
-                </div> */}
 
                 {/* right */}
                 <div className='flex items-center bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-12 lg:py-10 xl:px-24'>
@@ -146,16 +137,10 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         type='text'
                                         value={username}
                                         onChange={(event) => setUsername(event.target.value)}
-                                        placeholder=' '
+                                        placeholder='Username'
                                         autoComplete='username'
                                         className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
-
-                                    <label
-                                        htmlFor='username'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
-                                        Username
-                                    </label>
                                 </div>
                             )}
 
@@ -169,16 +154,10 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         type='email'
                                         value={email}
                                         onChange={(event) => setEmail(event.target.value)}
-                                        placeholder=' '
+                                        placeholder='Email'
                                         autoComplete='email'
                                         className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
-
-                                    <label
-                                        htmlFor='email'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
-                                        Email
-                                    </label>
                                 </div>
                             )}
 
@@ -193,16 +172,10 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                                         type='password'
                                         value={password}
                                         onChange={(event) => setPassword(event.target.value)}
-                                        placeholder=' '
+                                        placeholder='Password'
                                         autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
                                         className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
                                     />
-
-                                    <label
-                                        htmlFor='password'
-                                        className='pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-sm text-foreground-secondary transition-all duration-300 ease-out peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-surface-base peer-focus:px-2 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-surface-base peer-[:not(:placeholder-shown)]:px-2 peer-[:not(:placeholder-shown)]:text-xs'>
-                                        Password
-                                    </label>
                                 </div>
                             )}
 
