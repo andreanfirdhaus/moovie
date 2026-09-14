@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Play, Star } from 'lucide-react';
-import { TMDB_IMG_1280, TMDB_IMG_500 } from '@/config/images';
+import { TMDB_IMG_1280 } from '@/config/images';
 import { getMediaTitle, getMediaType } from '@/utils/media';
 import { getYear } from '@/utils/date';
-import MediaLogo from '@/components/composed/media-logo';
-import { useMediaImages, useMediaCredits } from '../hooks/useDetail.query';
+import { MediaLogo } from '@/components/media/hero/index';
+import { useMediaCredits } from '../hooks/useDetail.query';
 import ProductionCompany from './production-company';
 import IFrame from '@/components/ui/iframe';
 import { Button } from '@/components/ui/button';
 import ServerSelector from './streaming/server-selector';
 import EmbedControls from './streaming/embed-controls';
 import TmdbEpisodePanel from './streaming/tmdb-episode-panel';
-import MediaActions from '@/features/library/components/media-actions';
+import MediaActions from '@/components/media/media-actions';
 import type { ServerOption } from '../types/streaming';
 import type { TmdbEpisode } from '@/types/tmdb/media-episode';
 
@@ -55,11 +55,6 @@ export default function DetailHero({
     seasons,
 }: DetailHeroProps) {
     const mediaType = getMediaType(detail);
-    const { data: imagesData } = useMediaImages(mediaType, detail?.id?.toString());
-    const logos = imagesData?.logos || [];
-    const chosen = logos.find((logo: any) => logo.iso_639_1 === 'en') || logos[0];
-    const logoUrl = chosen ? TMDB_IMG_500 + chosen.file_path : null;
-
     const { data: credits } = useMediaCredits(mediaType, detail?.id?.toString());
     const crew = credits?.crew || [];
     const director = crew.find((person: any) => person.job === 'Director');
@@ -159,7 +154,7 @@ export default function DetailHero({
                             <div className='md:max-w-4xl'>
                                 {/* Logo */}
                                 <div className='mb-4'>
-                                    <MediaLogo logoUrl={logoUrl} title={getMediaTitle(detail)} />
+                                    <MediaLogo movie={detail} />
                                 </div>
 
                                 {/* Genres */}
