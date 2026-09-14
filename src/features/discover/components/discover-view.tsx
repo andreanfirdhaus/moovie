@@ -1,180 +1,224 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Film, Funnel } from 'lucide-react';
-import Pagination from '@/components/composed/pagination';
-import FilterAside from '@/components/composed/filter-aside';
-import {
-    usePopularMovies,
-    useUpcomingMovies,
-    useTopRatedMovies,
-    usePopularSeries,
-    useTopRatedSeries,
-} from '@/features/discover/hooks/useDiscover.query';
+import { Film, RotateCcw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { TopFilterBar } from './top-filter-bar';
+import { useInfiniteDiscoverMedia } from '@/features/discover/hooks/useDiscover.query';
 import { useMovieGenres, useTVGenres } from '@/features/discover/hooks/useGenre.query';
 import { getDetailUrl } from '@/utils/url';
-import { MediaCard } from '@/components/composed/card/media-card';
-import { SORT_BY } from '@/constants/sort-options';
+import { MediaCard } from '@/components/media/card/media-card';
+import { MediaHubHeroBanner } from '@/components/media/banner';
+import { Button } from '@/components/ui/button';
 
 interface DiscoverViewProps {
-    mediaType: string;
-    category: string;
-    currentPage: number;
+    mediaType: 'movie' | 'tv';
+    onMediaTypeChange: (type: 'movie' | 'tv') => void;
     selectedGenres: number[];
     setSelectedGenres: React.Dispatch<React.SetStateAction<number[]>>;
+    onGenreToggle: (genreId: number) => void;
+    selectedProviders: number[];
+    setSelectedProviders: React.Dispatch<React.SetStateAction<number[]>>;
+    onProviderToggle: (providerId: number) => void;
     sortBy: string;
     setSortBy: (sort: string) => void;
-    onPageChange: (page: number) => void;
-}
-
-const DEFAULT_SORT = SORT_BY.POPULARITY_DESC;
-
-const CATEGORY_LABELS: Record<string, Record<string, string>> = {
-    movie: {
-        popular: 'Popular Movies',
-        upcoming: 'Upcoming Movies',
-        toprated: 'Top Rated Movies',
-    },
-    tv: {
-        popular: 'Popular Series',
-        toprated: 'Top Rated Series',
-    },
-};
-
-function useDiscoverData(
-    mediaType: string,
-    category: string,
-    currentPage: number,
-    selectedGenres: number[],
-    sortBy: string
-) {
-    const isMovie = mediaType === 'movie';
-    const isTv = mediaType === 'tv';
-
-    // only fetch the query that matches the current mediaType and category.
-    const popular = usePopularMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'popular');
-    const upcoming = useUpcomingMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'upcoming');
-    const topRated = useTopRatedMovies(currentPage, selectedGenres, sortBy, isMovie && category === 'toprated');
-    const popularTv = usePopularSeries(currentPage, selectedGenres, sortBy, isTv && category === 'popular');
-    const topRatedTv = useTopRatedSeries(currentPage, selectedGenres, sortBy, isTv && category === 'toprated');
-
-    if (isMovie && category === 'popular') return popular;
-    if (isMovie && category === 'upcoming') return upcoming;
-    if (isMovie && category === 'toprated') return topRated;
-    if (isTv && category === 'popular') return popularTv;
-    if (isTv && category === 'toprated') return topRatedTv;
-
-    return popular;
+    fromYear: string;
+    setFromYear: (year: string) => void;
+    toYear: string;
+    setToYear: (year: string) => void;
+    country: string;
+    setCountry: (countryCode: string) => void;
+    onClearFilters: () => void;
 }
 
 export default function DiscoverView({
     mediaType,
-    category,
-    currentPage,
+    onMediaTypeChange,
     selectedGenres,
-    setSelectedGenres,
+    onGenreToggle,
+    selectedProviders,
+    setSelectedProviders,
     sortBy,
     setSortBy,
-    onPageChange,
+    fromYear,
+    setFromYear,
+    toYear,
+    setToYear,
+    country,
+    setCountry,
+    onClearFilters,
 }: DiscoverViewProps) {
+    const { t } = useTranslation();
+    const filterBarRef = useRef<HTMLDivElement>(null);
+
     const { data: movieGenres = [], isLoading: isLoadingMovieGenres } = useMovieGenres();
     const { data: tvGenres = [], isLoading: isLoadingTVGenres } = useTVGenres();
-    const { data, isLoading } = useDiscoverData(mediaType, category, currentPage, selectedGenres, sortBy);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const displayData = data?.results || [];
-    const totalPages = data?.total_pages || 0;
-    const displayTitle = CATEGORY_LABELS[mediaType]?.[category] ?? 'Browse';
-    const activeFilterCount = selectedGenres.length + (sortBy !== DEFAULT_SORT ? 1 : 0);
+    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteDiscoverMedia({
+        mediaType,
+        genreIds: selectedGenres,
+        providerIds: selectedProviders,
+        sortBy,
+        fromYear,
+        toYear,
+        country,
+    });
 
-    function handleGenreToggle(genreId: number) {
-        setSelectedGenres((prev) =>
-            prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]
-        );
-    }
+    const allMedia = data?.pages.flatMap((page) => page.results) || [];
+    const totalResults = data?.pages[0]?.total_results || 0;
 
-    function handleClearFilters() {
-        setSelectedGenres([]);
-        setSortBy(DEFAULT_SORT);
-    }
+    const hasActiveFilters =
+        selectedGenres.length > 0 ||
+        selectedProviders.length > 0 ||
+        sortBy !== 'popularity.desc' ||
+        Boolean(fromYear) ||
+        Boolean(toYear) ||
+        (Boolean(country) && country !== 'ALL');
 
     return (
-        <main className='min-h-screen pt-20 md:pt-28 lg:pt-32 pb-12'>
-            <div className='px-4 sm:px-6'>
-                {/* header*/}
-                <header className='mb-4 flex items-center justify-between'>
-                    <h1 className='text-xl font-semibold text-foreground'>{displayTitle}</h1>
+        <main className='min-h-screen pb-20'>
+            {/* hero */}
+            <MediaHubHeroBanner
+                title={mediaType === 'tv' ? t('discover.discoverTv') : t('discover.discoverMovies')}
+                subtitle={t('hero.discoverSubtitle')}
+                gradientVariant='discover'
+            />
 
-                    {/* mobile filter toggle */}
-                    <button
-                        onClick={() => setIsSidebarOpen(true)}
-                        className='lg:hidden flex items-center gap-1.5 px-4 py-2 bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground rounded-full text-sm font-medium transition-colors'>
-                        {activeFilterCount > 0 ?
-                            <span className='flex items-center justify-center w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold'>
-                                {activeFilterCount}
-                            </span>
-                        :   <Funnel size={16} />}
-                        <span>Filters</span>
-                    </button>
-                </header>
-
-                {/* two-column layout */}
-                <div className='flex gap-6 items-start'>
-                    <FilterAside
-                        mediaType={mediaType === 'movie' ? 'movie' : 'tv'}
-                        genres={mediaType === 'movie' ? movieGenres : tvGenres}
-                        isLoadingGenres={mediaType === 'movie' ? isLoadingMovieGenres : isLoadingTVGenres}
-                        selectedGenres={selectedGenres}
-                        onGenreToggle={handleGenreToggle}
+            <div className='px-4 sm:px-6 mt-6'>
+                {/* top filter bar */}
+                <div ref={filterBarRef}>
+                    <TopFilterBar
+                        mediaType={mediaType}
+                        onMediaTypeChange={onMediaTypeChange}
+                        selectedProviders={selectedProviders}
+                        onProviderChange={(providerId) => {
+                            if (providerId) {
+                                setSelectedProviders([providerId]);
+                            } else {
+                                setSelectedProviders([]);
+                            }
+                        }}
                         sortBy={sortBy}
                         onSortChange={setSortBy}
-                        onClearFilters={handleClearFilters}
-                        isOpen={isSidebarOpen}
-                        onClose={() => setIsSidebarOpen(false)}
+                        fromYear={fromYear}
+                        onFromYearChange={setFromYear}
+                        toYear={toYear}
+                        onToYearChange={setToYear}
+                        country={country}
+                        onCountryChange={setCountry}
+                        genres={mediaType === 'movie' ? movieGenres : tvGenres}
+                        selectedGenres={selectedGenres}
+                        onGenreToggle={onGenreToggle}
+                        isLoadingGenres={mediaType === 'movie' ? isLoadingMovieGenres : isLoadingTVGenres}
+                        onClearFilters={onClearFilters}
+                        hasActiveFilters={hasActiveFilters}
                     />
+                </div>
 
-                    {/* content area */}
-                    <section className='flex-1 min-w-0'>
-                        {isLoading ?
-                            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
-                                {Array.from({ length: 10 }).map((_, i) => (
-                                    <div key={i} className='mx-0.5 animate-pulse'>
-                                        <div className='relative w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised' />
+                {/* result header count */}
+                <div className='mb-4 flex items-center justify-between'>
+                    {!isLoading && totalResults > 0 && (
+                        <p className='text-xs sm:text-sm font-medium text-foreground-muted'>
+                            {t('discover.showing', {
+                                count: allMedia.length,
+                                total: totalResults.toLocaleString(),
+                            })}
+                        </p>
+                    )}
 
-                                        <div className='mt-1.5 sm:mt-2.5 space-y-1.5'>
-                                            <div className='h-3.5 bg-surface-elevated/70 rounded w-4/5' />
-                                            <div className='h-3 bg-surface-hover rounded w-1/3' />
-                                        </div>
+                    {hasActiveFilters && (
+                        <Button
+                            type='button'
+                            variant='ghost'
+                            size='sm'
+                            onClick={onClearFilters}
+                            className='flex lg:hidden items-center gap-1.5 h-auto py-1 px-2.5 text-xs font-semibold text-primary-accent hover:text-primary-accent/80 hover:bg-primary-accent/10 transition-colors ml-auto'>
+                            <RotateCcw size={13} />
+                            <span>{t('discover.reset')}</span>
+                        </Button>
+                    )}
+                </div>
+
+                {/* grid content */}
+                <section className='w-full'>
+                    {isLoading ?
+                        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-3.5'>
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <div key={i} className='animate-pulse'>
+                                    <div className='w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised' />
+                                    <div className='mt-2 space-y-1.5'>
+                                        <div className='h-3.5 bg-surface-elevated/70 rounded w-4/5' />
+                                        <div className='h-3 bg-surface-elevated/70 rounded w-1/3' />
                                     </div>
+                                </div>
+                            ))}
+                        </div>
+                    : allMedia.length > 0 ?
+                        <>
+                            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3'>
+                                {allMedia.map((item, idx) => (
+                                    <Link key={`${item.id}-${idx}`} to={getDetailUrl(item)}>
+                                        <MediaCard type={item} />
+                                    </Link>
                                 ))}
                             </div>
-                        : displayData.length > 0 ?
-                            <>
-                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8'>
-                                    {displayData.map((item) => (
-                                        <Link key={item.id} to={getDetailUrl(item)}>
-                                            <MediaCard type={item} />
-                                        </Link>
+
+                            {/* loading Skeleton when fetching next page */}
+                            {isFetchingNextPage && (
+                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 mt-3 sm:mt-3.5'>
+                                    {Array.from({ length: 6 }).map((_, i) => (
+                                        <div key={`loading-next-${i}`} className='animate-pulse'>
+                                            <div className='w-full aspect-[2/3] overflow-hidden rounded-md bg-surface-raised' />
+                                            <div className='mt-2 space-y-1.5'>
+                                                <div className='h-3.5 bg-surface-elevated/70 rounded w-4/5' />
+                                                <div className='h-3 bg-surface-elevated/70 rounded w-1/3' />
+                                            </div>
+                                        </div>
                                     ))}
                                 </div>
+                            )}
 
-                                <Pagination
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={onPageChange}
-                                />
-                            </>
-                        :   <div className='flex flex-col items-center justify-center py-20'>
-                                <div className='text-6xl mb-4 text-foreground-muted'>
-                                    <Film size={56} />
+                            {/* load more */}
+                            {hasNextPage ?
+                                <div className='mt-10 mb-6 flex justify-center'>
+                                    <Button
+                                        variant='surface'
+                                        size='md'
+                                        rounded='full'
+                                        onClick={() => void fetchNextPage()}
+                                        isLoading={isFetchingNextPage}
+                                        className='h-11 shadow-md bg-surface-raised border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground font-medium'>
+                                        {t('common.loadMore')}
+                                    </Button>
                                 </div>
-                                <h2 className='text-xl font-semibold text-foreground mb-2'>No results found</h2>
-                                <p className='text-foreground-muted text-center max-w-md'>
-                                    Try adjusting your filters or sort options.
-                                </p>
+                            :   <div className='py-8 flex justify-center'>
+                                    <p className='text-xs font-medium text-foreground-disabled tracking-wide'>
+                                        You have reached the end of the list.
+                                    </p>
+                                </div>
+                            }
+                        </>
+                    :   <div className='flex flex-col items-center justify-center py-20 bg-surface-raised/30 border border-border-subtle/50 rounded-2xl'>
+                            <div className='text-5xl mb-3 text-foreground-muted'>
+                                <Film size={48} strokeWidth={1.5} />
                             </div>
-                        }
-                    </section>
-                </div>
+
+                            <h3 className='text-lg font-semibold text-foreground mb-1'>{t('discover.noResults')}</h3>
+
+                            <p className='text-sm text-foreground-muted text-center max-w-sm px-4'>
+                                {t('discover.noResultsDesc')}
+                            </p>
+
+                            {hasActiveFilters && (
+                                <button
+                                    type='button'
+                                    onClick={onClearFilters}
+                                    className='mt-4 px-4 py-2 text-xs font-semibold text-primary-accent border border-primary-accent/30 hover:bg-primary-accent/10 rounded-full transition-colors'>
+                                    {t('discover.reset')}
+                                </button>
+                            )}
+                        </div>
+                    }
+                </section>
             </div>
         </main>
     );
