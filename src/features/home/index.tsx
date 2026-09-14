@@ -1,15 +1,15 @@
-import { useHome } from '@/features/home/hooks/useHome';
-import { HomeHero } from '@/features/home/components/home-hero';
+import { MediaHero } from '@/components/media/hero';
 import { PopularSection } from './components/popular-section';
 
 export default function Home() {
-    const { trending } = useHome();
     return (
-        <main>
-            {/* trending movie by week */}
-            <HomeHero movies={trending} />
+        <main className='pb-16'>
+            {/* Trending all (movies & TV series) by week */}
+            <MediaHero mediaType='all' timeWindow='week' />
 
-            <PopularSection />
+            <div className='mt-8 sm:mt-10 space-y-6'>
+                <PopularSection />
+            </div>
         </main>
     );
 }
