@@ -11,8 +11,11 @@ export function useDiscoverFilters({ defaultMediaType = 'movie' }: UseDiscoverFi
     const currentPage = parseInt(searchParams.get('page') || '1');
     const selectedGenres =
         searchParams.get('genres') ? searchParams.get('genres')!.split(',').map(Number).filter(Boolean) : [];
-    const selectedProviders =
-        searchParams.get('providers') ? searchParams.get('providers')!.split(',').map(Number).filter(Boolean) : [];
+
+    // handle both "providers" and "provider" query parameters for backward compatibility
+    const providerParam = searchParams.get('providers') || searchParams.get('provider');
+    const selectedProviders = providerParam ? providerParam.split(',').map(Number).filter(Boolean) : [];
+
     const sortBy = searchParams.get('sort') || 'popularity.desc';
     const fromYear = searchParams.get('fromYear') || '';
     const toYear = searchParams.get('toYear') || '';
