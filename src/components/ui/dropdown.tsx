@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { Button, type ButtonProps } from '@/components/ui/button';
@@ -8,6 +9,9 @@ interface DropdownContextType {
     setIsOpen: (isOpen: boolean) => void;
     closeDropdown: () => void;
     toggleDropdown: () => void;
+    triggerRect: DOMRect | null;
+    updatePosition: () => void;
+    triggerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const DropdownContext = createContext<DropdownContextType | undefined>(undefined);
@@ -27,14 +31,43 @@ interface DropdownProps {
 
 export function Dropdown({ children, className }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
+    const triggerRef = useRef<HTMLDivElement>(null);
 
     const closeDropdown = () => setIsOpen(false);
-    const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+    const updatePosition = () => {
+        if (triggerRef.current) {
+            setTriggerRect(triggerRef.current.getBoundingClientRect());
+        }
+    };
+
+    const toggleDropdown = () => {
+        if (!isOpen) {
+            updatePosition();
+        }
+        setIsOpen((prev) => !prev);
+    };
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        window.addEventListener('resize', updatePosition);
+        window.addEventListener('scroll', updatePosition, true);
+
+        return () => {
+            window.removeEventListener('resize', updatePosition);
+            window.removeEventListener('scroll', updatePosition, true);
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+                const portalElement = document.getElementById('dropdown-portal-content');
+                if (portalElement && portalElement.contains(event.target as Node)) {
+                    return;
+                }
                 closeDropdown();
             }
         };
@@ -48,8 +81,9 @@ export function Dropdown({ children, className }: DropdownProps) {
     }, [isOpen]);
 
     return (
-        <DropdownContext.Provider value={{ isOpen, setIsOpen, closeDropdown, toggleDropdown }}>
-            <div ref={dropdownRef} className={cn('relative inline-block text-left', className)}>
+        <DropdownContext.Provider
+            value={{ isOpen, setIsOpen, closeDropdown, toggleDropdown, triggerRect, updatePosition, triggerRef }}>
+            <div ref={triggerRef} className={cn('relative inline-block text-left', className)}>
                 {children}
             </div>
         </DropdownContext.Provider>
@@ -64,7 +98,6 @@ export const DropdownTrigger = React.forwardRef<HTMLButtonElement, DropdownTrigg
     ({ className, children, asChild, onClick, ...props }, ref) => {
         const { isOpen, toggleDropdown } = useDropdown();
 
-        // asChild — inject toggle ke child element (misal <Button> custom)
         if (asChild && React.isValidElement(children)) {
             return React.cloneElement(children as React.ReactElement<any>, {
                 onClick: (e: any) => {
@@ -85,7 +118,6 @@ export const DropdownTrigger = React.forwardRef<HTMLButtonElement, DropdownTrigg
             });
         }
 
-        // Default — render Button primitive
         return (
             <Button
                 ref={ref}
@@ -120,38 +152,67 @@ export function DropdownMenu({
     className,
     align = 'left',
     sideOffset = 8,
-    initial = { opacity: 0, scale: 0.95, y: -sideOffset },
+    initial = { opacity: 0, scale: 0.95, y: -4 },
     animate = { opacity: 1, scale: 1, y: 0 },
-    exit = { opacity: 0, scale: 0.95, y: -sideOffset },
-    transition = { duration: 0.2, ease: 'easeOut' },
+    exit = { opacity: 0, scale: 0.95, y: -4 },
+    transition = { duration: 0.15, ease: 'easeOut' },
 }: DropdownMenuProps) {
-    const { isOpen } = useDropdown();
+    const { isOpen, triggerRect } = useDropdown();
+    const menuRef = useRef<HTMLDivElement>(null);
+    const [coords, setCoords] = useState<React.CSSProperties>({});
 
-    const alignmentClasses = {
-        left: 'left-0 origin-top-left',
-        right: 'right-0 origin-top-right',
-        center: 'left-1/2 -translate-x-1/2 origin-top',
-    };
+    useEffect(() => {
+        if (!isOpen || !triggerRect) return;
 
-    return (
+        const viewportWidth = window.innerWidth;
+        const menuWidth = menuRef.current?.offsetWidth || 200;
+        const margin = 12;
+
+        const top = triggerRect.bottom + sideOffset;
+        let left = triggerRect.left;
+
+        if (align === 'right') {
+            left = triggerRect.right - menuWidth;
+        } else if (align === 'center') {
+            left = triggerRect.left + triggerRect.width / 2 - menuWidth / 2;
+        }
+
+        if (left + menuWidth > viewportWidth - margin) {
+            left = viewportWidth - menuWidth - margin;
+        }
+        if (left < margin) {
+            left = margin;
+        }
+
+        setCoords({
+            position: 'fixed',
+            top: `${top}px`,
+            left: `${left}px`,
+        });
+    }, [isOpen, triggerRect, align, sideOffset]);
+
+    if (typeof window === 'undefined') return null;
+
+    return createPortal(
         <AnimatePresence>
-            {isOpen && (
+            {isOpen && triggerRect && (
                 <motion.div
+                    ref={menuRef}
+                    id='dropdown-portal-content'
                     initial={initial}
                     animate={animate}
                     exit={exit}
                     transition={transition}
+                    style={coords}
                     className={cn(
-                        'absolute z-50 mt-2 min-w-[8rem] overflow-hidden rounded-xl bg-surface-overlay border border-border text-foreground-secondary shadow-md',
-                        alignmentClasses[align],
+                        'z-[9999] p-1.5 min-w-[10rem] max-w-[calc(100vw-24px)] max-h-80 overflow-y-auto rounded-2xl bg-surface-raised border border-border text-foreground-secondary shadow-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
                         className
-                    )}
-                    style={{ top: `calc(100% + ${sideOffset}px)` }} // Provide a default gap below trigger
-                >
-                    {children}
+                    )}>
+                    <div className='flex flex-col gap-0.5'>{children}</div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }
 
@@ -178,7 +239,7 @@ export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
                 ref={ref}
                 onClick={handleClick}
                 className={cn(
-                    'relative flex cursor-pointer select-none items-center px-3 py-2.5 text-sm text-foreground-secondary transition-colors hover:bg-surface-hover hover:text-foreground focus:bg-surface-hover focus:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+                    'relative flex w-full cursor-pointer select-none items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm text-foreground-secondary transition-colors hover:bg-surface-hover/50 hover:text-foreground focus:bg-surface-hover focus:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
                     className
                 )}
                 {...props}>
