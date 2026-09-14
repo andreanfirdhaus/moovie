@@ -1,0 +1,68 @@
+{
+    "nav": {
+        "home": "Home",
+        "movies": "Movies",
+        "tv": "TV Series",
+        "discover": "Discover",
+        "account": "Guest",
+        "profile": "Profile",
+        "settings": "Account settings",
+        "signOut": "Sign out"
+    },
+    "hero": {
+        "trendingWeek": "Trending this week",
+        "trendingToday": "Trending Today",
+        "trendingMoviesToday": "Trending Movies Today",
+        "trendingSeriesToday": "Trending Series Today",
+        "watchNow": "Watch Now",
+        "moviesSubtitle": "Explore the world of cinema with top blockbusters and trending hits.",
+        "seriesSubtitle": "Discover binge-worthy shows, hit drama series, and top television seasons.",
+        "discoverSubtitle": "Filter and stream titles by watch providers, genres, ratings, and country."
+    },
+    "discover": {
+        "title": "Discover",
+        "discoverMovies": "Movies",
+        "discoverTv": "TV Series",
+        "allMovies": "All Movies",
+        "allTv": "All TV Series",
+        "type": "Type",
+        "providers": "Watch Providers",
+        "allProviders": "All Providers",
+        "sortBy": "Sort by",
+        "fromYear": "From Year",
+        "toYear": "To Year",
+        "country": "Country / Region",
+        "allCountries": "All Countries",
+        "genres": "Genres",
+        "reset": "Reset Filters",
+        "filters": "Filters",
+        "showing": "Showing {{count}} of {{total}} titles",
+        "noResults": "No titles found",
+        "noResultsDesc": "Try clearing some filters or changing your watch providers or sort options.",
+        "popular": "Popularity",
+        "topRated": "Highest Rated",
+        "releaseDate": "Release Date"
+    },
+    "search": {
+        "placeholder": "Search for movies and TV series...",
+        "resultsFor": "Search Results for \"{{query}}\"",
+        "showingResults": "Found {{count}} results for \"{{query}}\"",
+        "all": "All",
+        "movies": "Movies",
+        "series": "TV Series",
+        "relevance": "Relevance",
+        "highestRated": "Highest Rated",
+        "newestFirst": "Newest First",
+        "oldestFirst": "Oldest First",
+        "noResults": "No results found",
+        "noResultsFor": "No results found for \"{{query}}\". Try different keywords.",
+        "promptTitle": "Explore now",
+        "promptDesc": "Find your favorite movies, TV series, or discover something new."
+    },
+    "common": {
+        "viewAll": "View All",
+        "clearAll": "Clear all",
+        "loading": "Loading...",
+        "loadMore": "Load More"
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "nav": {
+        "home": "ホーム",
+        "movies": "映画",
+        "tv": "テレビ番組",
+        "discover": "見つける",
+        "account": "ゲスト",
+        "profile": "プロフィール",
+        "settings": "アカウント設定",
+        "signOut": "ログアウト"
+    },
+    "hero": {
+        "trendingWeek": "今週のトレンド",
+        "trendingToday": "今日のトレンド",
+        "trendingMoviesToday": "今日のトレンド映画",
+        "trendingSeriesToday": "今日のトレンド番組",
+        "watchNow": "今すぐ観る",
+        "moviesSubtitle": "最高の大作や最新のヒット作で映画の世界を探索しましょう。",
+        "seriesSubtitle": "注目のドラマや人気のテレビシリーズをお楽しみください。",
+        "discoverSubtitle": "配信プラットフォーム、ジャンル、評価、国別に作品を検索・視聴。"
+    },
+    "discover": {
+        "title": "見つける",
+        "discoverMovies": "映画を見つける",
+        "discoverTv": "テレビ番組を見つける",
+        "allMovies": "すべての映画",
+        "allTv": "すべてのテレビ番組",
+        "type": "タイプ",
+        "providers": "配信サービス",
+        "allProviders": "すべてのサービス",
+        "sortBy": "並び替え",
+        "fromYear": "開始年",
+        "toYear": "終了年",
+        "country": "国 / 地域",
+        "allCountries": "すべての国",
+        "genres": "ジャンル",
+        "reset": "フィルターをリセット",
+        "filters": "フィルター",
+        "showing": "{{total}} 件中 {{count}} 件を表示",
+        "noResults": "作品が見つかりません",
+        "noResultsDesc": "フィルターを解除するか、並び替え条件を変更してお試しください。",
+        "popular": "人気順（降順）",
+        "popularAsc": "人気順（昇順）",
+        "topRated": "評価の高い順",
+        "newest": "公開日が新しい順",
+        "oldest": "公開日が古い順"
+    },
+    "search": {
+        "placeholder": "映画、テレビ番組、人物を検索...",
+        "resultsFor": "「{{query}}」の検索結果",
+        "showingResults": "「{{query}}」の検索結果 {{count}} 件",
+        "all": "すべて",
+        "movies": "映画",
+        "series": "テレビ番組",
+        "relevance": "関連度順",
+        "highestRated": "評価の高い順",
+        "newestFirst": "新しい順",
+        "oldestFirst": "古い順",
+        "noResults": "結果が見つかりませんでした",
+        "noResultsFor": "「{{query}}」に一致する結果は見つかりませんでした。別のキーワードをお試しください。",
+        "promptTitle": "Moovie を検索",
+        "promptDesc": "お気に入りの映画、テレビ番組、俳優、監督を検索しましょう。"
+    },
+    "common": {
+        "viewAll": "すべて見る",
+        "clearAll": "クリア",
+        "loading": "読み込み中...",
+        "loadMore": "もっと読み込む"
+    }
+}
