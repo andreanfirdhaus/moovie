@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCountryByCode, getSelectedCountryCode } from '@/constants/countries';
+import { getTmdbLanguage } from '@/constants/languages';
 
 export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_TMDB_BASE_URL,
@@ -10,14 +10,11 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-    const countryCode = getSelectedCountryCode();
-    const country = getCountryByCode(countryCode);
+    const savedLang = typeof window !== 'undefined' ? localStorage.getItem('moovie_language') || 'en' : 'en';
+    const tmdbLanguage = getTmdbLanguage(savedLang);
 
     config.params = {
-        language: country.language,
-        ...(country.code !== 'ALL' && {
-            region: country.code,
-        }),
+        language: tmdbLanguage,
         ...config.params,
     };
 
