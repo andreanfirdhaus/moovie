@@ -1,319 +1,291 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Search, X, Loader2, ChevronDown, UserRound, LogOut, Settings } from 'lucide-react';
+import { Search, ChevronDown, UserRound, LogOut, Home, Film, Tv, Compass } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { menu } from '@/constants/nav-menu';
 import { Button } from '@/components/ui/button';
-import { useNavSearch } from '@/components/layout/navbar/useNavSearch';
-import { SearchResults } from './search-results';
-import { CountryDropdown } from './country-dropdown';
-import { useAuth } from '@/features/auth/context';
+import { LanguageDropdown } from './language-dropdown';
+import { useAuth } from '@/context/authContext';
+import { NavSearch, MobileSearchModal } from './search';
 
 export default function Navbar() {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDesktopSearchOpen, setIsDesktopSearchOpen] = useState(false);
+    const { t } = useTranslation();
+    const [isAccountOpenDesktop, setIsAccountOpenDesktop] = useState(false);
+    const [isAccountOpenMobile, setIsAccountOpenMobile] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-    const [isAccountOpen, setIsAccountOpen] = useState(false);
+
     const { user, profile, signOut } = useAuth();
-    const accountRef = useRef<HTMLDivElement>(null);
+    const accountRefDesktop = useRef<HTMLDivElement>(null);
+    const accountRefMobile = useRef<HTMLDivElement>(null);
+
     const displayName =
         profile?.username ||
         user?.user_metadata?.username ||
         user?.user_metadata?.full_name ||
         user?.email?.split('@')[0] ||
-        'Account';
+        t('nav.account');
     const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || '/assets/avatar.png';
-
-    const searchRef = useRef<HTMLDivElement>(null);
-
-    const desktop = useNavSearch();
-    const mobile = useNavSearch(isMobileSearchOpen);
+    const userEmail = user?.email || '';
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-                desktop.setIsOpen(false);
+            if (accountRefDesktop.current && !accountRefDesktop.current.contains(e.target as Node)) {
+                setIsAccountOpenDesktop(false);
             }
-            if (accountRef.current && !accountRef.current.contains(e.target as Node)) setIsAccountOpen(false);
+            if (accountRefMobile.current && !accountRefMobile.current.contains(e.target as Node)) {
+                setIsAccountOpenMobile(false);
+            }
         };
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
-    }, [desktop]);
-
-    const closeMobileMenu = () => {
-        setIsMobileMenuOpen(false);
-    };
+    }, []);
 
     const supabaseSignOut = async () => {
         await signOut();
-        setIsAccountOpen(false);
+        setIsAccountOpenDesktop(false);
+        setIsAccountOpenMobile(false);
     };
 
+    const getNavLabel = (page: string) => {
+        const key = page.toLowerCase().replace(/\s+/g, '');
+        if (key === 'home') return t('nav.home');
+        if (key === 'movies') return t('nav.movies');
+        if (key === 'tvseries' || key === 'tv') return t('nav.tv');
+        if (key === 'discover') return t('nav.discover');
+        return page;
+    };
+
+    const bottomNavMenu = [
+        { label: t('nav.home'), path: '/', icon: Home, isAction: false },
+        { label: t('nav.movies'), path: '/movies', icon: Film, isAction: false },
+        { label: t('nav.tv'), path: '/tv', icon: Tv, isAction: false },
+        { label: t('nav.search') || 'Search', path: '#search', icon: Search, isAction: true },
+        { label: t('nav.discover'), path: '/discover', icon: Compass, isAction: false },
+    ];
+
     return (
-        <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 py-4'>
-                <div className='flex items-center justify-between space-x-4'>
-                    <div className='flex items-center space-x-12 lg:space-x-16'>
-                        <Link to='/' aria-label='Moovie home'>
-                            <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
-                        </Link>
+        <>
+            <header className='absolute top-0 z-20 w-full'>
+                <nav className='relative px-4 sm:px-6 py-7 lg:py-4'>
+                    <div className='flex items-center justify-between'>
+                        <div className='flex items-center space-x-8'>
+                            <Link to='/' aria-label='Moovie home'>
+                                <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
+                            </Link>
 
-                        <ul className='hidden md:flex items-center gap-1' aria-label='Main navigation'>
-                            {menu.map((item, i) => (
-                                <li key={i}>
-                                    <NavLink
-                                        to={item.link}
-                                        className={({ isActive }) =>
-                                            `mx-1 px-3 py-2 text-sm font-medium capitalize rounded-md transition-colors ${
-                                                isActive ?
-                                                    'text-foreground font-semibold bg-white/10'
-                                                :   'text-foreground-secondary hover:text-foreground hover:bg-surface-hover'
-                                            }`
-                                        }>
-                                        {item.page}
-                                    </NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className='flex items-center gap-3'>
-                        <button
-                            type='button'
-                            onClick={() => setIsDesktopSearchOpen(true)}
-                            className='hidden md:flex items-center justify-center text-foreground-secondary transition-colors hover:text-foreground'
-                            aria-label='Open search'>
-                            {desktop.isLoading ?
-                                <Loader2 size={22} className='animate-spin' />
-                            :   <Search size={22} />}
-                        </button>
-
-                        <div className='hidden md:block'>
-                            <CountryDropdown />
+                            <ul className='hidden lg:flex items-center gap-1' aria-label='Main navigation'>
+                                {menu.map((item, i) => (
+                                    <li key={i}>
+                                        <NavLink
+                                            to={item.link}
+                                            className={({ isActive }) =>
+                                                `mx-0.5 px-3 py-2 text-sm font-medium capitalize rounded-md text-foreground hover:bg-white/10 transition-colors ${
+                                                    isActive ? 'bg-white/10' : ''
+                                                }`
+                                            }>
+                                            {getNavLabel(item.page)}
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
-                        <div ref={accountRef} className='relative hidden md:block'>
-                            {user ?
-                                <Button
-                                    variant='outline'
-                                    rounded='full'
-                                    onClick={() => setIsAccountOpen((open) => !open)}
-                                    aria-expanded={isAccountOpen}
-                                    className='h-12 px-1.5 pr-3 text-sm text-foreground border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
-                                    <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5'>
-                                        <img src={avatarUrl} alt='' className='size-full object-cover' />
-                                    </span>
+                        {/* desktop user navigation */}
+                        <div className='hidden lg:flex items-center gap-3'>
+                            {/* expandable search */}
+                            <NavSearch />
 
-                                    <span className='max-w-28 truncate'>{displayName}</span>
-
-                                    <ChevronDown
-                                        size={16}
-                                        strokeWidth={2}
-                                        className={`transition-transform ${isAccountOpen ? 'rotate-180' : ''}`}
-                                    />
-                                </Button>
-                            :   <Button
-                                    as={Link}
-                                    to='/login'
-                                    variant='outline'
-                                    rounded='full'
-                                    leftIcon={
-                                        <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
-                                            <UserRound size={18} strokeWidth={1.8} />
+                            <div ref={accountRefDesktop} className='relative'>
+                                {user ?
+                                    <Button
+                                        variant='outline'
+                                        rounded='full'
+                                        onClick={() => setIsAccountOpenDesktop((open) => !open)}
+                                        aria-expanded={isAccountOpenDesktop}
+                                        className='h-11 border-white/10 bg-transparent px-1 pr-3 text-sm text-foreground hover:border-white/40 hover:bg-white/5'>
+                                        <span className='flex size-9 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5'>
+                                            <img src={avatarUrl} alt='' className='size-full object-cover' />
                                         </span>
-                                    }
-                                    rightIcon={<ChevronDown size={16} strokeWidth={2} />}
-                                    className='h-12 px-1.5 pr-3 text-sm text-foreground border-white/10 bg-transparent hover:border-white/40 hover:bg-white/5'>
-                                    Account
-                                </Button>
-                            }
-
-                            {user && isAccountOpen && (
-                                <div className='absolute right-0 top-full mt-2 w-48 rounded-lg bg-surface-overlay border border-border p-2 shadow-md'>
-                                    <Link
-                                        to='/profile'
-                                        onClick={() => setIsAccountOpen(false)}
-                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground'>
-                                        <UserRound size={16} />
-                                        Profile
-                                    </Link>
-
-                                    <Link
-                                        to='/profile#settings'
-                                        onClick={() => setIsAccountOpen(false)}
-                                        className='flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-foreground-secondary hover:bg-surface-hover hover:text-foreground'>
-                                        <Settings size={16} />
-                                        Account settings
-                                    </Link>
-
-                                    <button
-                                        onClick={() => void supabaseSignOut()}
-                                        className='flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-danger-text hover:bg-danger-surface'>
-                                        <LogOut size={16} />
-                                        Sign out
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {isDesktopSearchOpen && (
-                        <div
-                            className='hidden md:flex fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex-col pt-28 px-4'
-                            onMouseDown={(e) => {
-                                if (e.target === e.currentTarget) {
-                                    setIsDesktopSearchOpen(false);
-                                    desktop.reset();
+                                        <span className='max-w-28 truncate'>{displayName}</span>
+                                        <ChevronDown
+                                            size={16}
+                                            strokeWidth={2}
+                                            className={`transition-transform ${isAccountOpenDesktop ? 'rotate-180' : ''}`}
+                                        />
+                                    </Button>
+                                :   <Button
+                                        as={Link}
+                                        to='/login'
+                                        variant='outline'
+                                        rounded='full'
+                                        leftIcon={
+                                            <span className='flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                                                <UserRound size={18} strokeWidth={1.8} />
+                                            </span>
+                                        }
+                                        className='h-11 border-white/10 bg-transparent px-1 pr-5 text-sm text-foreground hover:border-white/40 hover:bg-white/5'>
+                                        {t('nav.account')}
+                                    </Button>
                                 }
-                            }}>
-                            <div ref={searchRef} className='w-full max-w-xl mx-auto'>
-                                <form onSubmit={desktop.handleSubmit}>
-                                    <div className='relative'>
-                                        <input
-                                            type='text'
-                                            value={desktop.query}
-                                            onChange={(e) => desktop.setQuery(e.target.value)}
-                                            placeholder='Find movies and tv shows'
-                                            autoFocus
-                                            className='w-full pl-5 pr-12 py-4 bg-surface-base border border-border text-foreground placeholder:text-foreground-disabled rounded-full focus:outline-none focus:border-primary-accent text-sm placeholder:text-sm shadow-lg shadow-black/40'
-                                        />
 
-                                        <button
-                                            type='button'
-                                            onClick={() => {
-                                                setIsDesktopSearchOpen(false);
-                                                desktop.reset();
-                                            }}
-                                            className='absolute right-4 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-foreground transition-colors'
-                                            aria-label='Close search'>
-                                            <X size={22} />
-                                        </button>
-                                    </div>
-                                </form>
+                                {/* desktop user menu dropdown */}
+                                {isAccountOpenDesktop && (
+                                    <div className='absolute right-0 top-full mt-2 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
+                                        {user && (
+                                            <Link
+                                                to='/profile'
+                                                onClick={() => setIsAccountOpenDesktop(false)}
+                                                className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
+                                                <img
+                                                    src={avatarUrl}
+                                                    alt={displayName}
+                                                    className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
+                                                />
 
-                                {desktop.query.trim() && (
-                                    <div className='mt-4 bg-surface-overlay border border-border rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
-                                        <SearchResults
-                                            results={desktop.results}
-                                            isLoading={desktop.isLoading}
-                                            query={desktop.query}
-                                            onResultClick={desktop.handleResultClick}
-                                            maxResults={8}
-                                            viewAllLink={`/search?query=${encodeURIComponent(desktop.query)}`}
-                                            onViewAll={desktop.reset}
-                                        />
+                                                <div className='flex flex-col min-w-0 flex-1'>
+                                                    <p className='text-sm font-semibold truncate text-foreground'>
+                                                        {displayName}
+                                                    </p>
+
+                                                    {userEmail && (
+                                                        <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
+                                                            {userEmail}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </Link>
+                                        )}
+
+                                        <div className='pt-1'>
+                                            <LanguageDropdown position='right-side' />
+                                        </div>
+
+                                        {user && (
+                                            <div className='pt-1'>
+                                                <Button
+                                                    onClick={() => void supabaseSignOut()}
+                                                    leftIcon={<LogOut size={16} />}
+                                                    className='flex w-full justify-start gap-2.5 rounded-xl px-3 py-2 text-sm text-danger-text hover:bg-danger-surface transition-colors'>
+                                                    {t('nav.signOut')}
+                                                </Button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
                         </div>
-                    )}
-
-                    {/* mobile icon */}
-                    <div className='flex md:hidden items-center gap-3'>
-                        <CountryDropdown />
-
-                        <button
-                            onClick={() => setIsMobileSearchOpen(true)}
-                            className='text-foreground-secondary hover:text-foreground transition-colors'
-                            aria-label='Search'>
-                            <Search size={22} />
-                        </button>
-
-                        <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className='text-foreground-secondary hover:text-foreground transition-colors'
-                            aria-label='Toggle menu'>
-                            {isMobileMenuOpen ?
-                                <X size={22} className='relative z-50' />
-                            :   <Menu size={22} />}
-                        </button>
                     </div>
-                </div>
+                </nav>
+            </header>
 
-                {/* mobile menu */}
-                {isMobileMenuOpen && (
-                    <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-40 overflow-hidden'>
-                        <ul className='flex flex-col items-center justify-center h-dvh space-y-2'>
-                            <li>
-                                <Link
-                                    to={user ? '/profile' : '/login'}
-                                    onClick={closeMobileMenu}
-                                    className='flex items-center gap-3 rounded-full border border-border bg-surface-elevated px-1.5 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-border-hover hover:bg-surface-hover mb-4'>
-                                    {user ?
-                                        <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-border-subtle'>
-                                            <img src={avatarUrl} alt='' className='size-full object-cover' />
-                                        </span>
-                                    :   <span className='flex size-8 items-center justify-center rounded-full border border-border-subtle bg-surface-raised'>
-                                            <UserRound size={16} strokeWidth={1.8} />
-                                        </span>
-                                    }
+            {/* mobile bottom navigation bar */}
+            <div className='fixed bottom-4 left-1/2 z-40 -translate-x-1/2 lg:hidden'>
+                <nav className='flex items-center gap-1 rounded-full border border-white/10 bg-black/60 px-2 py-2 backdrop-blur-xl shadow-2xl'>
+                    {bottomNavMenu.map((item) => {
+                        const Icon = item.icon;
 
-                                    <span className='max-w-32 truncate'>{user ? displayName : 'Account'}</span>
-
-                                    <ChevronDown size={15} strokeWidth={2} className='mr-2' />
-                                </Link>
-                            </li>
-
-                            {menu.map((item, i) => (
-                                <li key={i} className='w-full max-w-xs text-center'>
-                                    <NavLink
-                                        to={item.link}
-                                        onClick={closeMobileMenu}
-                                        className={({ isActive }) =>
-                                            `block px-5 py-2.5 text-lg font-medium capitalize rounded-lg transition-colors ${
-                                                isActive ?
-                                                    'text-foreground font-semibold bg-white/10'
-                                                :   'text-foreground-secondary hover:text-foreground hover:bg-white/5'
-                                            }`
-                                        }>
-                                        {item.page}
-                                    </NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </nav>
-
-            {/* mobile search modal */}
-            {isMobileSearchOpen && (
-                <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col pt-20 px-4'>
-                    <div className='w-full max-w-md mx-auto'>
-                        <form onSubmit={mobile.handleSubmit}>
-                            <div className='relative'>
-                                <input
-                                    type='text'
-                                    value={mobile.query}
-                                    onChange={(e) => mobile.setQuery(e.target.value)}
-                                    placeholder='Find movies and tv shows'
-                                    autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-surface-base border border-border text-foreground placeholder:text-foreground-disabled rounded-full focus:outline-none focus:border-primary-accent text-sm placeholder:text-sm shadow-lg shadow-black/40'
-                                />
+                        if (item.isAction) {
+                            return (
                                 <button
+                                    key={item.label}
                                     type='button'
-                                    onClick={() => {
-                                        setIsMobileSearchOpen(false);
-                                        mobile.reset();
-                                    }}
-                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-foreground transition-colors'
-                                    aria-label='Close search'>
-                                    <X size={22} />
+                                    onClick={() => setIsMobileSearchOpen(true)}
+                                    className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                    aria-label={item.label}>
+                                    <Icon size={20} strokeWidth={2} />
                                 </button>
-                            </div>
-                        </form>
+                            );
+                        }
 
-                        {mobile.query.trim() && (
-                            <div className='mt-4 bg-surface-overlay border border-border rounded-2xl max-h-[60vh] overflow-y-auto shadow-xl shadow-black/50'>
-                                <SearchResults
-                                    results={mobile.results}
-                                    isLoading={mobile.isLoading}
-                                    query={mobile.query}
-                                    onResultClick={mobile.handleResultClick}
-                                />
+                        return (
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex size-11 items-center justify-center rounded-full transition-all duration-200 ${
+                                        isActive ? 'bg-white/20 text-foreground' : (
+                                            'text-foreground-secondary hover:bg-white/10 hover:text-foreground'
+                                        )
+                                    }`
+                                }
+                                aria-label={item.label}>
+                                <Icon size={20} strokeWidth={2} />
+                            </NavLink>
+                        );
+                    })}
+
+                    <div ref={accountRefMobile} className='relative'>
+                        <button
+                            type='button'
+                            onClick={() => setIsAccountOpenMobile((open) => !open)}
+                            aria-expanded={isAccountOpenMobile}
+                            className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                            aria-label='Account Menu'>
+                            {user ?
+                                <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/20'>
+                                    <img src={avatarUrl} alt='' className='size-full object-cover' />
+                                </span>
+                            :   <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                                    <UserRound size={18} strokeWidth={1.8} />
+                                </span>
+                            }
+                        </button>
+
+                        {/* mobile bottom bar dropdown menu */}
+                        {isAccountOpenMobile && (
+                            <div className='absolute bottom-full right-0 mb-3 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
+                                {user ?
+                                    <Link
+                                        to='/profile'
+                                        onClick={() => setIsAccountOpenMobile(false)}
+                                        className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
+                                        <img
+                                            src={avatarUrl}
+                                            alt={displayName}
+                                            className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
+                                        />
+                                        <div className='flex flex-col min-w-0 flex-1'>
+                                            <p className='text-sm font-semibold truncate text-foreground'>
+                                                {displayName}
+                                            </p>
+                                            {userEmail && (
+                                                <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
+                                                    {userEmail}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </Link>
+                                :   <Link
+                                        to='/login'
+                                        onClick={() => setIsAccountOpenMobile(false)}
+                                        className='flex items-center gap-2.5 rounded-xl px-3 py-3 text-sm font-medium text-foreground hover:bg-surface-hover transition-colors'>
+                                        <UserRound size={16} />
+                                        {t('nav.account')} / Login
+                                    </Link>
+                                }
+
+                                <div className='pt-1'>
+                                    <LanguageDropdown position='top-side' />
+                                </div>
+
+                                {user && (
+                                    <div className='pt-1'>
+                                        <Button
+                                            onClick={() => void supabaseSignOut()}
+                                            leftIcon={<LogOut size={16} />}
+                                            className='flex w-full justify-start gap-2.5 rounded-xl px-3 py-2 text-sm text-danger-text hover:bg-danger-surface transition-colors'>
+                                            {t('nav.signOut')}
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
-                </div>
-            )}
-        </header>
+                </nav>
+            </div>
+
+            {/* mobile search overlay */}
+            <MobileSearchModal isOpen={isMobileSearchOpen} onClose={() => setIsMobileSearchOpen(false)} />
+        </>
     );
 }
