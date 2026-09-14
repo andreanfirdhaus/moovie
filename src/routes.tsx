@@ -1,16 +1,16 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import Layout from '@/layout';
-import AuthLayout from './components/layout/auth-layout';
+import { AppLayout, AuthLayout } from '@/layout';
 import NotFound from './not-found';
 import AuthPage from './features/auth';
 import ProfilePage from './features/profile';
 import PersonDetailPage from './features/person';
 
 const Home = lazy(() => import('@/features/home'));
+const MoviesPage = lazy(() => import('@/features/movies'));
+const TVSeriesPage = lazy(() => import('@/features/tv'));
 const DetailPage = lazy(() => import('@/features/detail'));
-const Search = lazy(() => import('@/features/search'));
-const DiscoverPage = lazy(() => import('./features/discover/components/discover-page'));
+const DiscoverPage = lazy(() => import('./features/discover'));
 
 export const routes = [
     {
@@ -24,12 +24,12 @@ export const routes = [
     },
     {
         path: '/',
-        element: <Layout />,
+        element: <AppLayout />,
         children: [
             { index: true, element: <Home /> },
             {
                 path: '/movies',
-                element: <DiscoverPage key='movies' mediaType='movie' category='popular' />,
+                element: <MoviesPage />,
             },
             {
                 path: '/movie',
@@ -37,11 +37,11 @@ export const routes = [
             },
             {
                 path: '/tv',
-                element: <DiscoverPage key='tv' mediaType='tv' category='popular' />,
+                element: <TVSeriesPage />,
             },
             {
                 path: '/discover',
-                element: <DiscoverPage key='discover' mediaType='movie' category='popular' />,
+                element: <DiscoverPage key='discover' />,
             },
 
             // Legacy category redirects
@@ -66,8 +66,12 @@ export const routes = [
                 element: <Navigate to='/discover?type=tv&sort=vote_average.desc' replace />,
             },
 
-            { path: '/search', element: <Search /> },
+            {
+                path: '/search',
+                element: <Navigate to='/discover' replace />,
+            },
             { path: '/profile', element: <ProfilePage /> },
+            { path: '/profile/settings', element: <Navigate to='/profile?tab=settings' replace /> },
             { path: '/person/:id', element: <PersonDetailPage /> },
             { path: '/:type/:id', element: <DetailPage /> },
             { path: '*', element: <NotFound /> },
