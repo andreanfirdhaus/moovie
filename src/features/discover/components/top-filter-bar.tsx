@@ -107,7 +107,8 @@ export function TopFilterBar({
         // },
     ];
 
-    const selectedProviderObj = WATCH_PROVIDERS.find((p) => p.id === selectedProviders[0]);
+    // const selectedProviderObj = WATCH_PROVIDERS.find((p) => p.id === selectedProviders[0]);
+    const selectedProviderObj = WATCH_PROVIDERS.find((p) => Number(p.id) === Number(selectedProviders[0]));
     const selectedCountryObj = COUNTRIES.find((c) => c.code === country);
     const selectedSortObj = sortOptions.find((s) => s.value === sortBy);
 
@@ -171,7 +172,8 @@ export function TopFilterBar({
                             {!selectedProviders[0] && <Check size={16} strokeWidth={2} className='ml-2' />}
                         </DropdownItem>
                         {WATCH_PROVIDERS.map((provider) => {
-                            const isSelected = selectedProviders[0] === provider.id;
+                            // const isSelected = selectedProviders[0] === provider.id;
+                            const isSelected = Number(selectedProviders[0]) === Number(provider.id);
                             return (
                                 <DropdownItem
                                     key={provider.id}
