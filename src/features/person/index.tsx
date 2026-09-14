@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { LoaderCircle } from 'lucide-react';
-import { MediaCard } from '@/components/composed/card/media-card';
+import { MediaCard } from '@/components/media/card/media-card';
 import { usePersonDetail, usePersonKnownFor } from '@/features/person/hooks/usePerson.query';
 import { getDetailUrl } from '@/utils/url';
 import { TMDB_IMG_300 } from '@/config/images';
@@ -42,7 +42,7 @@ export default function PersonDetailPage() {
     }
 
     return (
-        <main className='px-4 sm:px-6 pt-20 lg:pt-28 space-y-10'>
+        <main className='mx-auto max-w-7xl px-4 sm:px-6 xl:px-20 pt-20 lg:pt-28 space-y-10'>
             {/* profile */}
             <section>
                 <div className='flex items-center gap-5 sm:gap-6'>
@@ -82,19 +82,17 @@ export default function PersonDetailPage() {
                 <section>
                     <h2 className='text-lg sm:text-xl font-semibold text-foreground mb-2.5 sm:mb-3.5'>Biography</h2>
 
-                    <div className='max-w-4xl'>
-                        <p
-                            className={`text-sm sm:text-[15px] text-foreground-muted leading-relaxed font-medium ${!isBiographyExpanded ? 'line-clamp-4' : ''}`}>
-                            {person.biography}
-                        </p>
+                    <p
+                        className={`text-sm sm:text-[15px] text-foreground-muted leading-relaxed font-medium ${!isBiographyExpanded ? 'line-clamp-4' : ''}`}>
+                        {person.biography}
+                    </p>
 
-                        <button
-                            type='button'
-                            onClick={() => setIsBiographyExpanded((prev) => !prev)}
-                            className='mt-2 text-sm font-semibold text-primary-accent hover:underline transition-colors'>
-                            {isBiographyExpanded ? 'Show less' : 'Read more'}
-                        </button>
-                    </div>
+                    <button
+                        type='button'
+                        onClick={() => setIsBiographyExpanded((prev) => !prev)}
+                        className='mt-2 text-sm font-semibold text-primary-accent hover:underline transition-colors'>
+                        {isBiographyExpanded ? 'Show less' : 'Read more'}
+                    </button>
                 </section>
             )}
 
@@ -105,7 +103,7 @@ export default function PersonDetailPage() {
                         <h2 className='text-lg sm:text-xl font-semibold text-foreground'> Movies</h2>
                     </header>
 
-                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-4'>
+                    <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-x-2.5 gap-y-8'>
                         {movies.map((item) => (
                             <Link key={item.id} to={getDetailUrl(item)}>
                                 <MediaCard type={item} />
@@ -122,7 +120,7 @@ export default function PersonDetailPage() {
                         <h2 className='text-lg sm:text-xl font-semibold text-foreground'>TV Series</h2>
                     </header>
 
-                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-4'>
+                    <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-x-2.5 gap-y-8'>
                         {tvSeries.map((item) => (
                             <Link key={item.id} to={getDetailUrl(item)}>
                                 <MediaCard type={item} />
