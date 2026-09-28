@@ -79,9 +79,7 @@ export default function Navbar() {
                                         <NavLink
                                             to={item.link}
                                             className={({ isActive }) =>
-                                                `mx-0.5 px-3 py-2 text-sm font-medium capitalize rounded-md text-foreground hover:bg-white/10 transition-colors ${
-                                                    isActive ? 'bg-white/10' : ''
-                                                }`
+                                                `mx-0.5 px-3 py-2 text-sm font-medium capitalize rounded-md text-foreground hover:bg-white/10 transition-colors ${isActive ? 'bg-white/10' : ''}`
                                             }>
                                             {getNavLabel(item.page)}
                                         </NavLink>
@@ -129,7 +127,7 @@ export default function Navbar() {
                                 }
 
                                 {/* desktop user menu dropdown */}
-                                {isAccountOpenDesktop && (
+                                {user && isAccountOpenDesktop && (
                                     <div className='absolute right-0 top-full mt-2 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
                                         {user && (
                                             <Link
@@ -215,54 +213,48 @@ export default function Navbar() {
                     })}
 
                     <div ref={accountRefMobile} className='relative'>
-                        <button
-                            type='button'
-                            onClick={() => setIsAccountOpenMobile((open) => !open)}
-                            aria-expanded={isAccountOpenMobile}
-                            className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
-                            aria-label='Account Menu'>
-                            {user ?
+                        {user ?
+                            <button
+                                type='button'
+                                onClick={() => setIsAccountOpenMobile((open) => !open)}
+                                aria-expanded={isAccountOpenMobile}
+                                className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                aria-label='Account Menu'>
                                 <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/20'>
                                     <img src={avatarUrl} alt='' className='size-full object-cover' />
                                 </span>
-                            :   <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                            </button>
+                        :   <Link
+                                to='/login'
+                                className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                aria-label={t('nav.account')}>
+                                <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
                                     <UserRound size={18} strokeWidth={1.8} />
                                 </span>
-                            }
-                        </button>
+                            </Link>
+                        }
 
                         {/* mobile bottom bar dropdown menu */}
-                        {isAccountOpenMobile && (
+                        {user && isAccountOpenMobile && (
                             <div className='absolute bottom-full right-0 mb-3 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
-                                {user ?
-                                    <Link
-                                        to='/profile'
-                                        onClick={() => setIsAccountOpenMobile(false)}
-                                        className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
-                                        <img
-                                            src={avatarUrl}
-                                            alt={displayName}
-                                            className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
-                                        />
-                                        <div className='flex flex-col min-w-0 flex-1'>
-                                            <p className='text-sm font-semibold truncate text-foreground'>
-                                                {displayName}
+                                <Link
+                                    to='/profile'
+                                    onClick={() => setIsAccountOpenMobile(false)}
+                                    className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
+                                    <img
+                                        src={avatarUrl}
+                                        alt={displayName}
+                                        className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
+                                    />
+                                    <div className='flex flex-col min-w-0 flex-1'>
+                                        <p className='text-sm font-semibold truncate text-foreground'>{displayName}</p>
+                                        {userEmail && (
+                                            <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
+                                                {userEmail}
                                             </p>
-                                            {userEmail && (
-                                                <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
-                                                    {userEmail}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </Link>
-                                :   <Link
-                                        to='/login'
-                                        onClick={() => setIsAccountOpenMobile(false)}
-                                        className='flex items-center gap-2.5 rounded-xl px-3 py-3 text-sm font-medium text-foreground hover:bg-surface-hover transition-colors'>
-                                        <UserRound size={16} />
-                                        {t('nav.account')} / Login
-                                    </Link>
-                                }
+                                        )}
+                                    </div>
+                                </Link>
 
                                 <div className='pt-1'>
                                     <LanguageDropdown position='top-side' />
