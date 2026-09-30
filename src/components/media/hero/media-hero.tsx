@@ -190,7 +190,7 @@ export const MediaHero = ({ mediaType = 'all', timeWindow = 'day', items: manual
                                 <Button
                                     as={Link}
                                     to={getDetailUrl(media)}
-                                    size='lg'
+                                    size='md'
                                     variant='ghost'
                                     className='bg-white/90 text-black backdrop-blur-sm hover:bg-white hover:text-black'>
                                     {t('hero.watchNow')}
