@@ -352,7 +352,7 @@ export function TopFilterBar({
                                 onClick={() => onGenreToggle(genre.id)}
                                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 whitespace-nowrap w-max ${
                                     isSelected ?
-                                        'bg-primary-accent text-white font-semibold shadow-md shadow-primary-accent/25 ring-1 ring-primary-accent'
+                                        'bg-primary-active text-white font-semibold shadow-md ring-1 ring-primary-muted'
                                     :   'bg-surface-raised/70 border border-border-subtle text-foreground-secondary hover:bg-surface-hover hover:text-foreground'
                                 }`}>
                                 {isSelected && <Check size={12} strokeWidth={3} />}
