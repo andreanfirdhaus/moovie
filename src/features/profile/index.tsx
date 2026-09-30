@@ -83,8 +83,8 @@ export default function ProfilePage() {
     const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || '/assets/avatar.png';
 
     return (
-        <main className='min-h-screen pb-20'>
-            <MediaHubHeroBanner gradientVariant={activeTab === 'settings' ? 'settings' : 'profile'} />
+        <main className='min-h-screen pb-16'>
+            <MediaHubHeroBanner gradientVariant='blue' />
 
             <div className='relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-20 -mt-20'>
                 <ProfileHeader

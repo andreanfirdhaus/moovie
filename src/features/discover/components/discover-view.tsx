@@ -75,15 +75,11 @@ export default function DiscoverView({
         (Boolean(country) && country !== 'ALL');
 
     return (
-        <main className='min-h-screen pb-20'>
+        <main className='min-h-screen pb-16'>
             {/* hero */}
-            <MediaHubHeroBanner
-                title={mediaType === 'tv' ? t('discover.discoverTv') : t('discover.discoverMovies')}
-                subtitle={t('hero.discoverSubtitle')}
-                gradientVariant='discover'
-            />
+            <MediaHubHeroBanner gradientVariant='blue' />
 
-            <div className='px-4 sm:px-6 mt-6'>
+            <div className='px-4 sm:px-6 -mt-20'>
                 {/* top filter bar */}
                 <div ref={filterBarRef}>
                     <TopFilterBar
