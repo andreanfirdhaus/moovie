@@ -84,7 +84,7 @@ export default function DetailPage() {
     }
 
     return (
-        <main>
+        <main className='pb-16'>
             <DetailHero
                 detail={detail}
                 onTrailerClick={handleTrailerClick}
