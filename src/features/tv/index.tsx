@@ -7,7 +7,7 @@ export default function TVSeriesPage() {
             <MediaHero mediaType='tv' timeWindow='day' />
 
             <div className='mt-8 sm:mt-10 space-y-6'>
-                <MediaCollection mediaType='tv' genreId={18} title='Drama Series' />
+                <MediaCollection title='K-Drama' mediaType='tv' genreId={18} watchProvider={8} country='KR' />
             </div>
         </main>
     );
