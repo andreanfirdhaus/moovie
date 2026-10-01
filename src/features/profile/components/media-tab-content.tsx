@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MediaCard } from '@/components/media/card/media-card';
-import type { UserMedia } from '@/library/types';
+import type { UserMedia } from '@/types/user';
 
 interface MediaTabContentProps {
     items: UserMedia[];
