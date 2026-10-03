@@ -1,262 +1,283 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Search, X, Loader2, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Search, ChevronDown, UserRound, LogOut, Home, Film, Tv, Compass } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { menu } from '@/constants/nav-menu';
 import { Button } from '@/components/ui/button';
-import { useNavSearch } from '@/components/layout/navbar/useNavSearch';
-import { SearchResults } from './search-results';
-
-const dropdownVariants = {
-    initial: { opacity: 0, y: -4, scale: 0.98 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -4, scale: 0.98 },
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const },
-};
+import { LanguageDropdown } from './language-dropdown';
+import { useAuth } from '@/context/authContext';
+import { NavSearch, MobileSearchModal } from './search';
 
 export default function Navbar() {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { t } = useTranslation();
+    const [isAccountOpenDesktop, setIsAccountOpenDesktop] = useState(false);
+    const [isAccountOpenMobile, setIsAccountOpenMobile] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
 
-    const searchRef = useRef<HTMLDivElement>(null);
+    const { user, profile, signOut } = useAuth();
+    const accountRefDesktop = useRef<HTMLDivElement>(null);
+    const accountRefMobile = useRef<HTMLDivElement>(null);
 
-    const desktop = useNavSearch();
-    const mobile = useNavSearch(isMobileSearchOpen);
+    const displayName =
+        profile?.username ||
+        user?.user_metadata?.username ||
+        user?.user_metadata?.full_name ||
+        user?.email?.split('@')[0] ||
+        t('nav.account');
+    const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || '/assets/avatar.png';
+    const userEmail = user?.email || '';
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-                desktop.setIsOpen(false);
+            if (accountRefDesktop.current && !accountRefDesktop.current.contains(e.target as Node)) {
+                setIsAccountOpenDesktop(false);
+            }
+            if (accountRefMobile.current && !accountRefMobile.current.contains(e.target as Node)) {
+                setIsAccountOpenMobile(false);
             }
         };
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
-    }, [desktop]);
+    }, []);
 
-    const closeMobileMenu = () => {
-        setIsMobileMenuOpen(false);
-        setMobileActiveDropdown(null);
+    const supabaseSignOut = async () => {
+        await signOut();
+        setIsAccountOpenDesktop(false);
+        setIsAccountOpenMobile(false);
     };
 
+    const getNavLabel = (page: string) => {
+        const key = page.toLowerCase().replace(/\s+/g, '');
+        if (key === 'home') return t('nav.home');
+        if (key === 'movies') return t('nav.movies');
+        if (key === 'tvseries' || key === 'tv') return t('nav.tv');
+        if (key === 'discover') return t('nav.discover');
+        return page;
+    };
+
+    const bottomNavMenu = [
+        { label: t('nav.home'), path: '/', icon: Home, isAction: false },
+        { label: t('nav.movies'), path: '/movies', icon: Film, isAction: false },
+        { label: t('nav.tv'), path: '/tv', icon: Tv, isAction: false },
+        { label: t('nav.search') || 'Search', path: '#search', icon: Search, isAction: true },
+        { label: t('nav.discover'), path: '/discover', icon: Compass, isAction: false },
+    ];
+
     return (
-        <header className='absolute w-full top-0 z-20'>
-            <nav className='relative px-4 sm:px-6 lg:px-12 xl:px-24 py-5 md:py-6'>
-                <div className='flex items-center justify-between space-x-4'>
-                    <div className='flex items-center space-x-6'>
-                        <Link to='/' aria-label='Moovie home'>
-                            <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
-                        </Link>
+        <>
+            <header className='absolute top-0 z-20 w-full'>
+                <nav className='relative px-4 sm:px-6 py-7 lg:py-4'>
+                    <div className='flex items-center justify-between'>
+                        <div className='flex items-center space-x-8'>
+                            <Link to='/' aria-label='Moovie home'>
+                                <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
+                            </Link>
 
-                        <ul className='hidden md:flex items-center' aria-label='Main navigation'>
-                            {menu.map((item, i) =>
-                                item.hasDropdown && item.categories ?
-                                    <li
-                                        key={i}
-                                        className='relative group'
-                                        onMouseEnter={() => setActiveDropdown(item.page)}
-                                        onMouseLeave={() => setActiveDropdown(null)}>
-                                        <Button
-                                            variant='link'
-                                            size='sm'
-                                            rounded='md'
-                                            rightIcon={
-                                                <ChevronDown
-                                                    size={16}
-                                                    strokeWidth={2.5}
-                                                    className='transition-transform duration-[250ms] group-hover:rotate-180'
-                                                />
-                                            }
-                                            className='mx-2 text-[15px] capitalize text-zinc-200 hover:text-zinc-100 hover:no-underline'>
-                                            {item.page}
-                                        </Button>
-
-                                        <AnimatePresence>
-                                            {activeDropdown === item.page && (
-                                                <motion.div
-                                                    {...dropdownVariants}
-                                                    className='absolute top-full left-0 rounded-lg min-w-[160px] py-2 z-50'>
-                                                    <div className='rounded-lg bg-surface-2 shadow-xl overflow-hidden'>
-                                                        {item.categories.map((cat) => (
-                                                            <Link
-                                                                key={cat.value}
-                                                                to={`/${item.mediaType}/${cat.value}`}
-                                                                className='block px-3.5 py-2.5 text-sm text-zinc-400 hover:bg-surface-3 hover:text-zinc-200 transition-colors'>
-                                                                {cat.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </li>
-                                :   <li key={i}>
+                            <ul className='hidden lg:flex items-center gap-1' aria-label='Main navigation'>
+                                {menu.map((item, i) => (
+                                    <li key={i}>
                                         <NavLink
-                                            to={item.link!}
-                                            className='flex items-center gap-2 p-2 mx-2 text-[15px] font-medium capitalize text-zinc-200 hover:text-zinc-100 transition-colors'>
-                                            {item.page}
+                                            to={item.link}
+                                            className={({ isActive }) =>
+                                                `mx-0.5 px-3 py-2 text-sm font-medium capitalize rounded-md text-foreground hover:bg-white/10 transition-colors ${isActive ? 'bg-white/10' : ''}`
+                                            }>
+                                            {getNavLabel(item.page)}
                                         </NavLink>
                                     </li>
-                            )}
-                        </ul>
-                    </div>
+                                ))}
+                            </ul>
+                        </div>
 
-                    {/* desktop search input */}
-                    <div
-                        className='relative hidden md:flex items-center w-full sm:max-w-[256px] lg:max-w-xs'
-                        ref={searchRef}>
-                        <form onSubmit={desktop.handleSubmit} className='relative w-full'>
+                        {/* desktop user navigation */}
+                        <div className='hidden lg:flex items-center gap-3'>
+                            {/* expandable search */}
+                            <NavSearch />
+
+                            <div ref={accountRefDesktop} className='relative'>
+                                {user ?
+                                    <Button
+                                        variant='outline'
+                                        rounded='full'
+                                        onClick={() => setIsAccountOpenDesktop((open) => !open)}
+                                        aria-expanded={isAccountOpenDesktop}
+                                        className='h-11 border-white/10 bg-transparent px-1 pr-3 text-sm text-foreground hover:border-white/40 hover:bg-white/5'>
+                                        <span className='flex size-9 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5'>
+                                            <img src={avatarUrl} alt='' className='size-full object-cover' />
+                                        </span>
+                                        <span className='max-w-28 truncate'>{displayName}</span>
+                                        <ChevronDown
+                                            size={16}
+                                            strokeWidth={2}
+                                            className={`transition-transform ${isAccountOpenDesktop ? 'rotate-180' : ''}`}
+                                        />
+                                    </Button>
+                                :   <Button
+                                        as={Link}
+                                        to='/login'
+                                        variant='outline'
+                                        rounded='full'
+                                        leftIcon={
+                                            <span className='flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                                                <UserRound size={18} strokeWidth={1.8} />
+                                            </span>
+                                        }
+                                        className='h-11 border-white/10 bg-transparent px-1 pr-5 text-sm text-foreground hover:border-white/40 hover:bg-white/5'>
+                                        {t('nav.account')}
+                                    </Button>
+                                }
+
+                                {/* desktop user menu dropdown */}
+                                {user && isAccountOpenDesktop && (
+                                    <div className='absolute right-0 top-full mt-2 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
+                                        {user && (
+                                            <Link
+                                                to='/profile'
+                                                onClick={() => setIsAccountOpenDesktop(false)}
+                                                className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
+                                                <img
+                                                    src={avatarUrl}
+                                                    alt={displayName}
+                                                    className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
+                                                />
+
+                                                <div className='flex flex-col min-w-0 flex-1'>
+                                                    <p className='text-sm font-semibold truncate text-foreground'>
+                                                        {displayName}
+                                                    </p>
+
+                                                    {userEmail && (
+                                                        <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
+                                                            {userEmail}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </Link>
+                                        )}
+
+                                        <div className='pt-1'>
+                                            <LanguageDropdown position='right-side' />
+                                        </div>
+
+                                        {user && (
+                                            <div className='pt-1'>
+                                                <Button
+                                                    onClick={() => void supabaseSignOut()}
+                                                    leftIcon={<LogOut size={16} />}
+                                                    className='flex w-full justify-start gap-2.5 rounded-xl px-3 py-2 text-sm text-danger-text hover:bg-danger-surface transition-colors'>
+                                                    {t('nav.signOut')}
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            {/* mobile bottom navigation bar */}
+            <div className='fixed bottom-4 left-1/2 z-40 -translate-x-1/2 lg:hidden'>
+                <nav className='flex items-center gap-1 rounded-full border border-white/10 bg-black/60 px-2 py-2 backdrop-blur-xl shadow-2xl'>
+                    {bottomNavMenu.map((item) => {
+                        const Icon = item.icon;
+
+                        if (item.isAction) {
+                            return (
+                                <button
+                                    key={item.label}
+                                    type='button'
+                                    onClick={() => setIsMobileSearchOpen(true)}
+                                    className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                    aria-label={item.label}>
+                                    <Icon size={20} strokeWidth={2} />
+                                </button>
+                            );
+                        }
+
+                        return (
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex size-11 items-center justify-center rounded-full transition-all duration-200 ${
+                                        isActive ? 'bg-white/20 text-foreground' : (
+                                            'text-foreground-secondary hover:bg-white/10 hover:text-foreground'
+                                        )
+                                    }`
+                                }
+                                aria-label={item.label}>
+                                <Icon size={20} strokeWidth={2} />
+                            </NavLink>
+                        );
+                    })}
+
+                    <div ref={accountRefMobile} className='relative'>
+                        {user ?
                             <button
                                 type='button'
-                                aria-label='Toggle search'
-                                className='absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors'
-                                onClick={() => desktop.setIsOpen(!desktop.isOpen)}>
-                                {desktop.isLoading ?
-                                    <Loader2 size={22} className='animate-spin' />
-                                :   <Search size={20} />}
+                                onClick={() => setIsAccountOpenMobile((open) => !open)}
+                                aria-expanded={isAccountOpenMobile}
+                                className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                aria-label='Account Menu'>
+                                <span className='flex size-8 items-center justify-center overflow-hidden rounded-full border border-white/20'>
+                                    <img src={avatarUrl} alt='' className='size-full object-cover' />
+                                </span>
                             </button>
-                            <input
-                                type='text'
-                                value={desktop.query}
-                                onChange={(e) => desktop.setQuery(e.target.value)}
-                                onFocus={() => desktop.setIsOpen(true)}
-                                placeholder='Search...'
-                                className='pl-11 w-full pr-4 py-2 placeholder:text-xs placeholder:font-medium placeholder:text-zinc-500 bg-transparent border border-zinc-200/25 focus:outline-none text-zinc-100 text-sm rounded-full'
-                            />
-                        </form>
+                        :   <Link
+                                to='/login'
+                                className='flex size-11 items-center justify-center rounded-full text-foreground-secondary transition-all duration-200 hover:bg-white/10 hover:text-foreground'
+                                aria-label={t('nav.account')}>
+                                <span className='flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/5'>
+                                    <UserRound size={18} strokeWidth={1.8} />
+                                </span>
+                            </Link>
+                        }
 
-                        {/* desktop search results */}
-                        {desktop.isOpen && desktop.query.trim() && (
-                            <div className='absolute top-full mt-2 w-full bg-surface-2 rounded-xl shadow-xl max-h-96 overflow-y-auto'>
-                                <SearchResults
-                                    results={desktop.results}
-                                    isLoading={desktop.isLoading}
-                                    query={desktop.query}
-                                    onResultClick={desktop.handleResultClick}
-                                    maxResults={8}
-                                    viewAllLink={`/search?query=${encodeURIComponent(desktop.query)}`}
-                                    onViewAll={desktop.reset}
-                                />
+                        {/* mobile bottom bar dropdown menu */}
+                        {user && isAccountOpenMobile && (
+                            <div className='absolute bottom-full right-0 mb-3 w-64 rounded-2xl border border-border bg-surface-raised p-2 shadow-2xl z-50'>
+                                <Link
+                                    to='/profile'
+                                    onClick={() => setIsAccountOpenMobile(false)}
+                                    className='flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover transition-colors group'>
+                                    <img
+                                        src={avatarUrl}
+                                        alt={displayName}
+                                        className='size-11 rounded-full object-cover border border-white/10 flex-shrink-0'
+                                    />
+                                    <div className='flex flex-col min-w-0 flex-1'>
+                                        <p className='text-sm font-semibold truncate text-foreground'>{displayName}</p>
+                                        {userEmail && (
+                                            <p className='text-xs text-foreground-muted truncate leading-tight mt-0.5'>
+                                                {userEmail}
+                                            </p>
+                                        )}
+                                    </div>
+                                </Link>
+
+                                <div className='pt-1'>
+                                    <LanguageDropdown position='top-side' />
+                                </div>
+
+                                {user && (
+                                    <div className='pt-1'>
+                                        <Button
+                                            onClick={() => void supabaseSignOut()}
+                                            leftIcon={<LogOut size={16} />}
+                                            className='flex w-full justify-start gap-2.5 rounded-xl px-3 py-2 text-sm text-danger-text hover:bg-danger-surface transition-colors'>
+                                            {t('nav.signOut')}
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
+                </nav>
+            </div>
 
-                    {/* mobile icon */}
-                    <div className='flex md:hidden items-center gap-5'>
-                        <button
-                            onClick={() => setIsMobileSearchOpen(true)}
-                            className='text-zinc-300'
-                            aria-label='Search'>
-                            <Search size={22} />
-                        </button>
-                        <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className='text-zinc-300'
-                            aria-label='Toggle menu'>
-                            {isMobileMenuOpen ?
-                                <X size={22} className='relative z-50' />
-                            :   <Menu size={22} />}
-                        </button>
-                    </div>
-                </div>
-
-                {/* mobile menu */}
-                {isMobileMenuOpen && (
-                    <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-40 overflow-hidden'>
-                        <ul className='flex flex-col items-center justify-center h-dvh space-y-2'>
-                            {menu.map((item, i) =>
-                                item.hasDropdown && item.categories ?
-                                    <li key={i}>
-                                        <button
-                                            onClick={() =>
-                                                setMobileActiveDropdown(
-                                                    mobileActiveDropdown === item.page ? null : item.page
-                                                )
-                                            }
-                                            className='w-full text-center px-5 py-2 text-lg font-medium capitalize text-zinc-200 flex items-center justify-center gap-2'>
-                                            {item.page}
-                                            <ChevronDown
-                                                size={18}
-                                                strokeWidth={2.5}
-                                                className={`transition-transform duration-200 ${mobileActiveDropdown === item.page ? 'rotate-180' : ''}`}
-                                            />
-                                        </button>
-                                        <AnimatePresence>
-                                            {mobileActiveDropdown === item.page && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: 'auto' }}
-                                                    exit={{ opacity: 0, height: 0 }}
-                                                    transition={{ duration: 0.3 }}
-                                                    className='space-y-1 overflow-hidden'>
-                                                    {item.categories.map((cat) => (
-                                                        <Link
-                                                            key={cat.value}
-                                                            to={`/${item.mediaType}/${cat.value}`}
-                                                            onClick={closeMobileMenu}
-                                                            className='block px-8 py-2 text-base font-medium text-center text-zinc-400 hover:text-zinc-100 transition-colors'>
-                                                            {cat.label}
-                                                        </Link>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </li>
-                                :   <li key={i}>
-                                        <NavLink
-                                            to={item.link!}
-                                            onClick={closeMobileMenu}
-                                            className='block px-5 py-2.5 text-lg font-medium capitalize text-zinc-200 transition-colors'>
-                                            {item.page}
-                                        </NavLink>
-                                    </li>
-                            )}
-                        </ul>
-                    </div>
-                )}
-            </nav>
-
-            {/* mobile search modal */}
-            {isMobileSearchOpen && (
-                <div className='md:hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col pt-20 px-4'>
-                    <div className='w-full max-w-md mx-auto'>
-                        <form onSubmit={mobile.handleSubmit}>
-                            <div className='relative'>
-                                <input
-                                    type='text'
-                                    value={mobile.query}
-                                    onChange={(e) => mobile.setQuery(e.target.value)}
-                                    placeholder='Find movies and tv shows'
-                                    autoFocus
-                                    className='w-full pl-5 pr-12 py-4 bg-surface-2 border border-zinc-800 text-zinc-100 placeholder:text-zinc-500 rounded-full focus:outline-none text-sm placeholder:text-sm'
-                                />
-                                <button
-                                    type='button'
-                                    onClick={() => {
-                                        setIsMobileSearchOpen(false);
-                                        mobile.reset();
-                                    }}
-                                    className='absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-100 transition-colors'
-                                    aria-label='Close search'>
-                                    <X size={22} />
-                                </button>
-                            </div>
-                        </form>
-
-                        {mobile.query.trim() && (
-                            <div className='mt-4 bg-surface-2 rounded-2xl border border-zinc-800 max-h-[60vh] overflow-y-auto'>
-                                <SearchResults
-                                    results={mobile.results}
-                                    isLoading={mobile.isLoading}
-                                    query={mobile.query}
-                                    onResultClick={mobile.handleResultClick}
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-        </header>
+            {/* mobile search overlay */}
+            <MobileSearchModal isOpen={isMobileSearchOpen} onClose={() => setIsMobileSearchOpen(false)} />
+        </>
     );
 }

@@ -48,14 +48,14 @@ export const getRatingPercentage = (voteAverage: number): number => {
 
 export const getRatingColor = (voteAverage: number): string => {
     const percentage = voteAverage * 10;
-    if (percentage >= 70) return 'stroke-green-500';
-    if (percentage >= 50) return 'stroke-yellow-500';
-    return 'stroke-red-500';
+    if (percentage >= 70) return 'stroke-success-text';
+    if (percentage >= 50) return 'stroke-warning-text';
+    return 'stroke-danger-text';
 };
 
-export const getGenresText = (genres: { id: number; name: string }[]): string => {
+export const getGenresText = (genres: { id: number; name: string }[]) => {
     if (!genres || genres.length === 0) return 'No genres available';
-    return genres.map((genre) => genre.name).join(', ');
+    return genres.map((genre) => genre.name);
 };
 
 export const getPopularityText = (popularity: number): string => {

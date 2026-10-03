@@ -1,0 +1,280 @@
+import { FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CircleAlert, CheckCircle2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/context/authContext';
+import { isSupabaseConfigured } from '@/config/supabase';
+import { useTrendingMovies } from '../home/hooks/useMovies.query';
+import { Marquee } from '@/features/auth/components/marquee';
+
+type AuthMode = 'login' | 'register' | 'forgot' | 'reset';
+
+export default function AuthPage({ mode }: { mode: AuthMode }) {
+    const navigate = useNavigate();
+    const { data: trendingMovies = [] } = useTrendingMovies();
+
+    const { signIn, signInWithGoogle, signUp, resetPassword, updatePassword } = useAuth();
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
+
+    const title =
+        mode === 'login' ? 'Welcome back'
+        : mode === 'register' ? 'Create your account'
+        : mode === 'reset' ? 'Choose a new password'
+        : 'Reset your password';
+    const submitLabel =
+        mode === 'login' ? 'Sign in'
+        : mode === 'register' ? 'Create account'
+        : mode === 'reset' ? 'Update password'
+        : 'Send reset link';
+
+    const submit = async (event: FormEvent) => {
+        event.preventDefault();
+        setError('');
+        setMessage('');
+        setIsSubmitting(true);
+
+        const result =
+            mode === 'login' ? await signIn(email, password)
+            : mode === 'register' ? await signUp(email, password, username.trim())
+            : mode === 'reset' ? await updatePassword(password)
+            : await resetPassword(email);
+
+        setIsSubmitting(false);
+        if (result.error) {
+            setError(result.error.message);
+            return;
+        }
+
+        if (mode === 'register' && 'needsConfirmation' in result && result.needsConfirmation) {
+            setMessage('Check your email to confirm your account.');
+        } else if (mode === 'forgot') {
+            setMessage('If an account exists, a reset link is on its way.');
+        } else if (mode === 'reset') {
+            setMessage('Your password was updated. You can sign in now.');
+            navigate('/login');
+        } else {
+            navigate('/profile');
+        }
+    };
+
+    const continueWithGoogle = async () => {
+        setError('');
+        setIsGoogleSubmitting(true);
+        const result = await signInWithGoogle();
+        if (result.error) {
+            setError(result.error.message);
+            setIsGoogleSubmitting(false);
+        }
+    };
+
+    return (
+        <main className='min-h-screen bg-background'>
+            <header className='absolute top-[12px] left-0 z-40 w-full'>
+                <div className='relative px-4 sm:px-6 py-4'>
+                    <Link to='/' aria-label='Moovie home'>
+                        <img className='h-5 sm:h-6' src='/assets/logo.png' alt='Moovie' draggable='false' />
+                    </Link>
+                </div>
+            </header>
+
+            <div className='grid min-h-screen w-full overflow-hidden bg-black md:grid-cols-[55%_45%]'>
+                {/* left */}
+                <div className='relative hidden min-h-screen overflow-hidden md:block'>
+                    <Marquee movies={trendingMovies} />
+                </div>
+
+                {/* right */}
+                <div className='flex items-center bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-12 lg:py-10 xl:px-24'>
+                    <div className='w-full'>
+                        <h2 className='text-2xl font-semibold text-foreground'>{title}</h2>
+
+                        <p className='mt-2 text-sm text-foreground-muted'>
+                            {mode === 'forgot' ?
+                                'Enter your email and we will send a secure recovery link.'
+                            : mode === 'reset' ?
+                                'Use a password you do not use on another site.'
+                            :   'Sign in to keep your personal collection synced.'}
+                        </p>
+
+                        {!isSupabaseConfigured && (
+                            <div className='mt-6 flex gap-2 rounded-lg bg-warning-surface border border-warning-border p-3 text-xs text-warning-text'>
+                                <CircleAlert size={16} className='shrink-0' />
+                                Add Supabase environment variables to enable accounts.
+                            </div>
+                        )}
+
+                        {error && (
+                            <div className='mt-6 rounded-lg bg-danger-surface border border-danger-border p-3 text-sm text-danger-text'>
+                                {error}
+                            </div>
+                        )}
+
+                        {message && (
+                            <div className='mt-6 flex gap-2 rounded-lg bg-success-surface border border-success-border p-3 text-sm text-success-text'>
+                                <CheckCircle2 size={16} />
+                                {message}
+                            </div>
+                        )}
+
+                        <form onSubmit={submit} className='mt-8 space-y-4'>
+                            {/* username */}
+                            {mode === 'register' && (
+                                <div className='relative'>
+                                    <input
+                                        id='username'
+                                        name='username'
+                                        required
+                                        minLength={3}
+                                        maxLength={30}
+                                        pattern='^[a-zA-Z0-9_]+$'
+                                        title='Use 3-30 letters, numbers, or underscores.'
+                                        type='text'
+                                        value={username}
+                                        onChange={(event) => setUsername(event.target.value)}
+                                        placeholder='Username'
+                                        autoComplete='username'
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
+                                    />
+                                </div>
+                            )}
+
+                            {/* email */}
+                            {mode !== 'reset' && (
+                                <div className='relative'>
+                                    <input
+                                        id='email'
+                                        name='email'
+                                        required
+                                        type='email'
+                                        value={email}
+                                        onChange={(event) => setEmail(event.target.value)}
+                                        placeholder='Email'
+                                        autoComplete='email'
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
+                                    />
+                                </div>
+                            )}
+
+                            {/* password */}
+                            {mode !== 'forgot' && (
+                                <div className='relative'>
+                                    <input
+                                        id='password'
+                                        name='password'
+                                        required
+                                        minLength={6}
+                                        type='password'
+                                        value={password}
+                                        onChange={(event) => setPassword(event.target.value)}
+                                        placeholder='Password'
+                                        autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+                                        className='peer w-full rounded-xl bg-surface-base px-5 py-3.5 text-sm text-foreground outline-none ring-1 ring-inset ring-border transition-all duration-300 focus:ring-primary-accent'
+                                    />
+                                </div>
+                            )}
+
+                            {/* forgot password */}
+                            {mode === 'login' && (
+                                <div className='flex justify-end'>
+                                    <Link
+                                        to='/forgot-password'
+                                        className='text-sm text-foreground-muted transition-colors hover:text-foreground'>
+                                        Forgot password?
+                                    </Link>
+                                </div>
+                            )}
+
+                            {/* submit */}
+                            <div className='pt-2'>
+                                <Button
+                                    type='submit'
+                                    variant='primary'
+                                    rounded='full'
+                                    className='w-full'
+                                    isLoading={isSubmitting}>
+                                    {submitLabel}
+                                </Button>
+                            </div>
+                        </form>
+
+                        {/* google auth */}
+                        {(mode === 'login' || mode === 'register') && (
+                            <>
+                                <div className='my-6 flex items-center gap-3 text-sm text-foreground-disabled'>
+                                    <span className='h-px flex-1 bg-border' />
+                                    <span>Or</span>
+                                    <span className='h-px flex-1 bg-border' />
+                                </div>
+
+                                <Button
+                                    type='button'
+                                    variant='outline'
+                                    rounded='full'
+                                    className='w-full border-border text-foreground hover:border-border-hover hover:bg-surface-raised transition-colors'
+                                    isLoading={isGoogleSubmitting}
+                                    onClick={() => void continueWithGoogle()}>
+                                    <span className='flex size-5 items-center justify-center'>
+                                        <svg
+                                            version='1.1'
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 48 48'
+                                            className='block size-5'
+                                            aria-hidden='true'>
+                                            <path
+                                                fill='#EA4335'
+                                                d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'
+                                            />
+                                            <path
+                                                fill='#4285F4'
+                                                d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'
+                                            />
+                                            <path
+                                                fill='#FBBC05'
+                                                d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'
+                                            />
+                                            <path
+                                                fill='#34A853'
+                                                d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'
+                                            />
+                                            <path fill='none' d='M0 0h48v48H0z' />
+                                        </svg>
+                                    </span>
+                                    Continue with Google
+                                </Button>
+
+                                {/* footer (login & register) */}
+                                {mode === 'login' && (
+                                    <div className='mt-6 text-center text-sm text-foreground-muted'>
+                                        Don&apos;t have an account?{' '}
+                                        <Link
+                                            to='/register'
+                                            className='font-medium text-foreground transition-colors hover:text-foreground-muted'>
+                                            Sign up
+                                        </Link>
+                                    </div>
+                                )}
+
+                                {mode === 'register' && (
+                                    <div className='mt-6 text-center text-sm text-foreground-muted'>
+                                        Already have an account?{' '}
+                                        <Link
+                                            to='/login'
+                                            className='font-medium text-foreground transition-colors hover:text-foreground-muted'>
+                                            Sign in
+                                        </Link>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
+}

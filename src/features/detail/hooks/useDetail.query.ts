@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query';
 import { getDetail, getCredits, getRecommendation, getKeywords, getTrailers } from '@/services/tmdb/media.service';
 import { queryKeys } from '@/config/query-keys';
+import { apiClient } from '@/config/api-client';
 
 // fetch movie/series detail
 export const useMediaDetail = (type?: string, id?: string) => {
@@ -22,7 +24,7 @@ export const useMediaCredits = (type?: string, id?: string) => {
         queryFn: async () => {
             if (!type || !id) throw new Error('Type and ID are required');
             const response = await getCredits(type, id);
-            return response.data.cast;
+            return response.data;
         },
         enabled: !!type && !!id,
     });
@@ -64,6 +66,21 @@ export const useMediaTrailers = (type?: string, id?: string) => {
             if (!type || !id) throw new Error('Type and ID are required');
             const response = await getTrailers(type, id);
             return response.data.results;
+        },
+        enabled: !!type && !!id,
+    });
+};
+
+// fetch movie/series images (logos, posters, backdrops)
+export const useMediaImages = (type?: string, id?: string) => {
+    return useQuery({
+        queryKey: (type === 'tv' ? queryKeys.images.tv(Number(id)) : queryKeys.images.movie(Number(id))) as any,
+        queryFn: async () => {
+            if (!type || !id) throw new Error('Type and ID are required');
+            const response = await apiClient.get(`/${type}/${id}/images`, {
+                params: { include_image_language: 'en,null' },
+            });
+            return response.data;
         },
         enabled: !!type && !!id,
     });

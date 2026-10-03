@@ -4,7 +4,7 @@ interface IFrameProps {
 
 export default function IFrame({ playerUrl }: IFrameProps) {
     return (
-        <div className='relative max-sm:h-64 sm:aspect-video rounded-xl border border-zinc-800 overflow-hidden'>
+        <div className='relative max-sm:h-64 sm:aspect-video rounded-xl border border-border-subtle overflow-hidden'>
             <iframe
                 key={playerUrl}
                 src={playerUrl}

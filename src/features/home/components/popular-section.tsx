@@ -5,7 +5,7 @@ import { FreeMode } from 'swiper/modules';
 import 'swiper/css';
 
 import { Button } from '@/components/ui/button';
-import { MediaCard } from '@/components/composed/card/media-card';
+import { MediaCard } from '@/components/media/card/media-card';
 import { getDetailUrl } from '@/utils/url';
 import {
     useStreaming,
@@ -25,8 +25,7 @@ const SwiperParams = {
     grabCursor: true,
     breakpoints: {
         320: { spaceBetween: 8 },
-        640: { spaceBetween: 16 },
-        1024: { spaceBetween: 18.5 },
+        640: { spaceBetween: 12 },
     },
 };
 
@@ -46,18 +45,22 @@ export function PopularSection() {
     const { items, isLoading } = dataMap[activeFilter];
 
     return (
-        <section className='py-8 sm:py-12 lg:mx-4 px-4 sm:px-6 lg:px-8 xl:px-20'>
-            <header className='mb-4 md:mb-5'>
-                <h2 className='text-left text-xl sm:text-2xl font-semibold text-zinc-100 mb-4'>What&apos;s Popular</h2>
+        <section className='px-4 sm:px-6 py-6 sm:py-8'>
+            <header className='flex justify-between items-center mb-4'>
+                <h2 className='text-lg sm:text-xl font-semibold text-foreground'>What&apos;s Popular</h2>
 
-                <div className='flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+                <div className='inline-flex items-center gap-1 rounded-full bg-surface-base border border-border-subtle p-1'>
                     {filters.map((index) => (
                         <Button
                             key={index.value}
-                            as={Button}
-                            variant={activeFilter === index.value ? 'secondary' : 'ghost'}
                             onClick={() => setActiveFilter(index.value)}
-                            className='px-4 py-2'>
+                            size='sm'
+                            rounded='full'
+                            className={
+                                activeFilter === index.value ?
+                                    'bg-surface-elevated hover:bg-surface-elevated text-foreground font-semibold px-4 py-2'
+                                :   'bg-transparent text-foreground-muted hover:bg-surface-raised hover:text-foreground px-4 py-2'
+                            }>
                             {index.label}
                         </Button>
                     ))}
@@ -66,16 +69,16 @@ export function PopularSection() {
 
             <div className='relative group'>
                 {isLoading ?
-                    <div className='flex gap-3 sm:gap-4 md:gap-5 overflow-hidden'>
-                        {Array.from({ length: 7 }).map((_, index) => (
+                    <div className='flex overflow-hidden gap-2 sm:gap-3'>
+                        {Array.from({ length: 8 }).map((_, index) => (
                             <div
                                 key={index}
-                                className='w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] flex-shrink-0 animate-pulse'>
+                                className='w-[140px] sm:w-[160px] md:w-[180px] lg:w-[196px] flex-shrink-0 animate-pulse'>
                                 <div className='mx-0.5'>
-                                    <div className='w-full aspect-[2/3] bg-surface-2 rounded-[6px] sm:rounded-[8px]' />
-                                    <div className='mt-1.5 sm:mt-2 space-y-1.5'>
-                                        <div className='h-[15px] bg-surface-4 rounded w-4/5' />
-                                        <div className='h-[14px] bg-surface-3 rounded w-1/3' />
+                                    <div className='aspect-[2/3] w-full rounded-md bg-surface-raised' />
+                                    <div className='mt-1.5 space-y-1.5 sm:mt-2'>
+                                        <div className='h-[15px] w-4/5 rounded bg-surface-elevated/70' />
+                                        <div className='h-[14px] w-1/3 rounded bg-surface-elevated/70' />
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +87,7 @@ export function PopularSection() {
                 : items.length > 0 ?
                     <Swiper {...SwiperParams} freeMode={true} modules={[FreeMode]} className='mySwiper py-2.5'>
                         {items.map((item) => (
-                            <SwiperSlide key={item.id} className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[200px]'>
+                            <SwiperSlide key={item.id} className='!w-[140px] sm:!w-[160px] md:!w-[180px] lg:!w-[196px]'>
                                 <Link to={getDetailUrl(item)}>
                                     <MediaCard type={item} />
                                 </Link>
@@ -92,7 +95,7 @@ export function PopularSection() {
                         ))}
                     </Swiper>
                 :   <div className='px-4 sm:px-6 lg:px-8 py-12 text-center'>
-                        <p className='text-zinc-400'>No content available.</p>
+                        <p className='text-foreground-muted'>No content available.</p>
                     </div>
                 }
             </div>

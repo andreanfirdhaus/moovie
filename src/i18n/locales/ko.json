@@ -1,0 +1,70 @@
+{
+    "nav": {
+        "home": "홈",
+        "movies": "영화",
+        "tv": "TV 시리즈",
+        "discover": "탐색",
+        "account": "게스트",
+        "profile": "프로필",
+        "settings": "계정 설정",
+        "signOut": "로그아웃"
+    },
+    "hero": {
+        "trendingWeek": "이번 주 트렌드",
+        "trendingToday": "오늘의 트렌드",
+        "trendingMoviesToday": "오늘의 트렌드 영화",
+        "trendingSeriesToday": "오늘의 트렌드 시리즈",
+        "watchNow": "지금 시청하기",
+        "moviesSubtitle": "최고의 블록버스터와 최신 개봉작으로 영화의 세계를 탐험하세요.",
+        "seriesSubtitle": "화제의 드라마와 인기 TV 시리즈를 만나보세요.",
+        "discoverSubtitle": "스트리밍 플랫폼, 장르, 평점 및 국가별로 콘텐츠를 탐색하세요."
+    },
+    "discover": {
+        "title": "탐색",
+        "discoverMovies": "영화 탐색",
+        "discoverTv": "시리즈 탐색",
+        "allMovies": "모든 영화",
+        "allTv": "모든 TV 시리즈",
+        "type": "유형",
+        "providers": "스트리밍 서비스",
+        "allProviders": "모든 서비스",
+        "sortBy": "정렬 기준",
+        "fromYear": "시작 연도",
+        "toYear": "종료 연도",
+        "country": "국가 / 지역",
+        "allCountries": "모든 국가",
+        "genres": "장르",
+        "reset": "필터 초기화",
+        "filters": "필터",
+        "showing": "총 {{total}}개 중 {{count}}개 표시",
+        "noResults": "검색 결과가 없습니다",
+        "noResultsDesc": "필터를 조정하거나 다른 정렬 옵션을 선택해 보세요.",
+        "popular": "인기순 (내림차순)",
+        "popularAsc": "인기순 (오름차순)",
+        "topRated": "평점 높은순",
+        "newest": "최신 출시순",
+        "oldest": "오래된 순"
+    },
+    "search": {
+        "placeholder": "영화, TV 프로그램, 인물 검색...",
+        "resultsFor": "\"{{query}}\" 검색 결과",
+        "showingResults": "\"{{query}}\"에 대한 검색 결과 {{count}}건",
+        "all": "전체",
+        "movies": "영화",
+        "series": "TV 시리즈",
+        "relevance": "관련도순",
+        "highestRated": "평점 높은순",
+        "newestFirst": "최신순",
+        "oldestFirst": "오래된순",
+        "noResults": "검색 결과가 없습니다",
+        "noResultsFor": "\"{{query}}\"에 대한 검색 결과가 없습니다. 다른 검색어를 입력해 보세요.",
+        "promptTitle": "Moovie 탐색",
+        "promptDesc": "좋아하는 영화, TV 시리즈, 배우 및 감독을 검색해 보세요."
+    },
+    "common": {
+        "viewAll": "전체보기",
+        "clearAll": "초기화",
+        "loading": "로딩 중...",
+        "loadMore": "더 보기"
+    }
+}

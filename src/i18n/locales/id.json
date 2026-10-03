@@ -1,0 +1,70 @@
+{
+    "nav": {
+        "home": "Beranda",
+        "movies": "Film",
+        "tv": "Serial TV",
+        "discover": "Jelajahi",
+        "account": "Tamu",
+        "profile": "Profil",
+        "settings": "Pengaturan Akun",
+        "signOut": "Keluar"
+    },
+    "hero": {
+        "trendingWeek": "Trending minggu ini",
+        "trendingToday": "Trending Hari Ini",
+        "trendingMoviesToday": "Film Trending Hari Ini",
+        "trendingSeriesToday": "Serial TV Trending Hari Ini",
+        "watchNow": "Tonton Sekarang",
+        "moviesSubtitle": "Jelajahi dunia sinema dengan film-film terpopuler dan rilis terbaru.",
+        "seriesSubtitle": "Temukan serial TV seru, drama hits, dan tayangan teratas.",
+        "discoverSubtitle": "Filter dan cari tontonan berdasarkan platform streaming, genre, rating, dan negara."
+    },
+    "discover": {
+        "title": "Jelajahi",
+        "discoverMovies": "Jelajahi Film",
+        "discoverTv": "Jelajahi Serial TV",
+        "allMovies": "Semua Film",
+        "allTv": "Semua Serial TV",
+        "type": "Tipe Media",
+        "providers": "Layanan Streaming",
+        "allProviders": "Semua Layanan",
+        "sortBy": "Urutkan",
+        "fromYear": "Dari Tahun",
+        "toYear": "Sampai Tahun",
+        "country": "Negara Asal",
+        "allCountries": "Semua Negara",
+        "genres": "Genre",
+        "reset": "Reset Filter",
+        "filters": "Filter",
+        "showing": "Menampilkan {{count}} dari {{total}} judul",
+        "noResults": "Tidak ada judul ditemukan",
+        "noResultsDesc": "Coba reset beberapa filter atau ubah pilihan platform streaming dan pengurutan Anda.",
+        "popular": "Popularitas (Menurun)",
+        "popularAsc": "Popularitas (Menaik)",
+        "topRated": "Rating Tertinggi",
+        "newest": "Tanggal Rilis (Terbaru)",
+        "oldest": "Tanggal Rilis (Terlama)"
+    },
+    "search": {
+        "placeholder": "Cari film, serial TV, dan aktor...",
+        "resultsFor": "Hasil Pencarian untuk \"{{query}}\"",
+        "showingResults": "Ditemukan {{count}} hasil untuk \"{{query}}\"",
+        "all": "Semua",
+        "movies": "Film",
+        "series": "Serial TV",
+        "relevance": "Relevansi",
+        "highestRated": "Rating Tertinggi",
+        "newestFirst": "Terbaru",
+        "oldestFirst": "Terlama",
+        "noResults": "Tidak ada hasil ditemukan",
+        "noResultsFor": "Tidak ada hasil ditemukan untuk \"{{query}}\". Coba gunakan kata kunci lain.",
+        "promptTitle": "Jelajahi Moovie",
+        "promptDesc": "Cari film favorit, serial TV, aktor, dan sutradara pilihan Anda."
+    },
+    "common": {
+        "viewAll": "Lihat Semua",
+        "clearAll": "Hapus semua",
+        "loading": "Memuat...",
+        "loadMore": "Muat Lebih Banyak"
+    }
+}

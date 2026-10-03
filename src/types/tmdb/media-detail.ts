@@ -41,7 +41,7 @@ export interface MediaDetail {
     media_type: string;
 }
 
-interface Genres {
+export interface Genres {
     id: number;
     name: string;
 }
